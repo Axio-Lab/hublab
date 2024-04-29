@@ -6,7 +6,8 @@ const {
   create,
   findOne,
   find,
-  count
+  count,
+  updateOne
 } = new CampaignService();
 const {findOne: findProfile} = new ProfileService();
 const {
@@ -14,7 +15,8 @@ const {
     CREATED,
     FETCHED,
     NOT_FOUND,
-    FETCHED_COUNT
+    FETCHED_COUNT,
+    UPDATED_CAMPAIGN
 } = MESSAGES.CAMPAIGN;
 
 export default class CampaignController {
@@ -107,7 +109,6 @@ export default class CampaignController {
     async getCampaignCount(req: Request, res: Response) {
         //checks if profile exists
         const profile = await findProfile({_id: req.params.profileId})
-        console.log("hereeee")
         if(!profile) {
             return res.status(409)
             .send({
@@ -123,5 +124,37 @@ export default class CampaignController {
             count: campaignCount
         });
 
+    }
+
+    async participate(req: Request, res: Response) {
+        const campaignId = req.params.id;
+        const profileId = req.params.profileId;
+        const capmaign = await findOne({_id: campaignId});
+        if (!capmaign) {
+            return res.status(404)
+            .send({
+                success: false,
+                message: NOT_FOUND
+            }); 
+        }
+        const profile = await findProfile({_id: profileId})
+        if(!profile) {
+            return res.status(409)
+            .send({
+                success: false,
+                message: MESSAGES.PROFILE.NOT_FOUND
+            });
+        }
+        const updatedCampaign = await updateOne({
+            $push: { 
+                winners: req.body 
+            }
+        })
+        return res.status(200)
+        .send({
+            success: true,
+            message: UPDATED_CAMPAIGN,
+            count: updatedCampaign
+        });
     }
 }
