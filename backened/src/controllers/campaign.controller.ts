@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { MESSAGES } from "../configs/constants.configs";
 import CampaignService from "../services/campaign.service";
 import ProfileService from "../services/profile.services";
+import { getStatus } from "../utils/getStatus";
 const {
   create,
   findOne,
@@ -54,12 +55,13 @@ export default class CampaignController {
 
     async getCampaign(req: Request, res: Response) {
         const capmaign = await findOne({_id: req.params.id});
+        const status = getStatus(capmaign)
         if (capmaign) {
             return res.status(200)
             .send({
                 success: true,
                 message: FETCHED,
-                capmaign: capmaign
+                capmaign: {...capmaign, status}
             });
         }
         return res.status(404)
@@ -70,12 +72,16 @@ export default class CampaignController {
     }
 
     async getAllCampaign(req: Request, res: Response) {
-        const capmaigns = await find({});
+        const campaigns = await find({});
+        const campaignsWithStatus = campaigns.map(campaign => {
+            const status = getStatus(campaign); 
+            return { ...campaign, status }; 
+        });
         return res.status(200)
         .send({
             success: true,
             message: FETCHED,
-            capmaign: capmaigns
+            capmaign: campaignsWithStatus
         });
     }
 
@@ -90,13 +96,17 @@ export default class CampaignController {
             });
         }
         
-        const capmaigns = await find({profileId: req.params.profileId});
-        if (capmaigns) {
+        const campaigns = await find({profileId: req.params.profileId});
+        if (campaigns) {
+            const campaignsWithStatus = campaigns.map(campaign => {
+                const status = getStatus(campaign); 
+                return { ...campaign, status }; 
+            });    
             return res.status(200)
             .send({
                 success: true,
                 message: FETCHED,
-                capmaign: capmaigns
+                capmaign: campaignsWithStatus
             });
         }
         return res.status(404)

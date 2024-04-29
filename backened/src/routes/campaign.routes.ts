@@ -12,7 +12,7 @@ const {
     participate
 } = new CampaignController();
 
-//create or update a campaign
+//create a campaign
 router.post("/", validate(campaignSchema), createCampaign);
 
 //get a campaign
