@@ -56,10 +56,10 @@ const Page = () => {
           ))}
         </section>
 
-        <section className="w-full flex flex-col items-center md:flex-row my-[50px] border-y">
+        {/* <section className="w-full flex flex-col items-center md:flex-row my-[50px] border-y">
           <ResponsiveChart />
           <ResponsiveDonutChart />
-        </section>
+        </section> */}
 
         <CampaignTable />
       </section>

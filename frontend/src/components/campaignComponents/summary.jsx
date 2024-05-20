@@ -3,43 +3,68 @@ import React, { useEffect, useRef, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Image from "next/image";
 import UploadIcon from "../../assets/uploadIcon.svg";
-import Calender from "../../assets/calender.svg";
 import Button from "../Button";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useSelector, useDispatch } from "react-redux";
-import dayjs from "dayjs";
 import { useAccount } from "@particle-network/connect-react-ui";
 import { setRewards } from "@/store/slices/statesSlice";
-import { root } from "@/store/store";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { toast } from "react-toastify";
 import { CloseCircle } from "iconsax-react";
 import CampaignSuccess from "../../assets/campaignSuccess.svg";
 import { createCampaign } from "@/store/slices/campaignSlice";
 import CampaignPreview from "../modals/campaignPreview";
+
 const data = [
   {
-    name: "Early Bird Selection",
-    choice: "early",
+    name: "Business",
+    choice: "business",
   },
   {
-    name: "Random Selection",
-    choice: "random",
+    name: "Collectibles",
+    choice: "collectibles",
+  },
+  {
+    name: "Spirituality",
+    choice: "spirituality",
+  },
+  {
+    name: "Health and Fitness",
+    choice: "healthandfitness",
+  },
+  {
+    name: "Arts and Entertainment",
+    choice: "artsandentertainment",
+  },
+  {
+    name: "Relationship and Family",
+    choice: "relationshipandfamily",
+  },
+  {
+    name: "Other",
+    choice: "other",
   },
 ];
 
-const Reward = ({ account }) => {
+const Summary = ({ account }) => {
+  const [selectedImage, setSelectedImage] = useState("");
+
   const user = useAccount();
   const questions = useSelector((state) => state.generalStates?.input);
 
   const [participants, setParticipants] = useState(0);
   const [showOptions, setShowOptions] = useState(false);
-  // const [selectedOption, setSelectedOption] = useState("");
   const [index, setIndex] = useState(0);
+  const [selectedNFT, setSelectedNFT] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [campaignModalOpen, setCampaignModalOpen] = useState(false);
   const [newQuestions, setNewQuestions] = useState(questions);
   const [campaignId, setCampaignId] = useState("");
+  const [quantity, setQuantity] = useState(0);
+
+  const handleQuantityChange = (event) => {
+    const value = Math.max(0, event.target.value); // Ensure quantity is never less than 0
+    setQuantity(value);
+  };
 
   const dispatch = useDispatch();
 
@@ -60,6 +85,33 @@ const Reward = ({ account }) => {
   console.log(user);
 
   console.log(userId);
+  const fileInputRef = useRef(null);
+  const handleImageChange = (event, setFieldValue) => {
+    const file = event.target.files[0];
+    console.log("file", file);
+    setFieldValue("bannerImg", file);
+
+    if (file) {
+      const reader = new FileReader();
+      console.log("reader", reader);
+
+      reader.onloadend = () => {
+        setSelectedImage(reader.result);
+      };
+
+      const data = reader.readAsDataURL(file);
+      console.log(data);
+    }
+  };
+  console.log(selectedImage);
+
+  const handleUploadButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleNFTChange = (event) => {
+    setSelectedNFT(event.target.value);
+  };
 
   const initialValues = {
     title: title,
@@ -141,22 +193,7 @@ const Reward = ({ account }) => {
             <Form className="flex flex-col gap-11">
               <div>
                 <p className="font-semibold text-[24px] mb-5">
-                  <span className="mr-3 text-">*</span>Number of Participants to
-                  be Rewarded
-                </p>
-                <Field
-                  className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                  name="participants"
-                  placeholder="Enter a amount"
-                  onChange={(e) => {
-                    setFieldValue("participants", e.target.value);
-                    setParticipants(Number(e.target.value));
-                  }}
-                />
-              </div>
-              <div>
-                <p className="font-semibold text-[24px] mb-5">
-                  <span className="mr-3 text-">*</span>Method of Reward
+                  <span className="mr-3 text-">*</span>Select Category
                 </p>
 
                 <div
@@ -181,7 +218,6 @@ const Reward = ({ account }) => {
                             setIndex(index);
                             setShowOptions(false);
                             setFieldValue("method", items.choice);
-                            // dispatch(setCriterion(items.choice));
                           }}
                           className="w-full bg-white border border-primary rounded-lg p-2 flex flex-col items-start cursor-pointer  hover:shadow-sm hover:border-[3px]"
                         >
@@ -192,53 +228,104 @@ const Reward = ({ account }) => {
                   )}
                 </div>
               </div>
+
+              <div>
+
+            <div>
+              <p className="font-semibold text-[24px] mb-5">
+                <span className="mr-3 text-">*</span>Quantity
+              </p>
+              <Field
+                className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
+                name="quantity"
+                type="number"
+                placeholder="Enter product quantity"
+                value={quantity}
+                onChange={handleQuantityChange}
+              />
+            </div>
+            <div className="flex justify-between items-center text-[13px] mt-2">
+                  <p>Set quantity to 0 for unlimited products.</p>
+                </div>
+          </div>
+
               <div className="relative z-40 -right-[1px]">
                 <p className="font-semibold text-[24px] mb-5">
-                  <span className="mr-3 text-">*</span>Reward Token
+                  <span className="mr-3 text-">*</span>Proof of Purchase (cNFT)
                 </p>
-                <div className="flex justify-start">
-                  <Button
-                    name="Verxio Soulbound"
-                    className="px-4 py-2 bg-white text-primary border rounded-[10px] border-primary text-[14px]"
-                    shade="left-[4px] bg-[#0D0E32] border-none rounded-[10px]"
-                  />
-                </div>
+              <div className="mb-5">
+                <select
+                  className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
+                  value={selectedNFT}
+                  onChange={handleNFTChange}
+                >
+                  <option value="">Choose an NFT from your Collection on Verxio</option>
+                  <option value="Space NFT">Space NFT</option>
+                  <option value="Drips">Drips</option>
+                  <option value="Early Badge NFT">Early Badge NFT</option>
+                </select>
+              </div>
               </div>
 
               <div>
                 <p className="font-semibold text-[24px] mb-5">
-                  <span className="mr-3 text-">*</span>Rewards
+                  <span className="mr-3 text-">*</span>Purchase XP
                 </p>
-                <div className="flex justify-end text-end border rounded-lg border-primary px-16 py-5 text-[#484851] text-[16px] ">
-                  <div>
-                    <p className="flex items-center">
-                      Number of participants:{" "}
-                      <span className="text-[32px] font-bold ml-2">
-                        {participants.toLocaleString()}
-                      </span>
-                    </p>
-                    <p>
-                      Number of points:{" "}
-                      <span className="text-[32px] font-bold ml-2">
-                        {totalPoints.toLocaleString()} points
-                      </span>
-                    </p>
-                    <div className="border my-3"></div>
-                    <p className="text-[32px] font-bold">
-                      {totalReward.toLocaleString()}
-                    </p>
-                  </div>
-                </div>
                 <div className="flex justify-end text-end border rounded-lg border-primary px-16 py-5 text-[#484851] text-[16px] mt-4">
                   <p>
-                    Total Reward:{" "}
+                    Reward Point:{" "}
                     <span className="text-[32px] font-bold">
-                      {totalReward.toLocaleString()}
+                      50
                     </span>{" "}
                     points
                   </p>
                 </div>
               </div>
+              <div>
+              <p className="font-semibold text-[24px] mb-5">
+                <span className="mr-3 text-">*</span>Upload Product
+              </p>
+              <div className="w-[65%]">
+                <div className=" rounded-lg border border-primary border-dashed bg-[#E7E7F9]">
+                  {selectedImage ? (
+                    <Image
+                      src={selectedImage}
+                      alt="cover Banner"
+                      className="w-full h-full bg-cover"
+                      width={500}
+                      height={400}
+                    />
+                  ) : (
+                    <div className="mx-28 my-24 border rounded-lg px-2 py-1 border-[#0D0E32] ">
+                      <div className="flex items-center gap-2 justify-center">
+                        <Image alt="upload" src={UploadIcon} />
+                        <button
+                          className="text-[14px]"
+                          onClick={handleUploadButtonClick}
+                        >
+                        Drag & Drop your product or Browse
+                        </button>
+                      </div>
+                      <input
+                        name="profileImageDoc"
+                        type="file"
+                        capture="environment"
+                        className="hidden"
+                        accept="image/*"
+                        ref={fileInputRef}
+                        onChange={(e) => {
+                          handleImageChange(e, setFieldValue);
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className="flex justify-between items-center text-[13px] mt-2">
+                  <p>To upload multiple files or a bundle, simply compress all the files into a .zip and not .rar file.</p>
+                  <p>Max 750MB</p>
+                </div>
+              </div>
+            </div>
 
               <div className="mt-5 flex flex-col gap-8">
                 <Button
@@ -300,7 +387,7 @@ const Reward = ({ account }) => {
             </div>
 
             <p className="text-[20px] text-center">
-              You have successfully published your engagement....{" "}
+              You have successfully published your product. Happy Selling!{" "}
             </p>
           </div>
         </div>
@@ -321,4 +408,4 @@ const Reward = ({ account }) => {
   );
 };
 
-export default Reward;
+export default Summary;

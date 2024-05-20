@@ -47,14 +47,11 @@ export const TableBody = ({ tableData }) => {
           <td className="border border-[#F3F3FC] text-center py-2 px-4">
             <CampaignParticipantsTemplate participants={data.participants} />
           </td>
-          <td className="border border-[#F3F3FC] text-center py-2 px-4">
-            <CampaignParticipantsWithRewardTemplate
-              participantsWithReward={data.participantsWithReward}
+          {/* <td className="border border-[#F3F3FC] text-center py-2 px-4">
+            <CampaignReward
+              Reward={data.Reward}
             />
-          </td>
-          <td className="border border-[#F3F3FC] text-center py-2 px-4">
-            <CampaignPointsTemplate points={data.points} />
-          </td>
+          </td> */}
         </tr>
       ))}
     </tbody>
@@ -120,17 +117,3 @@ const CampaignParticipantsTemplate = (tableData) => {
   );
 };
 
-const CampaignParticipantsWithRewardTemplate = (tableData) => {
-  return (
-    <p className="font-normal text-[16px] text-[#424242]">
-      {tableData.status === "closed" ? "---" : tableData.participantsWithReward}
-    </p>
-  );
-};
-const CampaignPointsTemplate = (tableData) => {
-  return (
-    <p className="font-normal text-[16px] text-[#424242]">
-      {tableData.status === "closed" ? "---" : tableData.points}
-    </p>
-  );
-};

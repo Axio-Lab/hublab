@@ -37,7 +37,7 @@ const layout = ({ children }) => {
       <div className="px-10 py-8 relativ">
         <div className="flex flex-col gap-10 justify-center items-center border rounded-lg bg-lightBlue py-6 mb-10 ">
           <h2 className="text-4xl text-white font-extrabold">
-            CREATE CAMPAIGN
+            CREATE PRODUCT
           </h2>
           <div className="flex gap-10 items-center justify-center">
             <Button
@@ -52,9 +52,10 @@ const layout = ({ children }) => {
               }
             />
             <Button
-              name="inputs"
+              name="details"
+              href="/create_campaign?tab=details"
               className={`${
-                tab === "inputs"
+                tab === "details"
                   ? "bg-white text-primary"
                   : "bg-transparent border-red-500"
               } px-8 py-1 border border-white rounded-[10px] text-[24px]`}
@@ -64,21 +65,10 @@ const layout = ({ children }) => {
               }
             />
             <Button
-              name="criterion"
+              name="Summary"
+              href="/create_campaign?tab=summary"
               className={`${
-                tab === "criterion"
-                  ? "bg-white text-primary"
-                  : "bg-transparent border-red-500"
-              } px- py-1 border border-white rounded-[10px] text-[24px]`}
-              shade={
-                tab === "criterion" &&
-                "left-[4px] bg-[#0D0E32] border-none rounded-[10px]"
-              }
-            />
-            <Button
-              name="rewards"
-              className={`${
-                tab === "rewards"
+                tab === "summary"
                   ? "bg-white text-primary"
                   : "bg-transparent border-red-500"
               }  py-1 border border-white rounded-[10px] text-[24px]`}
@@ -90,31 +80,6 @@ const layout = ({ children }) => {
           </div>
         </div>
         <div className="border rounded-lg p-6">
-          <div className="space-y-3 text-[#484851]">
-            <p className="font-semibold text-[24px]">
-              <span className="mr-3 text-">*</span>Campaign Category
-            </p>
-            <div className="flex gap-4">
-              <Button
-                name="engagement"
-                outline
-                shade="hidden"
-                className="rounded-xl"
-              />
-              {/* <Button
-              name="awareness"
-              outline
-              shade="hidden"
-              className="rounded-xl"
-            />
-            <Button
-              name="interaction"
-              outline
-              shade="hidden"
-              className="rounded-xl"
-            /> */}
-            </div>
-          </div>
           {children}
         </div>
       </div>

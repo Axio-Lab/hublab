@@ -1,8 +1,7 @@
 "use client";
 import React from "react";
-import Criterion from "@/components/campaignComponents/criterion";
-import InputCampaign from "@/components/campaignComponents/inputCampaign";
-import Reward from "@/components/campaignComponents/reward";
+import Details from "@/components/campaignComponents/details";
+import Summary from "@/components/campaignComponents/summary";
 import Start from "@/components/campaignComponents/start";
 import { useSearchParams } from "next/navigation";
 
@@ -12,9 +11,8 @@ const page = ({account}) => {
   return (
     <>
       {tab === "start" && <Start />}
-      {tab === "inputs" && <InputCampaign />}
-      {tab === "criterion" && <Criterion/>}
-      {tab === "rewards" && <Reward/>}
+      {tab === "details" && <Details />}
+      {tab === "summary" && <Summary/>}
     </>
   );
 };

@@ -1,13 +1,10 @@
 "use client";
-import { PointsModal } from "../../components";
 import { toast } from "react-toastify";
 
 const QuestionFormat = ({
   headerText,
   description,
-  value,
-  setShowQuestions,
-  showQuestions,
+  value
 }) => {
   return (
     <div className="relative">
@@ -16,18 +13,6 @@ const QuestionFormat = ({
           className=" w-[94%]"
           onClick={() => {
             console.log(value);
-
-            if (showQuestions[value]?.point === 0) {
-              toast.info("input campaign point");
-            } else {
-              setShowQuestions((prevState) => ({
-                ...prevState,
-                [value]: {
-                  ...prevState[value],
-                  show: true,
-                },
-              }));
-            }
           }}
         >
           <div className="rounded-lg border border-primary z-[-1] h-full absolute w-full top-[6px] left-[6px]"></div>
@@ -36,7 +21,6 @@ const QuestionFormat = ({
             <p className="normal text-[14px]">{description}</p>
           </div>
         </div>
-        <PointsModal setShowQuestions={setShowQuestions} value={value}/>
       </section>
     </div>
   );
