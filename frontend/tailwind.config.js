@@ -20,6 +20,7 @@ const config = {
         task3: "url('/images/taskThreeImage.svg')",
         task4: "url('/images/taskFourImage.svg')",
         heroDoddle: "url('/images/heroDoddles.svg')",
+        collectionsBg: "url('/images/collectionsBg.svg')",
         // "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops)",
         // "post-hero-img": "url('/src/assets/post-bg-img.png')",
         // 'settings-hero-img': "url('/src/assets/settings-hero.png')",
