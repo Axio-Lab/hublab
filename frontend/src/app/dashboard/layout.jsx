@@ -4,7 +4,7 @@ import Sidebar from "../../components/sidebar";
 export const metadata = {
   title: "Verxio Protocol",
   description:
-    "Verxio is revolutionalizing the way people learn and interact with the blockchain",
+    "An instant tool for creators to sell their digital product to their audience",
 };
 
 const Layout = ({ children }) => {

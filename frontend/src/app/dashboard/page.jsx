@@ -6,8 +6,6 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
   DashboardCards,
-  // ResponsiveChart,
-  // ResponsiveDonutChart,
   CampaignTable,
 } from "@/components/dashHomeComponents";
 import { dashboardCardData } from "@/utils/data";
@@ -38,7 +36,7 @@ const Page = () => {
 
         <section className="flex items-start md:items-center gap-3 flex-wrap">
           <Link
-            href={"/create_campaign?tab=start"}
+            href={"/start_selling?tab=start"}
             className="border-dashed border-2 border-[#00ADEF] rounded-lg bg-[#E0F7FF] flex flex-col p-10 cursor-pointer items-center justify-center"
           >
             <Image
@@ -48,18 +46,13 @@ const Page = () => {
               alt={"add Button"}
             />
             <h3 className="text-[#424242] font-normal text-[14px]">
-              Create Campaign
+              Start Selling
             </h3>
           </Link>
           {dashboardCardData.map((data, index) => (
             <DashboardCards key={index} {...data} {...colors[index]} />
           ))}
         </section>
-
-        {/* <section className="w-full flex flex-col items-center md:flex-row my-[50px] border-y">
-          <ResponsiveChart />
-          <ResponsiveDonutChart />
-        </section> */}
 
         <CampaignTable />
       </section>
