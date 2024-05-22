@@ -34,6 +34,11 @@ const questionFormatData = [
 const Start = () => {
 
   const router = useRouter();
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const handleSelectProduct = (value) => {
+    setSelectedProduct(value);
+  };
 
   return (
     <>
@@ -44,7 +49,8 @@ const Start = () => {
           </p>
         </div>
 
-        <div className="border border-primary rounded-lg p-6 flex flex-col items-cente gap-5">
+        <div 
+        className="border border-primary rounded-lg p-6 flex flex-col items-cente gap-5">
           {questionFormatData.map((data, index) => (
             <QuestionFormat
               key={`question-number-${index}`}

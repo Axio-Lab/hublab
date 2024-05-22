@@ -40,33 +40,20 @@ const data = [
     choice: "relationshipandfamily",
   },
   {
-    name: "Other",
-    choice: "other",
+    name: "Others",
+    choice: "others",
   },
 ];
 
 const Summary = ({ account }) => {
   const [selectedImage, setSelectedImage] = useState("");
-
-  const user = useAccount();
-  const questions = useSelector((state) => state.generalStates?.input);
-
-  const [participants, setParticipants] = useState(0);
   const [showOptions, setShowOptions] = useState(false);
   const [index, setIndex] = useState(0);
   const [selectedNFT, setSelectedNFT] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [campaignModalOpen, setCampaignModalOpen] = useState(false);
-  const [newQuestions, setNewQuestions] = useState(questions);
   const [campaignId, setCampaignId] = useState("");
   const [quantity, setQuantity] = useState(0);
-
-  const handleQuantityChange = (event) => {
-    const value = Math.max(0, event.target.value); // Ensure quantity is never less than 0
-    setQuantity(value);
-  };
-
-  const dispatch = useDispatch();
 
   const title = useSelector((state) => state.generalStates?.start?.title);
   const description = useSelector(
@@ -75,16 +62,13 @@ const Summary = ({ account }) => {
   const startDate = useSelector(
     (state) => state.generalStates?.start?.startDate
   );
-  const endDate = useSelector((state) => state.generalStates?.start?.endDate);
-  const eligibility = useSelector((state) => state.generalStates?.criterion);
+  const user = useAccount();
+  const dispatch = useDispatch();
   const userId = useSelector((state) => state.generalStates.userId);
   const status = useSelector((state) => state.campaign.campaign.status);
   const reward = useSelector((state) => state.generalStates.rewards);
-  const users = useAccount();
-  console.log(users);
-  console.log(user);
 
-  console.log(userId);
+
   const fileInputRef = useRef(null);
   const handleImageChange = (event, setFieldValue) => {
     const file = event.target.files[0];
@@ -104,6 +88,11 @@ const Summary = ({ account }) => {
     }
   };
   console.log(selectedImage);
+  
+  const handleQuantityChange = (event) => {
+    const value = Math.max(0, event.target.value);
+    setQuantity(value);
+  };
 
   const handleUploadButtonClick = () => {
     fileInputRef.current.click();
@@ -116,75 +105,9 @@ const Summary = ({ account }) => {
   const initialValues = {
     title: title,
     description: description,
-    startDate: startDate,
-    endDate: endDate,
-    questions: questions,
-    eligibility: eligibility,
-    participants: "",
-    method: "",
-    rewardCoin: "verxio points",
-    totalRewardPoint: "",
-    rewardWith: "spl token",
-    coverBannerUrl: "",
   };
 
-  console.log(questions);
-  console.log(reward);
-
-  // calculate total points*******************
-  let totalPoints = 0;
-
-  questions.pickAnswer?.value.forEach((question) => {
-    totalPoints += question.points;
-  });
-
-  questions.submitUrl?.value.forEach((question) => {
-    totalPoints += question.points;
-  });
-
-  const totalReward = participants * totalPoints;
-
-  const createNewCampaign = async (values) => {
-    try {
-      const response = await dispatch(
-        createCampaign({
-          data: {
-            title: title,
-            description: description,
-            coverBannerUrl:
-              "https://www.google.com/url?sa=i&url=https%3A%2F%2Fcondusiv.com%2Fsequential-io-always-outperforms-random-io-on-hard-disk-drives-or-ssds%2F&psig=AOvVaw0gIZMjG4dtsc3otXxWQgHx&ust=1711935077938000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPi7q6KtnYUDFQAAAAAdAAAAABAE",
-            profileId: userId,
-            startDate: startDate,
-            endDate: endDate,
-            questions: questions,
-            eligibility: eligibility,
-            participants: values.participants,
-            methodOfReward: values.method,
-            rewardCoin: "verxio points",
-            totalRewardPoint: totalReward,
-            rewardWith: "spl token",
-          },
-          // id: 1,
-        })
-      );
-      if (response?.payload?.success === true) {
-        toast.success(response?.payload?.message);
-        setCampaignId(response?.payload?.campaignId);
-        console.log(response);
-        setModalOpen(true);
-        setCampaignModalOpen(true);
-        setTimeout(() => {
-          setModalOpen(false);
-        }, 3000);
-      } else {
-        toast.error(response?.payload?.message);
-        console.log(response);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+ 
   return (
     <section>
       <div className={`mt-10 w-[60%] text-[#484851] `}>
@@ -229,7 +152,7 @@ const Summary = ({ account }) => {
                 </div>
               </div>
 
-              <div>
+            <div>
 
             <div>
               <p className="font-semibold text-[24px] mb-5">
@@ -248,7 +171,6 @@ const Summary = ({ account }) => {
                   <p>Set quantity to 0 for unlimited products.</p>
                 </div>
           </div>
-
               <div className="relative z-40 -right-[1px]">
                 <p className="font-semibold text-[24px] mb-5">
                   <span className="mr-3 text-">*</span>Proof of Purchase (cNFT)
@@ -334,9 +256,7 @@ const Summary = ({ account }) => {
                   className="font-medium text-[20px] bg-white"
                   outline
                   onClick={() => {
-                    // console.log(values);
                     setCampaignModalOpen(true);
-                    // setModalOpen(true);
                     dispatch(setRewards(values));
                   }}
                 />

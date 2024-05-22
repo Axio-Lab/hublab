@@ -31,6 +31,7 @@ import bs58 from 'bs58';
     const mintKeypair = Keypair.generate();
     const mint = mintKeypair.publicKey;
     const mintLen = getMintLen([ExtensionType.NonTransferable, ExtensionType.MetadataPointer]);
+    
     const metadata: TokenMetadata = {
         mint: mint,
         name: 'Verxio sToken',

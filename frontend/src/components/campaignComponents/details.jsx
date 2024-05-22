@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import UploadIcon from "../../assets/uploadIcon.svg";
 import Button from "../Button";
-import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { setStart } from "@/store/slices/statesSlice";
 
@@ -13,7 +12,6 @@ import Tiptap from "../tiptap";
 
 const Details = () => {
   const [selectedImage, setSelectedImage] = useState("");
-  const [selectedDate, setSelectedDate] = useState(null);
   const [description, setDescription] = useState("");
   const [isCustomAmountAllowed, setIsCustomAmountAllowed] = useState(false);
   const [isCustomNFTEnabled, setIsCustomNFTEnabled] = useState(false);

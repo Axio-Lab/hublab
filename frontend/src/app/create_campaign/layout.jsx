@@ -4,6 +4,7 @@ import { Button } from "@/components";
 import { useSearchParams, permanentRedirect, redirect } from "next/navigation";
 import Image from "next/image";
 import logo from "../../assets/Logo.svg";
+import campaignBanner from "../../assets/campaignBanner.svg"
 import { useAccount } from "@particle-network/connect-react-ui";
 import WalletLogin from "@/components/walletLogin";
 import LogoutButton from "@/components/logout";
@@ -34,8 +35,16 @@ const layout = ({ children }) => {
           {/* <WalletLogin/> */}
         </div>
       </div>
-      <div className="px-10 py-8 relativ">
-        <div className="flex flex-col gap-10 justify-center items-center border rounded-lg bg-lightBlue py-6 mb-10 ">
+      <div 
+      className="px-10 py-8 relativ">
+        <div className="flex flex-col gap-10 justify-center items-center border rounded-lg  py-6 mb-10 "
+          style={{
+            backgroundImage: `url(${campaignBanner.src})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
           <h2 className="text-4xl text-white font-extrabold">
             CREATE PRODUCT
           </h2>
