@@ -46,7 +46,7 @@ export const dashboardCardData = [
     alt: "allCampaign",
   },
   {
-    headerText: "All Participants",
+    headerText: "Total Sales",
     number: "1,802",
     src: "/images/allParticipants.svg",
     alt: "allParticipants",

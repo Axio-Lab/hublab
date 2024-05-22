@@ -51,7 +51,7 @@ const layout = ({ children }) => {
           <div className="flex gap-10 items-center justify-center">
             <Button
               name="start"
-              href="/create_campaign?tab=start"
+              href="/start_selling?tab=start"
               className={`${
                 tab === "start" ? "bg-white text-primary" : "bg-transparent"
               } px-8 py-1 border border-white rounded-[10px] text-[24px]`}
@@ -62,7 +62,7 @@ const layout = ({ children }) => {
             />
             <Button
               name="details"
-              href="/create_campaign?tab=details"
+              href="/start_selling?tab=details"
               className={`${
                 tab === "details"
                   ? "bg-white text-primary"
@@ -75,7 +75,7 @@ const layout = ({ children }) => {
             />
             <Button
               name="Summary"
-              href="/create_campaign?tab=summary"
+              href="/start_selling?tab=summary"
               className={`${
                 tab === "summary"
                   ? "bg-white text-primary"

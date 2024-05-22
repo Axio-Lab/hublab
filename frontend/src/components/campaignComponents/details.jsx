@@ -304,7 +304,7 @@ const Details = () => {
                 onClick={() => {
                   console.log(values);
                   dispatch(setStart(values));
-                  router.push("/create_campaign?tab=summary");
+                  router.push("/start_selling?tab=summary");
                 }}
               />
             </div>

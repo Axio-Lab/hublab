@@ -64,7 +64,7 @@ const Start = () => {
             name="Continue"
             className="w-full text-[20px] mt-12"
             onClick={() => {
-              router.push("/create_campaign?tab=details");
+              router.push("/start_selling?tab=details");
             }}
           />
         </div>
