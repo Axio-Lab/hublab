@@ -32,7 +32,7 @@ export default class PaymentController {
                 }
             ]
         }, {
-            headers: { Authorization: `Bearer cp_public_2jC3uB4z_S69sXDksX5XpibEQ1vhhdJJD` }
+            headers: { Authorization: `Bearer process.env.CANDYPAY_PUBLIC_API_KEY` }
         })
         return res.status(200)
             .send({
