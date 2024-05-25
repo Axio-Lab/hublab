@@ -5,12 +5,15 @@
   "main": "/src/server.ts",
   "scripts": {
     "build": "npm install && tsc",
-    "start": "ts-node ./src/server.ts"
+    "start": "ts-node ./src/server.ts",
+    "dev": "nodemon"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@candypay/checkout-sdk": "^0.1.57",
+    "axios": "^1.6.8",
     "cloudinary": "^2.0.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
