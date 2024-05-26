@@ -8,8 +8,8 @@ const campaign_controller_1 = __importDefault(require("../controllers/campaign.c
 const validate_middleware_1 = __importDefault(require("../middlewares/validate.middleware"));
 const campaign_schemas_1 = require("../schemas/campaign.schemas");
 const router = (0, express_1.Router)();
-const { createCampaign, getCampaign, getAllCampaign, getAllUsersCampaign, getCampaignCount } = new campaign_controller_1.default();
-//create or update a campaign
+const { createCampaign, getCampaign, getAllCampaign, getAllUsersCampaign, getCampaignCount, participate } = new campaign_controller_1.default();
+//create a campaign
 router.post("/", (0, validate_middleware_1.default)(campaign_schemas_1.campaignSchema), createCampaign);
 //get a campaign
 router.get("/:id", getCampaign);
@@ -19,4 +19,6 @@ router.get("/", getAllCampaign);
 router.get("/profile/count/:profileId", getCampaignCount);
 //get all user's campaign
 router.get("/profile/:profileId", getAllUsersCampaign);
+//participants to participate
+router.patch("/:id/:profileId", participate);
 exports.default = router;

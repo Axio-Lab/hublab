@@ -8,10 +8,11 @@ const {
     getCampaign,
     getAllCampaign,
     getAllUsersCampaign,
-    getCampaignCount
+    getCampaignCount,
+    participate
 } = new CampaignController();
 
-//create or update a campaign
+//create a campaign
 router.post("/", validate(campaignSchema), createCampaign);
 
 //get a campaign
@@ -25,5 +26,8 @@ router.get("/profile/count/:profileId", getCampaignCount);
 
 //get all user's campaign
 router.get("/profile/:profileId", getAllUsersCampaign);
+
+//participants to participate
+router.patch("/:id/:profileId", participate);
 
 export default router;
