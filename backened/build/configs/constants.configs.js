@@ -10,7 +10,8 @@ exports.basePath = basePath;
 const DATABASES = {
     PROFILE: "profile",
     POINTS: "point",
-    CAMPAIGN: "campaign"
+    CAMPAIGN: "campaign",
+    PRODUCT: "product"
 };
 exports.DATABASES = DATABASES;
 const MESSAGES = {
@@ -30,6 +31,7 @@ const MESSAGES = {
         CREATED: "Campaign created successfully.",
         FETCHED: "Campaign fetched successfully.",
         NOT_FOUND: "Campaign not found.",
+        UPDATED_CAMPAIGN: "Campaign updated.",
         FETCHED_COUNT: "User's campaign count fetched successfully."
     }
 };
