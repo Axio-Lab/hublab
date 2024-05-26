@@ -30,6 +30,11 @@ class CampaignService {
             return yield campaign_model_1.default.find(filter, "-__v");
         });
     }
+    updateOne(filter) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield campaign_model_1.default.updateOne(filter);
+        });
+    }
     count(filter) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield campaign_model_1.default.countDocuments(filter);
