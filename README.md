@@ -13,6 +13,7 @@ Verxio helps creators sell digital products directly to their audience, offering
 </div>
 
 <hr />
+![banner](https://github.com/Axio-Lab/hublab/blob/bonk/develop/frontend/src/assets/verxioBanner.jpg)
 
 With Verxio, creators/businesses can also offer NFTs and Token ownership-based discounts to achieve the following use case:
 
@@ -29,3 +30,34 @@ Verxio's tokenized discount feature, creators and businesses can provide discoun
 3. $BONK Cashback System: Creators can drive sales by incentivizing purchases with $BONK, encouraging repeat business, attracting new customers, and gaining a competitive edge.
 
 4. $BONK Revenue Share: Customers who purchase items on Verxio will partake in a 50% revenue split shared based on the $BONK holdings of customers.
+
+## Solana & Protocol Integrations ⚙️
+1. Verxio is integrating [Underdog Protocol](https://www.underdogprotocol.com/) to create dynamic/soulbound NFTs, manage NFTs, and connect off-chain workflows, on-chain enabling on-chain marketing automation.
+   
+2. Verxio is building on [Candypay](https://candypay.fun/) to enable creators to accept Solana payments with our seamless, mobile native, NFT/ Token-ownership loyalty discount Checkout solution in minutes.
+
+3. Verxio is also integrating [Pyth Network's](https://pyth.network/) oracle to pull in $BONK/USDC price feed which is used to calculate the $BONK equivalent that customers need to pay for their purchase
+
+## Future Plans & Implementation 🔮
+1. Adding features for everything creators need to create, market, sell, and deliver their products online including:
+   - Sales Pages
+   - Product Funnels
+   - Email Marketing
+   - A/B Testing integrations
+   - Workflows integration
+   - APIs & Webhooks
+   - CRM and other integrations
+   - Community
+2. A telegram bot that allows creators to create their NFT loyalty vouchers, upload their product to `Verxio`, obtain a product link to share and start selling their digital products, and accept instant payment with $BONK (or their preferred SPL token).
+   
+3. Build out the `Verxio` explore page where users and creator communities can discover products by several creators.
+   
+4. VexList which will be a collaborative social blacklist where users can share and openly dislike products/services they've had bad experiences with both on `Verxio` and generally while getting $BONK incentive rewards.
+   
+5. We're also looking to allow creators and businesses to integrate `Verxio` on some of the top eCommerce platforms like:
+   - WooCommerce
+   - Magento
+   - BigCommerce
+   - Wix
+   - Squarespace
+
