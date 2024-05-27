@@ -19,6 +19,7 @@ Verxio helps creators sell digital products directly to their audience, offering
 
 With Verxio, creators/businesses can also offer NFTs and Token ownership-based discounts to achieve the following use case:
 
+- Customers receive an NFT-based proof of purchase in place of receipts upon a successful purchase.
 - Reward community, brand, or product loyal users based on their Token ($BONK) and NFT ownership.
 - Enabling buy-to-redeem commerce by offering nearly 100% discounts to customers who hold $BONK tokens or the necessary NFTs.
 
