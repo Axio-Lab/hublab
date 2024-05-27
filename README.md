@@ -6,7 +6,7 @@ Verxio helps creators sell digital products directly to their audience, offering
 
 <h3>
    
-[Pitch Deck](https://docs.google.com/presentation/d/1-DR3qAU5slPsT-J5ffb1CZiwLE4Y_Z8t/edit?usp=sharing&ouid=108300888596593200233&rtpof=true&sd=true) | [Checkout Verxio](https://www.verxio.xyz/) | [Demo Video](https://youtu.be/ZwpHRA9WvFg)
+[Pitch Deck](https://docs.google.com/presentation/d/1-DR3qAU5slPsT-J5ffb1CZiwLE4Y_Z8t/edit?usp=sharing&ouid=108300888596593200233&rtpof=true&sd=true) | [Website](https://www.verxio.xyz/) | [Demo Video](https://youtu.be/ZwpHRA9WvFg)
 
 </h3>
 
