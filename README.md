@@ -13,7 +13,9 @@ Verxio helps creators sell digital products directly to their audience, offering
 </div>
 
 <hr />
+
 ![banner](https://github.com/Axio-Lab/hublab/blob/bonk/develop/frontend/src/assets/verxioBanner.jpg)
+
 
 With Verxio, creators/businesses can also offer NFTs and Token ownership-based discounts to achieve the following use case:
 
