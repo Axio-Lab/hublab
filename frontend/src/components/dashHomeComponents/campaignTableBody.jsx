@@ -45,10 +45,10 @@ export const TableBody = ({ tableData }) => {
             />
           </td>
           <td className="border border-[#F3F3FC] text-center py-2 px-4">
-            <CampaignParticipantsTemplate participants={data.participants} />
+            <CampaignParticipantsTemplate sales={data.sales.toLocaleString()} />
           </td>
           <td className="border border-[#F3F3FC] text-center py-2 px-4">
-            <CampaignReward participantsReward={data.participantsReward} />
+            <CampaignReward revenue={`$ ${data.revenue.toLocaleString()}`} />
           </td>
         </tr>
       ))}
@@ -69,21 +69,21 @@ const CampaignStatusTemplate = (tableData) => {
   let statusText = "";
 
   switch (tableData.status) {
-    case "ongoing":
+    case "digitalProduct":
       statusClass = "text-[#34A90B] border-[#34A90B] bg-[#DAFCDE]";
-      statusText = "Ongoing";
+      statusText = "Digital Product";
       break;
-    case "upcoming":
+    case "ticket":
       statusClass = "text-[#00ADEF] border-[#00ADEF] bg-[#E0F7FF]";
-      statusText = "Upcoming";
+      statusText = "Ticket";
       break;
-    case "closed":
+    case "service":
       statusClass = "text-[#3D41CC] border-[#3D41CC] bg-[#DFDFF7]";
-      statusText = "Closed";
+      statusText = "Service";
       break;
-    case "deleted":
+    case "loveGift":
       statusClass = "text-[#EF00AD] border-[#EF00AD] bg-[#FFD6F4]";
-      statusText = "Deleted";
+      statusText = "Love Gift";
       break;
     default:
       break;
@@ -112,14 +112,14 @@ const CampaignLinkTemplate = (tableData) => {
 const CampaignParticipantsTemplate = (tableData) => {
   return (
     <p className="font-normal text-[16px] text-[#424242]">
-      {tableData.status === "closed" ? "---" : tableData.participants}
+      {tableData.status === "closed" ? "---" : tableData.sales}
     </p>
   );
 };
 const CampaignReward = (tableData) => {
   return (
     <p className="font-normal text-[16px] text-[#424242]">
-      {tableData.participantsReward}
+      {tableData.revenue}
     </p>
   );
 };
