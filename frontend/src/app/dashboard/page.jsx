@@ -7,6 +7,7 @@ import Image from "next/image";
 import {
   DashboardCards,
   CampaignTable,
+  CollectionTable,
 } from "@/components/dashHomeComponents";
 import { dashboardCardData } from "@/utils/data";
 
@@ -30,8 +31,8 @@ const Page = () => {
   ];
 
   return (
-    <section className="w-full h-full p-2 md:p-10 border border-red-500">
-      <section className="w-full border rounded-lg p-2 md:p-6 flex flex-col items-start border-green-500 gap-3">
+    <section className="w-full h-full p-2 md:p-10">
+      <section className="w-full border rounded-lg p-2 md:p-6 flex flex-col items-start gap-3">
         <h2 className="text-primary font-semibold text-[28px]">Dashboard</h2>
 
         <section className="flex items-start md:items-center gap-3 flex-wrap">
@@ -54,6 +55,7 @@ const Page = () => {
           ))}
         </section>
 
+        <CollectionTable />
         <CampaignTable />
       </section>
     </section>

@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
-import { Table, TableBody } from "./table";
-import ColectionIcon from "../../assets/collectionPlusIcon.svg";
-import Image from "next/image";
-import Link from "next/link";
+import { Table, TableBody } from "./campaignTableBody";
+// import ColectionIcon from "../../assets/collectionPlusIcon.svg";
+// import Image from "next/image";
+// import Link from "next/link";
 
 const CampaignTable = () => {
   const [campaignData] = useState([
@@ -11,6 +11,7 @@ const CampaignTable = () => {
       id: 1,
       name: "Ultimate Speed Lexi",
       participants: 9734,
+      participantsReward: 8765,
       link: "https://www.",
       page: "campaignpreview",
       reward: "NFT Badge",
@@ -20,6 +21,7 @@ const CampaignTable = () => {
       id: 2,
       name: "Ultimate Speed Lexi",
       participants: 9734,
+      participantsReward: 865,
       link: "https://www.",
       page: "campaignpreview",
       reward: "Token",
@@ -28,6 +30,7 @@ const CampaignTable = () => {
     {
       id: 3,
       name: "Ultimate Speed Lexi",
+      participantsReward: 8225,
       participants: 9734,
       link: "https://www.",
       page: "campaignpreview",
@@ -38,6 +41,7 @@ const CampaignTable = () => {
       id: 4,
       name: "Ultimate Speed Lexi",
       participants: 9734,
+      participantsReward: 2345,
       link: "https://www.",
       page: "campaignpreview",
       reward: "Soulbound Token",
@@ -46,11 +50,13 @@ const CampaignTable = () => {
   ]);
 
   return (
-    <section className="w-full gap-6 shadow px-2 md:px-5 py-[18px] rounded-[14px]">
+    <section className="w-full gap-6 shadow px-2 md:px-5 py-[18px] rounded-[14px] mt-10 border">
       <div className="flex items-center justify-between my-4">
-        <h2 className="text-primary font-semibold text-[20px]">Collections</h2>
+        <h2 className="text-primary font-semibold text-[20px]">
+          All Campaigns
+        </h2>
 
-        <Link href={"dashboard/createcollection"} className="mr relative">
+        {/* <Link href={"dashboard/createcollection"} className="mr relative">
           <div className="rounded-lg bg-[#fff] border border-[#00ADEF] h-full w-full absolute left-[4px] top-[6px]"></div>
 
           <button className="flex items-center relative z-50  gap-4 text-[#fff] bg-[#00ADEF] px-4 py-2 rounded-lg border border-[#00ADEF]">
@@ -62,11 +68,17 @@ const CampaignTable = () => {
               height={20}
             />
           </button>
-        </Link>
+        </Link> */}
       </div>
       <div className="flex max-w-full overflow-x-auto w-full">
         <Table
-          tableHeads={["All Assets", "Assets Status", "Date", "Assets Type"]}
+          tableHeads={[
+            "Campaigns",
+            "Status",
+            "Campaing Link",
+            "Participants",
+            "Participants with reward",
+          ]}
         >
           <TableBody tableData={campaignData} />
         </Table>
