@@ -92,14 +92,13 @@ const Summary = ({ account }) => {
   };
 
   const initialValues = {
-    quantity: "",
     category: "",
+    quantity: "",
     proofOfPurchase: "",
     bannerImg: "",
   };
 
   // const userId = useSelector((state) => state.generalStates.userId);
-
   const user = useAccount();
   const dispatch = useDispatch();
 
@@ -114,6 +113,9 @@ const Summary = ({ account }) => {
     (state) => state.generalStates?.details?.allowPayAnyPrice
   );
   const price = useSelector((state) => state.generalStates?.details?.price);
+  const discount = useSelector(
+    (state) => state.generalStates?.details?.discount
+  );
   const isNFTDiscountEnabled = useSelector(
     (state) => state.generalStates?.details?.isNFTDiscountEnabled
   );
@@ -121,14 +123,36 @@ const Summary = ({ account }) => {
     (state) => state.generalStates?.details?.isCustomNFTEnabled
   );
   const NFTAddress = useSelector(
-    (state) => state.generalStates?.details?.isCustomNFTEnabled.address
+    (state) => state.generalStates?.details?.customNFT.address
   );
   const NFTName = useSelector(
-    (state) => state.generalStates?.details?.isCustomNFTEnabled.name
+    (state) => state.generalStates?.details?.customNFT.name
   );
   const NFTImageUrl = useSelector(
-    (state) => state.generalStates?.details?.isCustomNFTEnabled.imageUrl
+    (state) => state.generalStates?.details?.customNFT.imageUrl
   );
+
+  const consoleAllDetails = () => {
+  console.log(
+    "product type:", type,
+    "product name:", title,
+    "product description:", description,
+    "allow any price:", allowPayAnyPrice,
+    "product price:", price,
+    "product custom nft enabled:", isCustomNFTEnabled,
+    "product nFT discount enabled:", isNFTDiscountEnabled,
+    "product nft address:", NFTAddress,
+    "product NFT name:", NFTName,
+    "product NFT image:", NFTImageUrl,
+    "product discount:", discount,
+    "produvt category:",values.category,
+    "produvt quantity:", values.quantity,
+    "produvt unlimitedQuantity:", unlimitedQuantity,
+    "produvt pop:", values.proofOfPurchase,
+    "produvt bannerImg:", values.bannerImg,
+    "produvt purchaseXP:", values.purchaseXP,
+  );
+  }
 
   const createNewProduct = async (values) => {
     try {
@@ -151,7 +175,8 @@ const Summary = ({ account }) => {
             },
             discountAmount: discount,
             category: parseInt(values.category),
-            quantity: values.quantity,
+            quantity: parseInt(values.quantity),
+            unlimitedQuantity: values.quantity === 0 ? true : false,
             pop: values.proofOfPurchase,
             purchaseXP: 50,
           },
@@ -160,13 +185,13 @@ const Summary = ({ account }) => {
       );
       if (response?.payload?.success === true) {
         toast.success(response?.payload?.message);
-        setCampaignId(response?.payload?.campaignId);
+        // setCampaignId(response?.payload?.campaignId);
+        // setModalOpen(true);
+        // setCampaignModalOpen(true);
+        // setTimeout(() => {
+        //   setModalOpen(false);
+        // }, 3000);
         console.log(response);
-        setModalOpen(true);
-        setCampaignModalOpen(true);
-        setTimeout(() => {
-          setModalOpen(false);
-        }, 3000);
       } else {
         toast.error(response?.payload?.message);
         console.log(response);
@@ -194,9 +219,7 @@ const Summary = ({ account }) => {
                       handleCategoryChange(event, setFieldValue)
                     }
                   >
-                    <option value="">
-                      Choose an NFT from your Collection on Verxio
-                    </option>
+                    <option value="">Select product category</option>
                     <option value="business">Business</option>
                     <option value="collectibles">Collectibless</option>
                     <option value="Spirituality">Spirituality</option>
@@ -364,15 +387,17 @@ const Summary = ({ account }) => {
                   name="publish"
                   className="border border-primary font-medium text-[20px]"
                   shade="border-primary"
-                  isLoading={status === "loading"}
+                  isLoading={status === "loading..."}
                   onClick={() => {
-                    if (user) {
-                      setFieldValue("totalRewardPoint", totalReward);
-                      dispatch(setSummary(values));
-                      createNewProduct(values);
-                    } else {
-                      toast.info("Connect your wallet to publish campaign");
-                    }
+                     consoleAllDetails()
+                    // if (user) {
+                    //   setFieldValue("totalRewardPoint", totalReward);
+                    //   // dispatch(setSummary(values));
+                    //   // createNewProduct(values);
+                      
+                    // } else {
+                    //   toast.info("Connect your wallet to publish campaign");
+                    // }
                   }}
                 />
               </div>

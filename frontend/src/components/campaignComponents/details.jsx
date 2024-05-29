@@ -18,6 +18,7 @@ const Details = () => {
   //   imageUrl: "",
   // });
 
+  const [address, setAddress] = useState("");
   const router = useRouter();
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);
@@ -93,6 +94,7 @@ const Details = () => {
   const handleCustomNFTChange = (event, setFieldValue) => {
     const { name, value } = event.target;
     setFieldValue(`customNFT.${name}`, value);
+    // console.log(value, name, "input value!!!!");
   };
 
   const handleCustomNFTEnabledChange = (event, setFieldValue) => {
@@ -284,7 +286,7 @@ const Details = () => {
                         name="address"
                         placeholder="NFT Collection Address"
                         className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
-                        value={values.customNFT.address}
+                        value={values?.customNFT?.address}
                         onChange={(event) =>
                           handleCustomNFTChange(event, setFieldValue)
                         }
