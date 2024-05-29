@@ -9,7 +9,7 @@ export const Table = ({ tableHeads, tableData, children }) => {
           <tr className="w-full text-center  ">
             {tableHeads?.map((head, index) => (
               <th
-                className={`text-[#424242] font-semibold text-[16px] border border-[#F3F3FC] py-3 px-4 text-center`}
+                className={`text-[#424242] bg-[#e1ecf6] font-semibold text-[16px] border border-[#F3F3FC] py-3 px-4 text-center`}
                 key={`${head}-${index}`}
               >
                 <>{head}</>
@@ -47,11 +47,9 @@ export const TableBody = ({ tableData }) => {
           <td className="border border-[#F3F3FC] text-center py-2 px-4">
             <CampaignParticipantsTemplate participants={data.participants} />
           </td>
-          {/* <td className="border border-[#F3F3FC] text-center py-2 px-4">
-            <CampaignReward
-              Reward={data.Reward}
-            />
-          </td> */}
+          <td className="border border-[#F3F3FC] text-center py-2 px-4">
+            <CampaignReward participantsReward={data.participantsReward} />
+          </td>
         </tr>
       ))}
     </tbody>
@@ -60,7 +58,9 @@ export const TableBody = ({ tableData }) => {
 
 const CampaignNameTemplate = (tableData) => {
   return (
-    <p className="font-normal line-clamp-1 text-[16px] text-[#424242]">{tableData.name}</p>
+    <p className="font-normal line-clamp-1 text-[16px] text-[#424242]">
+      {tableData.name}
+    </p>
   );
 };
 
@@ -116,4 +116,10 @@ const CampaignParticipantsTemplate = (tableData) => {
     </p>
   );
 };
-
+const CampaignReward = (tableData) => {
+  return (
+    <p className="font-normal text-[16px] text-[#424242]">
+      {tableData.participantsReward}
+    </p>
+  );
+};

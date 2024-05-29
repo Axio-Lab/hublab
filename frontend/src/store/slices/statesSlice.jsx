@@ -5,12 +5,11 @@ const initialState = {
   userProfile: {},
   userId: "",
   edit: false,
-  start:{}, 
-  input:{},
-  totalCampaignPoint:{},
-  criterion:'',
-  rewards:{},
-  choosePoint: 0
+  start: {},
+  details: {},
+  summary: {},
+  totalCampaignPoint: {},
+  choosePoint: 0,
 };
 
 const statesSlice = createSlice({
@@ -27,31 +26,40 @@ const statesSlice = createSlice({
       state.edit = action.payload;
     },
     setStart: (state, action) => {
-      state.start = action.payload;
+      // state.start = action.payload;
+      state.start = { ...state.start, ...action.payload };
+      // console.log(state, action.payload, "bhbkk");
     },
-    setInput: (state, action) => {
-      state.input = action.payload;
+    setDetails: (state, action) => {
+      state.details = action.payload;
+      // state.details = { ...state.details, ...action.payload };
     },
     setTotalCampaignPoint: (state, action) => {
       state.totalCampaignPoint = action.payload;
     },
-    setCriterion: (state, action) => {
-      state.criterion = action.payload;
-    },
-    setRewards: (state, action) => {
-      state.rewards = action.payload;
+    setSummary: (state, action) => {
+      state.summary = action.payload;
     },
     setChoosePoint: (state, action) => {
       state.choosePoint = action.payload;
     },
   },
-  extraReducers: (builder)=> {
+  extraReducers: (builder) => {
     builder.addCase(PURGE, () => {
       return initialState;
     });
-  }
+  },
 });
 
 export const statesActions = statesSlice.actions;
-export const { setUserId, setUserProfile, setEdit, setStart, setInput, setTotalCampaignPoint , setCriterion, setRewards, setChoosePoint} = statesSlice.actions;
+export const {
+  setUserId,
+  setUserProfile,
+  setEdit,
+  setStart,
+  setDetails,
+  setTotalCampaignPoint,
+  setSummary,
+  setChoosePoint,
+} = statesSlice.actions;
 export default statesSlice.reducer;

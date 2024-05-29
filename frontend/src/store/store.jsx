@@ -14,6 +14,7 @@ import {
 import profileReducer from "../store/slices/profileSlice";
 import campaignReducer from "./slices/campaignSlice";
 import stateReducer from "../store/slices/statesSlice";
+import productReducer from "../store/slices/productSlice";
 
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 
@@ -46,6 +47,7 @@ const rootReducer = combineReducers({
   profile: profileReducer,
   campaign: campaignReducer,
   generalStates: stateReducer,
+  product: productReducer,
 });
 
 const persistedReducers = persistReducer(persistConfig, rootReducer);

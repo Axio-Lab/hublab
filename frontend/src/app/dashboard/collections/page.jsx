@@ -40,6 +40,55 @@ const page = () => {
 
           <Button outline name={"Create Asset"} />
         </section>
+
+        <section clasName="w-full flex items-center gap-4 border border-red-500">
+          <div className="flex items-start gap-8 rounded-md">
+            <div className="bg-[DFDFF7] h-full w-[200px] ml-4">
+              <Image
+                src="/images/assetsCoverImage.svg"
+                height={100}
+                width={100}
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <div className="flex flex-col items-start gap-6">
+              <blockquote>
+                <h2>Cannos Berge</h2> <button>$B</button>
+              </blockquote>
+              <p>
+                an exclusive NFT featuring a futuristic membership. Owners enjoy
+                special privileges within the collection.
+              </p>
+              <div className="flex items-center justify-between">
+                <Button name={"Claim"} />
+                <Button outline name={"Edit"} />
+              </div>
+            </div>
+          </div>
+          <div className="flex items-start gap-8 rounded-md">
+            <div className="h-full bg-[DFDFF7] w-[200px] ml-4">
+              <Image
+                src="/images/assetsCoverImage.svg"
+                height={100}
+                width={100}
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <div className="flex flex-col items-start gap-6">
+              <blockquote>
+                <h2>Cannos Berge</h2> <button>$B</button>
+              </blockquote>
+              <p>
+                an exclusive NFT featuring a futuristic membership. Owners enjoy
+                special privileges within the collection.
+              </p>
+              <div className="flex items-center justify-between">
+                <Button name={"Claim"} />
+                <Button outline name={"Edit"} />
+              </div>
+            </div>
+          </div>
+        </section>
       </section>
     </section>
   );

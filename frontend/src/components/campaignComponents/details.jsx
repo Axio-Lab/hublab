@@ -6,28 +6,23 @@ import Image from "next/image";
 import UploadIcon from "../../assets/uploadIcon.svg";
 import Button from "../Button";
 import { useDispatch, useSelector } from "react-redux";
-import { setStart } from "@/store/slices/statesSlice";
-
+import { setDetails } from "@/store/slices/statesSlice";
 import Tiptap from "../tiptap";
 
 const Details = () => {
   const [selectedImage, setSelectedImage] = useState("");
   const [description, setDescription] = useState("");
-  const [isCustomAmountAllowed, setIsCustomAmountAllowed] = useState(false);
-  const [isCustomNFTEnabled, setIsCustomNFTEnabled] = useState(false);
-  const [isNFTDiscountEnabled, setIsNFTDiscountEnabled] = useState(false);
-  const [customNFT, setCustomNFT] = useState({ address: "", name: "", imageUrl: "" });
-  const [selectedNFT, setSelectedNFT] = useState("");
-  const [discount, setDiscount] = useState(0);
-  const [amount, setAmount] = useState(0);
+  // const [customNFT, setCustomNFT] = useState({
+  //   address: "",
+  //   name: "",
+  //   imageUrl: "",
+  // });
 
-
+  const router = useRouter();
+  const dispatch = useDispatch();
   const fileInputRef = useRef(null);
 
-  const dispatch = useDispatch();
-  const router = useRouter();
-
-  const start = useSelector((state) => state.generalStates.start);
+  const details = useSelector((state) => state.generalStates.details);
 
   const handleImageChange = (event, setFieldValue) => {
     const file = event.target.files[0];
@@ -46,72 +41,86 @@ const Details = () => {
       console.log(data);
     }
   };
-  console.log(selectedImage);
 
   const handleUploadButtonClick = () => {
     fileInputRef.current.click();
   };
 
-
   const handleDescriptionChange = (newContent) => {
     setDescription(newContent);
-    console.log(newContent);
   };
 
-  const handleCheckboxChange = (event) => {
+  const handleCheckboxChange = (event, setFieldValue) => {
     const isChecked = event.target.checked;
-    setIsCustomAmountAllowed(isChecked);
+    setFieldValue("allowPayAnyPrice", isChecked);
     if (isChecked) {
-      setAmount('');
+      setFieldValue("price", "");
     }
   };
 
-  const handleAmountChange = (event) => {
-    const value = Math.max(0, event.target.value); 
-    setAmount(value);
+  const handleAmountChange = (event, setFieldValue) => {
+    const value = Math.max(0, event.target.value);
+    setFieldValue("price", value);
   };
 
-  const handleNFTDiscountChange = (event) => {
-    setIsNFTDiscountEnabled(event.target.checked);
+  const handleNFTDiscountChange = (event, setFieldValue) => {
+    const isChecked = event.target.checked;
+    setFieldValue("isNFTDiscountEnabled", isChecked);
     if (!event.target.checked) {
-      setSelectedNFT("");
-      setDiscount(0);
+      setFieldValue("selectedNFT", "");
+      setFieldValue("discount", 0);
     }
   };
 
-  const handleNFTChange = (event) => {
-    setSelectedNFT(event.target.value);
+  const handleNFTChange = (event, setFieldValue) => {
+    const newNFT = event.target.value;
+    setFieldValue("selectedNFT", newNFT);
   };
 
-  const handleDiscountChange = (event) => {
+  const handleDiscountChange = (event, setFieldValue) => {
     const value = Math.max(0, Math.min(100, event.target.value));
-    setDiscount(value);
+    setFieldValue("discount", value);
   };
 
-  const handleCustomNFTChange = (event) => {
+  // const handleCustomNFTChange = (event) => {
+  //   const { name, value } = event.target;
+  //   setCustomNFT((prevState) => ({
+  //     ...prevState,
+  //     [name]: value,
+  //   }));
+  // };
+
+  const handleCustomNFTChange = (event, setFieldValue) => {
     const { name, value } = event.target;
-    setCustomNFT(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+    setFieldValue(`customNFT.${name}`, value);
   };
 
-  const handleCustomNFTEnabledChange = (event) => {
-    setIsCustomNFTEnabled(event.target.checked);
+  const handleCustomNFTEnabledChange = (event, setFieldValue) => {
+    const selectedCustomNFT = event.target.checked;
+    setFieldValue("isCustomNFTEnabled", selectedCustomNFT);
   };
 
   const initialValues = {
-    title: start?.title || "",
-    description: start?.description || "",
-    startDate: start?.startDate || "",
-    endDate: start?.endDate || "",
-    bannerImg: start?.bannerImg || "",
+    title: details?.title || "",
+    description: details?.description || "",
+    bannerImg: details?.bannerImg || "",
+    allowPayAnyPrice: details?.allowPayAnyPrice || false,
+    price: details?.price || "",
+    isNFTDiscountEnabled: details?.isNFTDiscountEnabled || false,
+    isCustomNFTEnabled: details?.isCustomNFTEnabled || false,
+    selectedNFT: details?.selectedNFT || "",
+    discount: details?.discount || "",
+    customNFT: {
+      address: details?.customNFT?.address || "",
+      name: details?.customNFT?.name || "",
+      imageUrl: details?.customNFT?.imageUrl || "",
+    },
   };
 
   return (
     <div className="mt-10 w-[60%] text-[#484851]">
       <Formik onSubmit={() => {}} initialValues={initialValues}>
-        {({ isValid, handleSubmit, values, dirty, setFieldValue }) => (
+        {({ isValid, handleSubmit, dirty, values, setFieldValue }) => (
           <Form className="flex flex-col gap-8">
             <div>
               <p className="font-semibold text-[24px] mb-5">
@@ -120,6 +129,10 @@ const Details = () => {
               <Field
                 className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
                 name="title"
+                value={values.title}
+                onChange={(event) => {
+                  setFieldValue("title", event.target.value);
+                }}
                 placeholder="Enter name of product"
               />
             </div>
@@ -145,7 +158,7 @@ const Details = () => {
                           className="text-[14px]"
                           onClick={handleUploadButtonClick}
                         >
-                        Drag & Drop your product images or Browse
+                          Drag & Drop your product images or Browse
                         </button>
                       </div>
                       <input
@@ -163,7 +176,10 @@ const Details = () => {
                   )}
                 </div>
                 <div className="flex justify-between items-center text-[13px] mt-2">
-                  <p>Your image needs to be at least 300×300 pixels, preferrably a square image.</p>
+                  <p>
+                    Your image needs to be at least 300×300 pixels, preferrably
+                    a square image.
+                  </p>
                   <p>Max 24MB</p>
                 </div>
               </div>
@@ -179,131 +195,158 @@ const Details = () => {
               />
             </div>
 
-          <div>
-            <p className="font-semibold text-[24px] mb-5">
-              <span className="mr-3 text-">*</span>Sale Price (USD)
-            </p>
-            <Field
-              className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-              name="amount"
-              type="number"
-              placeholder={isCustomAmountAllowed ? "Customers will pay any amount" : "Enter product amount"}
-              disabled={isCustomAmountAllowed}
-              value={amount}
-              onChange={handleAmountChange}
-            />
-
-          <div className="mb-5">
-            <label className="flex items-center">
-              <input 
-                type="checkbox" 
-                className="mr-2"
-                checked={isCustomAmountAllowed}
-                onChange={handleCheckboxChange}
+            {/* Sale Price */}
+            <div>
+              <p className="font-semibold text-[24px] mb-5">
+                <span className="mr-3 text-">*</span>Sale Price (USD)
+              </p>
+              <Field
+                className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
+                name="amount"
+                type="number"
+                placeholder={
+                  values.allowPayAnyPrice
+                    ? "Customers will pay any amount"
+                    : "Enter product amount"
+                }
+                disabled={values.allowPayAnyPrice}
+                value={values.price}
+                onChange={(event) => handleAmountChange(event, setFieldValue)}
               />
-              Allow customers to pay any amount
-            </label>
-          </div>
-          </div>
-          <div className="mb-5 mt-10">
-        <label className="flex items-center">
-          <input 
-            type="checkbox" 
-            className="mr-2"
-            checked={isNFTDiscountEnabled}
-            onChange={handleNFTDiscountChange}
-          />
-          Enable NFT ownership-based Discounts
-        </label>
-      </div>
 
-      {isNFTDiscountEnabled && (
-        <>
-        {!isCustomNFTEnabled && (
-          <div className="mb-5">
-            <label className="font-semibold text-[24px] mb-5">Select Discount NFT</label>
-            <select
-              className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-              value={selectedNFT}
-              onChange={handleNFTChange}
-            >
-              <option value="">Choose an NFT from your Collection on Verxio</option>
-              <option value="Space NFT">Space NFT</option>
-              <option value="Drips">Drips</option>
-              <option value="Early Badge NFT">Early Badge NFT</option>
-            </select>
-          </div>
-        )}
-          <div className="mb-5 mt-10">
-            <label className="flex items-center">
-              <input 
-                type="checkbox" 
-                className="mr-2"
-                checked={isCustomNFTEnabled}
-                onChange={handleCustomNFTEnabledChange}
-              />
-              Enable Custom NFT Selection
-            </label>
-            {isCustomNFTEnabled && (
-              <div>
-                <input
-                  type="text"
-                  name="address"
-                  placeholder="NFT Collection Address"
-                  className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
-                  value={customNFT.address}
-                  onChange={handleCustomNFTChange}
-                />
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="NFT Name"
-                  className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
-                  value={customNFT.name}
-                  onChange={handleCustomNFTChange}
-                />
-                <input
-                  type="text"
-                  name="imageUrl"
-                  placeholder="NFT Image URL"
-                  className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                  value={customNFT.imageUrl}
-                  onChange={handleCustomNFTChange}
-                />
+              <div className="mb-5">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    className="mr-2"
+                    checked={values.allowPayAnyPrice}
+                    onChange={(event) =>
+                      handleCheckboxChange(event, setFieldValue)
+                    }
+                  />
+                  Allow customers to pay any amount
+                </label>
               </div>
+            </div>
+            <div className="mb-5 mt-10">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="mr-2"
+                  checked={values.isNFTDiscountEnabled}
+                  onChange={(event) =>
+                    handleNFTDiscountChange(event, setFieldValue)
+                  }
+                />
+                Enable NFT ownership-based Discounts
+              </label>
+            </div>
+
+            {values.isNFTDiscountEnabled && (
+              <>
+                {!values.isCustomNFTEnabled && (
+                  <div className="mb-5">
+                    <label className="font-semibold text-[24px] mb-5">
+                      Select Discount NFT
+                    </label>
+                    <select
+                      className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
+                      value={values.selectedNFT}
+                      onChange={(event) =>
+                        handleNFTChange(event, setFieldValue)
+                      }
+                    >
+                      <option value="">
+                        Choose an NFT from your Collection on Verxio
+                      </option>
+                      <option value="Space NFT">Space NFT</option>
+                      <option value="Drips">Drips</option>
+                      <option value="Early Badge NFT">Early Badge NFT</option>
+                    </select>
+                  </div>
+                )}
+                <div className="mb-5 mt-10">
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      className="mr-2"
+                      checked={values.isCustomNFTEnabled}
+                      onChange={(event) =>
+                        handleCustomNFTEnabledChange(event, setFieldValue)
+                      }
+                    />
+                    Enable Custom NFT Selection
+                  </label>
+                  {values.isCustomNFTEnabled && (
+                    <div>
+                      <input
+                        type="text"
+                        name="address"
+                        placeholder="NFT Collection Address"
+                        className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
+                        value={values.customNFT.address}
+                        onChange={(event) =>
+                          handleCustomNFTChange(event, setFieldValue)
+                        }
+                      />
+                      <input
+                        type="text"
+                        name="name"
+                        placeholder="NFT Name"
+                        className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
+                        value={values.customNFT.name}
+                        onChange={(event) =>
+                          handleCustomNFTChange(event, setFieldValue)
+                        }
+                      />
+                      <input
+                        type="text"
+                        name="imageUrl"
+                        placeholder="NFT Image URL"
+                        className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
+                        value={values.customNFT.imageUrl}
+                        onChange={(event) =>
+                          handleCustomNFTChange(event, setFieldValue)
+                        }
+                      />
+                    </div>
+                  )}
+                </div>
+
+                <div className="mb-5">
+                  <label className="font-semibold text-[24px] mb-5">
+                    <span className="mr-3 text-">*</span>Discount Amount (%)
+                  </label>
+                  <Field
+                    className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
+                    name="discount"
+                    type="number"
+                    placeholder="Enter discount amount"
+                    value={values.discount}
+                    onChange={(event) =>
+                      handleDiscountChange(event, setFieldValue)
+                    }
+                  />
+                  <div className="flex justify-between items-center font-normal text-[16px] mt-2">
+                    <p>
+                      Holders of the selected NFTs will receive{" "}
+                      {values.discount}% discount.
+                    </p>
+                  </div>
+                </div>
+              </>
             )}
-          </div>
 
-          <div className="mb-5">
-            <label className="font-semibold text-[24px] mb-5">
-              <span className="mr-3 text-">*</span>Discount Amount (%)
-            </label>
-            <Field
-              className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-              name="discount"
-              type="number"
-              placeholder="Enter discount amount"
-              value={discount}
-              onChange={handleDiscountChange}
-            />
-            <div className="flex justify-between items-center font-normal text-[16px] mt-2">
-            <p>Holders of the selected NFTs will receive {discount}% discount.</p>
-          </div>
-          </div>
-        </>
-      )}
-
-        <div>
-          
-        </div>
+            <div></div>
             <div className="mt-5">
               <Button
                 type="button"
                 name="continue"
                 className="text-[20px]"
                 onClick={() => {
-                  console.log(values);
-                  dispatch(setStart(values));
+                  dispatch(setDetails(values));
+                  // console.log(values);
+                  console.log("setDetails state values returned:", details);
                   router.push("/start_selling?tab=summary");
                 }}
               />
@@ -316,3 +359,5 @@ const Details = () => {
 };
 
 export default Details;
+
+// Look at the customNFT description and imageBanner
