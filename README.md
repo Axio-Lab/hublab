@@ -2,7 +2,7 @@
 
 [![logo](https://github.com/onyekachi11/Verxio-ICP-Zero-To-dApp/blob/main/src/assets/Logo.svg)](https://www.verxio.xyz)
 
-Verxio helps creators sell digital products directly to their audience, offering tools for setting up storefronts, managing sales, and processing payments in $BONK.
+Enabling creators with $BONK and NFT-based digital commerce on Solana
 
 <h3>
    
@@ -16,6 +16,9 @@ Verxio helps creators sell digital products directly to their audience, offering
 
 ![banner](https://github.com/Axio-Lab/hublab/blob/bonk/develop/frontend/src/assets/verxioBanner.jpg)
 
+Verxio helps creators sell digital products directly to their audience, offering tools for setting up storefronts, managing sales, and processing payments in $BONK.
+
+The global creator economy is estimated to reach $528.39 billion by 2030. We're building Verxio to be the bedrock of this growth by enabling creators and businesses with an all-in-one platform to create, sell, receive payment in $BONK, and distribute their products to their audience.
 
 With Verxio, creators/businesses can also offer NFTs and Token ownership-based discounts to achieve the following use case:
 
@@ -23,7 +26,7 @@ With Verxio, creators/businesses can also offer NFTs and Token ownership-based d
 - Reward community, brand, or product loyal users based on their Token ($BONK) and NFT ownership.
 - Enabling buy-to-redeem commerce by offering nearly 100% discounts to customers who hold $BONK tokens or the necessary NFTs.
 
-Verxio's tokenized discount feature, creators and businesses can provide discounts to convert users and drive more sales, while also encouraging users to join their community.
+With Verxio's tokenized discount feature, creators and businesses can provide discounts to convert users and drive more sales while encouraging users to join their community.
 
 ## Bonk Integration & Overall Impact  🐶
 1. $BONK Payment: Verxio provides users with an innovative way to spend their $BONK on digital product purchases
