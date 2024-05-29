@@ -1,40 +1,43 @@
 "use client";
-import { useEffect, useState } from "react";
-import { InputOptions, Button } from "..";
+import { useState } from "react";
+import { Button } from "..";
 import QuestionFormat from "./questionFormat";
+import { setStart } from "@/store/slices/statesSlice";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
 
 const questionFormatData = [
   {
     headerText: "Digital Product",
-    description: 
-    "Sell any digital product, including arts, ebooks, downloads, music, courses, collectibles and more, whether hosted on Verxio or external platforms.",
-    value:"digitalProduct"
+    description:
+      "Sell any digital product, including arts, ebooks, downloads, music, courses, collectibles and more, whether hosted on Verxio or external platforms.",
+    value: "digitalProduct",
   },
   {
     headerText: "Ticket",
     description:
       "Sell tickets to events, workshops, trainings, webinars and more.",
-      value:"ticket"
+    value: "ticket",
   },
   {
     headerText: "Service",
     description:
       "Sell any service, including coaching, consultations, counseling, design services, and more.",
-      value:"service"
+    value: "service",
   },
   {
     headerText: "Love Gift",
     description:
       "Allow your audiences to send gifts inform of donations and more.",
-      value:"loveGift"
+    value: "loveGift",
   },
 ];
 
-const Start = () => {
-
+const Start = () => {  
+  const dispatch = useDispatch();
   const router = useRouter();
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const start = useSelector((state) => state.generalStates.start);
 
   const handleSelectProduct = (value) => {
     setSelectedProduct(value);
@@ -49,12 +52,13 @@ const Start = () => {
           </p>
         </div>
 
-        <div 
-        className="border border-primary rounded-lg p-6 flex flex-col items-cente gap-5">
+        <div className="border border-primary rounded-lg p-6 flex flex-col items-cente gap-5">
           {questionFormatData.map((data, index) => (
             <QuestionFormat
               key={`question-number-${index}`}
               {...data}
+              isSelected={selectedProduct === data.value}
+              onSelect={handleSelectProduct}
             />
           ))}
         </div>
@@ -64,6 +68,8 @@ const Start = () => {
             name="Continue"
             className="w-full text-[20px] mt-12"
             onClick={() => {
+              dispatch(setStart({selectedProduct}));
+              console.log("Selected Product:", start.selectedProduct);
               router.push("/start_selling?tab=details");
             }}
           />
@@ -71,6 +77,6 @@ const Start = () => {
       </section>
     </>
   );
-};
+}; 
 
 export default Start;

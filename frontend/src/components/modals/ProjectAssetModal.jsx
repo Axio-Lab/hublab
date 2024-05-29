@@ -21,7 +21,10 @@ const ProjectAssetsModal = ({ setCreateAsset }) => (
       <p clasName="text-[16px]">
         You have successfully created a collection assets
       </p>
-      <Button className="w-full" name="Continue" />
+      
+      <div className="w-full">
+        <Button name="Continue" />
+      </div>
     </div>
   </div>
 );
