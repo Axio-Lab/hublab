@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FRONTEND_SIGNUP_LINK = exports.INTERESTS = exports.DATABASES = exports.MESSAGES = exports.basePath = exports.SECRET = exports.PORT = void 0;
+exports.MAXAGE = exports.JWT_SECRET = exports.FRONTEND_SIGNUP_LINK = exports.INTERESTS = exports.DATABASES = exports.MESSAGES = exports.basePath = exports.SECRET = exports.PORT = void 0;
 const PORT = process.env.PORT || 9871;
 exports.PORT = PORT;
 const SECRET = process.env.SECRET;
@@ -14,6 +14,10 @@ const DATABASES = {
     PRODUCT: "product"
 };
 exports.DATABASES = DATABASES;
+const JWT_SECRET = process.env.JWT_SECRET;
+exports.JWT_SECRET = JWT_SECRET;
+const MAXAGE = 3 * 24 * 60 * 60;
+exports.MAXAGE = MAXAGE;
 const MESSAGES = {
     DATABASE: {
         CONNECTED: "Connection to database has been established successfully",
@@ -22,6 +26,7 @@ const MESSAGES = {
     PROFILE: {
         CREATED: "Profile created successfully.",
         FETCHED: "Profile fetched successfully.",
+        INVALID_ID: "UserId doesn't exist.",
         DUPLICATE_EMAIL: "Email already exist.",
         UPDATED: "Profile details updated successfully.",
         NOT_FOUND: "Profile not found."
@@ -33,7 +38,13 @@ const MESSAGES = {
         NOT_FOUND: "Campaign not found.",
         UPDATED_CAMPAIGN: "Campaign updated.",
         FETCHED_COUNT: "User's campaign count fetched successfully."
-    }
+    },
+    AUTH: {
+        TOKEN_ERROR: 'Access Denied: Please login first',
+        NOT_ADMIN: "Access denied: Admins only.",
+        INVALID_TOKEN: 'Access Denied: Invalid token'
+    },
+    UNEXPECTED_ERROR: "An unexpected error occured."
 };
 exports.MESSAGES = MESSAGES;
 const INTERESTS = ["Content", "Development", "Trading", "Earning", "Blockchain", "Bounty"];
