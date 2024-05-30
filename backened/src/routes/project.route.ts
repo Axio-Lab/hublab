@@ -7,6 +7,7 @@ const router = Router();
 const {
     createProject,
     createNFT,
+    generateNftClaimLink,
     getUserNFTS
 } = new ProjectController();
 
@@ -15,6 +16,9 @@ router.post("/", authenticate, createProject);
 
 //create an NFT
 router.post("/nft/:projectId", authenticate, createNFT);
+
+//generate NFT claim link
+router.post("/:projectId/nft/:nftId", authenticate, generateNftClaimLink);
 
 //get users nfts
 router.get("/nft", authenticate, getUserNFTS);
