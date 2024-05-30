@@ -18,7 +18,7 @@ const points_service_1 = __importDefault(require("../services/points.service"));
 const cloudinary_configs_1 = __importDefault(require("../configs/cloudinary.configs"));
 const generateReferralCode_utils_1 = __importDefault(require("../utils/generateReferralCode.utils"));
 const getBonus_utils_1 = __importDefault(require("../utils/getBonus.utils"));
-const { create, findOne, editById } = new profile_services_1.default();
+const { create, findOne, editById, generateAuthToken } = new profile_services_1.default();
 const { create: createPoint } = new points_service_1.default();
 const { DUPLICATE_EMAIL, CREATED, FETCHED, UPDATED, NOT_FOUND } = constants_configs_1.MESSAGES.PROFILE;
 class ProfileController {
@@ -43,6 +43,11 @@ class ProfileController {
             const profileFromId = yield findOne({ _id: id });
             if (profileFromId) {
                 const updatedProfile = yield editById(id, req.body);
+                const token = generateAuthToken(updatedProfile);
+                res.cookie("token", token, {
+                    httpOnly: true,
+                    maxAge: constants_configs_1.MAXAGE * 1000
+                });
                 return res.status(201)
                     .send({
                     success: true,
@@ -66,6 +71,11 @@ class ProfileController {
                         yield createPoint({ point: bonus.referral, profileId: referredUser._id });
                     }
                 }
+                const token = generateAuthToken(createdProfile);
+                res.cookie("token", token, {
+                    httpOnly: true,
+                    maxAge: constants_configs_1.MAXAGE * 1000
+                });
                 return res.status(201)
                     .send({
                     success: true,
@@ -113,6 +123,11 @@ class ProfileController {
         return __awaiter(this, void 0, void 0, function* () {
             const profile = yield findOne({ _id: req.params.id });
             if (profile) {
+                const token = generateAuthToken(profile);
+                res.cookie("token", token, {
+                    httpOnly: true,
+                    maxAge: constants_configs_1.MAXAGE * 1000
+                });
                 return res.status(200)
                     .send({
                     success: true,

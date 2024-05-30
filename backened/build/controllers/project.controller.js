@@ -14,44 +14,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const underdog_config_1 = __importDefault(require("../configs/underdog.config"));
 class ProjectController {
-    // Create project
-    // Create an NFT
-    // List created projects
-    // Claim nft
-    // List all NFT 
-    // Burn NFT
-    // async createProject(req: Request, res: Response) {
-    //     try {
-    //         console.log( underdog)
-    //         const createdProject = await underdog.post(`/v2/projects/n`, {
-    //             name: req.body.name,
-    //             image: req.body.image
-    //         });
-    //         console.log(createdProject);
-    //         return res.status(201)
-    //             .send({
-    //                 success: true,
-    //                 message: "Project created successfully",
-    //                 createdProject
-    //             })
-    //     } catch (err: any) {
-    //         return res.status(500)
-    //            .send({
-    //             success: false,
-    //             message: err
-    //            })
-    //     }
-    // }
     createProject(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log('Underdog instance:', underdog_config_1.default);
-                console.log('Request body:', req.body);
                 const createdProject = yield underdog_config_1.default.post('/v2/projects/n', {
                     name: req.body.name,
-                    image: req.body.image
+                    image: req.body.image,
+                    attributes: {
+                        userId: req.user._id
+                    }
                 });
-                console.log('Created Project:', createdProject.data);
                 return res.status(201).send({
                     success: true,
                     message: 'Project created successfully',
@@ -59,18 +31,6 @@ class ProjectController {
                 });
             }
             catch (err) {
-                console.error('Error creating project:', err);
-                if (err.response) {
-                    console.error('Error response data:', err.response.data);
-                    console.error('Error response status:', err.response.status);
-                    console.error('Error response headers:', err.response.headers);
-                }
-                else if (err.request) {
-                    console.error('Error request:', err.request);
-                }
-                else {
-                    console.error('Error message:', err.message);
-                }
                 return res.status(500).send({
                     success: false,
                     message: err.message || 'Internal Server Error'
@@ -80,7 +40,8 @@ class ProjectController {
     }
     createNFT(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const createdNFT = yield underdog_config_1.default.post(`/v2/projects/n/${req.params.projectId}/nfts`, {
+            const id = req.params.projectId;
+            const createdNFT = yield underdog_config_1.default.post(`/v2/projects/n/${id}/nfts`, {
                 name: req.body.name,
                 image: req.body.image
             });
@@ -88,8 +49,42 @@ class ProjectController {
                 .send({
                 success: true,
                 message: "NFT created successfully",
-                createdNFT
+                createdNFT: createdNFT.data
             });
+        });
+    }
+    getUserNFTS(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = req.params.projectId;
+                const createdProjects = yield underdog_config_1.default.get(`/v2/projects/n`);
+                const projectsId = createdProjects.data.results
+                    .filter((project) => {
+                    return project.attributes && project.attributes.userId === req.user._id;
+                })
+                    .map((project) => project.id);
+                const nfts = [];
+                // Using Promise.all to handle asynchronous operations
+                const projectPromises = projectsId.map((id) => __awaiter(this, void 0, void 0, function* () {
+                    const nftArray = yield underdog_config_1.default.get(`/v2/projects/n/${id}/nfts`);
+                    const nftss = nftArray.data.results.map((nft) => ({ id: nft.id, name: nft.name }));
+                    nfts.push(...nftss);
+                }));
+                // Awaiting all promises
+                yield Promise.all(projectPromises);
+                return res.status(201).send({
+                    success: true,
+                    message: "NFTs returned successfully",
+                    nfts
+                });
+            }
+            catch (error) {
+                return res.status(500).send({
+                    success: false,
+                    message: "An error occurred while fetching NFTs",
+                    error: error.message
+                });
+            }
         });
     }
 }
