@@ -44,9 +44,21 @@ export default class ProjectController {
             })
     }
 
+    async generateNftClaimLink(req: Request, res: Response) {
+        const projectId = req.params.projectId;
+        const nftId = req.params.nftId;
+        const nftClaimLink = await underdog.get(`/v2/projects/n/${projectId}/nfts/${nftId}/claim`);
+
+        return res.status(201)
+            .send({
+                success: true,
+                message: "NFT claim link generated successfully",
+                createdNFT: nftClaimLink.data
+            })
+    }
+
     async getUserNFTS(req: Request, res: Response) {
         try {
-            const id = req.params.projectId;
             const createdProjects = await underdog.get(`/v2/projects/n`);
 
             const projectsId = createdProjects.data.results
@@ -60,7 +72,7 @@ export default class ProjectController {
             // Using Promise.all to handle asynchronous operations
             const projectPromises = projectsId.map(async (id: any) => {
                 const nftArray = await underdog.get(`/v2/projects/n/${id}/nfts`);
-                const nftss = nftArray.data.results.map((nft: any) => ({ id: nft.id, name: nft.name }));
+                const nftss = nftArray.data.results.map((nft: any) => ({ id: nft.id, projectId: nft.projectId, name: nft.name }));
                 nfts.push(...nftss);
             });
 

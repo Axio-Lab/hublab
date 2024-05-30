@@ -53,10 +53,22 @@ class ProjectController {
             });
         });
     }
+    generateNftClaimLink(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const projectId = req.params.projectId;
+            const nftId = req.params.nftId;
+            const nftClaimLink = yield underdog_config_1.default.get(`/v2/projects/n/${projectId}/nfts/${nftId}/claim`);
+            return res.status(201)
+                .send({
+                success: true,
+                message: "NFT claim link generated successfully",
+                createdNFT: nftClaimLink.data
+            });
+        });
+    }
     getUserNFTS(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const id = req.params.projectId;
                 const createdProjects = yield underdog_config_1.default.get(`/v2/projects/n`);
                 const projectsId = createdProjects.data.results
                     .filter((project) => {
@@ -67,7 +79,7 @@ class ProjectController {
                 // Using Promise.all to handle asynchronous operations
                 const projectPromises = projectsId.map((id) => __awaiter(this, void 0, void 0, function* () {
                     const nftArray = yield underdog_config_1.default.get(`/v2/projects/n/${id}/nfts`);
-                    const nftss = nftArray.data.results.map((nft) => ({ id: nft.id, name: nft.name }));
+                    const nftss = nftArray.data.results.map((nft) => ({ id: nft.id, projectId: nft.projectId, name: nft.name }));
                     nfts.push(...nftss);
                 }));
                 // Awaiting all promises
