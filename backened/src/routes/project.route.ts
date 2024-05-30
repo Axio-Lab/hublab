@@ -17,10 +17,10 @@ router.post("/", authenticate, createProject);
 //create an NFT
 router.post("/nft/:projectId", authenticate, createNFT);
 
-//generate NFT claim link
-router.post("/:projectId/nft/:nftId", authenticate, generateNftClaimLink);
-
 //get users nfts
 router.get("/nft", authenticate, getUserNFTS);
+
+//generate NFT claim link
+router.get("/:projectId/nft/:nftId", authenticate, generateNftClaimLink);
 
 export default router;
