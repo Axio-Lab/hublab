@@ -53,7 +53,7 @@ export default class ProjectController {
             .send({
                 success: true,
                 message: "NFT claim link generated successfully",
-                createdNFT: nftClaimLink.data
+                createdNFT: nftClaimLink.data.link
             })
     }
 

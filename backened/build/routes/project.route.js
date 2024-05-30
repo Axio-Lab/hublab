@@ -13,8 +13,8 @@ const { createProject, createNFT, generateNftClaimLink, getUserNFTS } = new proj
 router.post("/", authentication_middleware_1.default, createProject);
 //create an NFT
 router.post("/nft/:projectId", authentication_middleware_1.default, createNFT);
-//generate NFT claim link
-router.post("/:projectId/nft/:nftId", authentication_middleware_1.default, generateNftClaimLink);
 //get users nfts
 router.get("/nft", authentication_middleware_1.default, getUserNFTS);
+//generate NFT claim link
+router.get("/:projectId/nft/:nftId", authentication_middleware_1.default, generateNftClaimLink);
 exports.default = router;
