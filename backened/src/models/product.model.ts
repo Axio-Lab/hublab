@@ -32,16 +32,6 @@ const productSchema = new Schema<IProduct>({
         type: Number,
         required: false
     },
-    nftBasedDiscount: {
-        type: Boolean,
-        required: false,
-        default: false
-    },
-    enableNftSelection: {
-        type: Boolean,
-        required: false,
-        default: false
-    },
     nftSelection: {
         address: String,
         name: String,
@@ -67,9 +57,9 @@ const productSchema = new Schema<IProduct>({
         default: false
     },
     pop: {
-        type: String,
-        required: true,
-        trim: true
+        address: String,
+        name: String,
+        imageUrl: String
     },
     purchaseXP: {
         type: Number,

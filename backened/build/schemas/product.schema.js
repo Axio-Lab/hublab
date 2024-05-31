@@ -12,8 +12,6 @@ const createProductSchema = joi_1.default.object({
     description: joi_1.default.string().required().trim(),
     payAnyPrice: joi_1.default.boolean().optional().default(false),
     price: joi_1.default.number().optional(),
-    nftBasedDiscount: joi_1.default.boolean().optional().default(false),
-    enableNftSelection: joi_1.default.boolean().optional().default(false),
     nftSelection: joi_1.default.object({
         address: joi_1.default.string().required().trim(),
         name: joi_1.default.string().required().trim(),
@@ -23,7 +21,11 @@ const createProductSchema = joi_1.default.object({
     category: joi_1.default.string().required().trim(),
     quantity: joi_1.default.number().required(),
     unlimitedQuantity: joi_1.default.boolean().optional().default(false),
-    pop: joi_1.default.string().required().trim(),
+    pop: joi_1.default.object({
+        address: joi_1.default.string().required().trim(),
+        name: joi_1.default.string().required().trim(),
+        imageUrl: joi_1.default.string().required().trim()
+    }).optional(),
     purchaseXP: joi_1.default.number().required().default(50),
     product: joi_1.default.string().required().trim()
 });
