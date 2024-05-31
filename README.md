@@ -2,7 +2,7 @@
 
 [![logo](https://github.com/onyekachi11/Verxio-ICP-Zero-To-dApp/blob/main/src/assets/Logo.svg)](https://www.verxio.xyz)
 
-Enabling creators with $BONK and NFT-based digital commerce on Solana
+$BONK based on-chain digital commerce protocol on Solana
 
 <h3>
    
@@ -16,7 +16,7 @@ Enabling creators with $BONK and NFT-based digital commerce on Solana
 
 ![banner](https://github.com/Axio-Lab/hublab/blob/bonk/develop/frontend/src/assets/verxioBanner.jpg)
 
-Verxio helps creators sell digital products directly to their audience, offering tools for setting up storefronts, managing sales, and processing payments in $BONK.
+Verxio helps creators sell digital products directly to their audience, offering tools for setting up storefronts, managing sales, NFT-based proof of purchase, and payment processing in $BONK, etc.
 
 The global creator economy is estimated to reach $528.39 billion by 2030. We're building Verxio to be the bedrock of this growth by enabling creators and businesses with an all-in-one platform to create, sell, receive payment in $BONK, and distribute their products to their audience.
 
