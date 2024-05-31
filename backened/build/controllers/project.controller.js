@@ -79,7 +79,7 @@ class ProjectController {
                 // Using Promise.all to handle asynchronous operations
                 const projectPromises = projectsId.map((id) => __awaiter(this, void 0, void 0, function* () {
                     const nftArray = yield underdog_config_1.default.get(`/v2/projects/n/${id}/nfts`);
-                    const nftss = nftArray.data.results.map((nft) => ({ id: nft.id, projectId: nft.projectId, name: nft.name }));
+                    const nftss = nftArray.data.results.map((nft) => ({ id: nft.id, projectId: nft.projectId, name: nft.name, image: nft.image, mintAddress: nft.mintAddress }));
                     nfts.push(...nftss);
                 }));
                 // Awaiting all promises

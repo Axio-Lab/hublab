@@ -72,7 +72,7 @@ export default class ProjectController {
             // Using Promise.all to handle asynchronous operations
             const projectPromises = projectsId.map(async (id: any) => {
                 const nftArray = await underdog.get(`/v2/projects/n/${id}/nfts`);
-                const nftss = nftArray.data.results.map((nft: any) => ({ id: nft.id, projectId: nft.projectId, name: nft.name }));
+                const nftss = nftArray.data.results.map((nft: any) => ({ id: nft.id, projectId: nft.projectId, name: nft.name, image: nft.image, mintAddress: nft.mintAddress }));
                 nfts.push(...nftss);
             });
 
