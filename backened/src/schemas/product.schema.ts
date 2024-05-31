@@ -7,8 +7,6 @@ const createProductSchema = Joi.object({
     description: Joi.string().required().trim(),
     payAnyPrice: Joi.boolean().optional().default(false),
     price: Joi.number().optional(),
-    nftBasedDiscount: Joi.boolean().optional().default(false),
-    enableNftSelection: Joi.boolean().optional().default(false),
     nftSelection: Joi.object({
         address: Joi.string().required().trim(),
         name: Joi.string().required().trim(),
@@ -18,7 +16,11 @@ const createProductSchema = Joi.object({
     category: Joi.string().required().trim(),
     quantity: Joi.number().required(),
     unlimitedQuantity: Joi.boolean().optional().default(false),
-    pop: Joi.string().required().trim(),
+    pop: Joi.object({
+        address: Joi.string().required().trim(),
+        name: Joi.string().required().trim(),
+        imageUrl: Joi.string().required().trim()
+    }).optional(),
     purchaseXP: Joi.number().required().default(50),
     product: Joi.string().required().trim()
 });
