@@ -347,8 +347,6 @@ const Details = () => {
                 className="text-[20px]"
                 onClick={() => {
                   dispatch(setDetails(values));
-                  // console.log(values);
-                  console.log("setDetails state values returned:", details);
                   router.push("/start_selling?tab=summary");
                 }}
               />
@@ -361,5 +359,3 @@ const Details = () => {
 };
 
 export default Details;
-
-// Look at the customNFT description and imageBanner

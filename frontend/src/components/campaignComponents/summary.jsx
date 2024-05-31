@@ -4,15 +4,17 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import Image from "next/image";
 import UploadIcon from "../../assets/uploadIcon.svg";
 import Button from "../Button";
+// import LoadingSpinner from "../loadingSpinner";
 import { useSelector, useDispatch } from "react-redux";
-import { useAccount } from "@particle-network/connect-react-ui";
+// import { useAccount } from "@particle-network/connect-react-ui";
 // import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { toast } from "react-toastify";
-import { CloseCircle } from "iconsax-react";
-import CampaignSuccess from "../../assets/campaignSuccess.svg";
+// import { CloseCircle } from "iconsax-react";
+// import CampaignSuccess from "../../assets/campaignSuccess.svg";
 import CampaignPreview from "../modals/campaignPreview";
 import { createProduct } from "@/store/slices/productSlice";
 import { setSummary } from "@/store/slices/statesSlice";
+import ProductModal from "@/components/modals/productModal";
 
 const data = [
   {
@@ -47,28 +49,25 @@ const data = [
 
 const Summary = ({ account }) => {
   const [selectedImage, setSelectedImage] = useState("");
-  // const [showOptions, setShowOptions] = useState(false);
-  // const [index, setIndex] = useState(0);
-  const [modalOpen, setModalOpen] = useState(false);
   const [campaignModalOpen, setCampaignModalOpen] = useState(false);
-  const [campaignId, setCampaignId] = useState("");
+  const [openModal, setOpenModal] = useState(false);
 
   const fileInputRef = useRef(null);
   const handleImageChange = (event, setFieldValue) => {
     const file = event.target.files[0];
-    console.log("file", file);
+    // console.log("file", file);
     setFieldValue("bannerImg", file);
 
     if (file) {
       const reader = new FileReader();
-      console.log("reader", reader);
+      // console.log("reader", reader);
 
       reader.onloadend = () => {
         setSelectedImage(reader.result);
       };
 
       const data = reader.readAsDataURL(file);
-      console.log(data);
+      // console.log(data);
     }
   };
 
@@ -98,8 +97,15 @@ const Summary = ({ account }) => {
     bannerImg: "",
   };
 
+  // const [showOptions, setShowOptions] = useState(false);
+  // const [index, setIndex] = useState(0);
+  // const [campaignId, setCampaignId] = useState("");
+  // const [modalOpen, setModalOpen] = useState(false);
+  // const user = useAccount();
+  // console.log(status, "srajhgfdsdfghjkl;");
+  // const status = useSelector((state) => state.product.status);
   // const userId = useSelector((state) => state.generalStates.userId);
-  const user = useAccount();
+
   const dispatch = useDispatch();
 
   const type = useSelector(
@@ -132,27 +138,44 @@ const Summary = ({ account }) => {
     (state) => state.generalStates?.details?.customNFT.imageUrl
   );
 
-  const consoleAllDetails = () => {
-  console.log(
-    "product type:", type,
-    "product name:", title,
-    "product description:", description,
-    "allow any price:", allowPayAnyPrice,
-    "product price:", price,
-    "product custom nft enabled:", isCustomNFTEnabled,
-    "product nFT discount enabled:", isNFTDiscountEnabled,
-    "product nft address:", NFTAddress,
-    "product NFT name:", NFTName,
-    "product NFT image:", NFTImageUrl,
-    "product discount:", discount,
-    "produvt category:",values.category,
-    "produvt quantity:", values.quantity,
-    "produvt unlimitedQuantity:", unlimitedQuantity,
-    "produvt pop:", values.proofOfPurchase,
-    "produvt bannerImg:", values.bannerImg,
-    "produvt purchaseXP:", values.purchaseXP,
-  );
-  }
+  // const consoleAllDetails = () => {
+  //   console.log(
+  //     "product type:",
+  //     type,
+  //     "product name:",
+  //     title,
+  //     "product description:",
+  //     description,
+  //     "allow any price:",
+  //     allowPayAnyPrice,
+  //     "product price:",
+  //     price,
+  //     "product custom nft enabled:",
+  //     isCustomNFTEnabled,
+  //     "product nFT discount enabled:",
+  //     isNFTDiscountEnabled,
+  //     "product nft address:",
+  //     NFTAddress,
+  //     "product NFT name:",
+  //     NFTName,
+  //     "product NFT image:",
+  //     NFTImageUrl,
+  //     "product discount:",
+  //     discount,
+  //     "produvt category:",
+  //     category,
+  //     "produvt quantity:",
+  //     quantity,
+  //     "produvt unlimitedQuantity:",
+  //     unlimitedQuantity,
+  //     "produvt pop:",
+  //     proofOfPurchase,
+  //     "produvt bannerImg:",
+  //     bannerImg,
+  //     "produvt purchaseXP:",
+  //     purchaseXP
+  //   );
+  // };
 
   const createNewProduct = async (values) => {
     try {
@@ -173,31 +196,36 @@ const Summary = ({ account }) => {
               name: NFTName,
               imageUrl: NFTImageUrl,
             },
-            discountAmount: discount,
-            category: parseInt(values.category),
+            discountAmount: parseInt(discount),
+            category: values.category,
             quantity: parseInt(values.quantity),
             unlimitedQuantity: values.quantity === 0 ? true : false,
             pop: values.proofOfPurchase,
             purchaseXP: 50,
+            product:
+              "https://www.google.com/url?sa=i&url=https%3A%2F%2Fcondusiv.com%2Fsequential-io-always-outperforms-random-io-on-hard-disk-drives-or-ssds%2F&psig=AOvVaw0gIZMjG4dtsc3otXxWQgHx&ust=1711935077938000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPi7q6KtnYUDFQAAAAAdAAAAABAE",
           },
           // id: 1,
         })
       );
+      console.log(response);
       if (response?.payload?.success === true) {
         toast.success(response?.payload?.message);
+        console.log(response.payload);
+        setOpenModal(true);
         // setCampaignId(response?.payload?.campaignId);
         // setModalOpen(true);
         // setCampaignModalOpen(true);
         // setTimeout(() => {
         //   setModalOpen(false);
         // }, 3000);
-        console.log(response);
+        // console.log(response);
       } else {
         toast.error(response?.payload?.message);
         console.log(response);
       }
     } catch (error) {
-      console.error(error);
+      console.error("error:", error);
     }
   };
 
@@ -379,7 +407,8 @@ const Summary = ({ account }) => {
                   outline
                   onClick={() => {
                     setCampaignModalOpen(true);
-                    // dispatch(setRewards(values));
+                    dispatch(setSummary(values));
+
                   }}
                 />
                 <Button
@@ -387,14 +416,17 @@ const Summary = ({ account }) => {
                   name="publish"
                   className="border border-primary font-medium text-[20px]"
                   shade="border-primary"
-                  isLoading={status === "loading..."}
+                  // isLoading={status === "loading" ? <LoadingSpinner /> : name}
+                  // isLoading={<LoadingSpinner />}
                   onClick={() => {
-                     consoleAllDetails()
+                    // console.log(values);
+                    dispatch(setSummary(values));
+                    createNewProduct(values);
                     // if (user) {
                     //   setFieldValue("totalRewardPoint", totalReward);
                     //   // dispatch(setSummary(values));
                     //   // createNewProduct(values);
-                      
+
                     // } else {
                     //   toast.info("Connect your wallet to publish campaign");
                     // }
@@ -406,45 +438,18 @@ const Summary = ({ account }) => {
         </Formik>
       </div>
 
-      {modalOpen && (
-        <div
-          className={`bg-[#000]/40  absolute w-full h-screen top-0 left-0 z-50 flex justify-center items-center px-28 ${
-            modalOpen && "overflow-hidden"
-          }`}
-        >
-          <div className="bg-white p-5 rounded-lg">
-            <div className="flex justify-end mb-2">
-              <CloseCircle
-                size={32}
-                onClick={() => {
-                  setModalOpen(false);
-                }}
-                className="cursor-pointer w-7 sm:w-10"
-              />
-            </div>
-            <div className="flex justify-center ">
-              <Image
-                alt="success"
-                src={CampaignSuccess}
-                className="w-[250px]"
-              />
-            </div>
-
-            <p className="text-[20px] text-center">
-              You have successfully published your product. Happy Selling!{" "}
-            </p>
-          </div>
-        </div>
+      {openModal && (
+        <ProductModal setOpenModal={setOpenModal} openModal={openModal} />
       )}
 
       {campaignModalOpen && (
         <div className="bg-[#000]/40  absolute w-full h-full top-0 left-0 z-50 p-10 text-[#484851] ">
           <CampaignPreview
-            campaignId={campaignId}
+            // campaignId={campaignId}
             setCampaignModalOpen={setCampaignModalOpen}
-            reward={reward}
-            totalPoints={totalPoints}
-            totalReward={totalReward}
+            // reward={reward}
+            // totalPoints={totalPoints}
+            // totalReward={totalReward}
           />
         </div>
       )}
