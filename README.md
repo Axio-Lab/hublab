@@ -42,7 +42,7 @@ With Verxio's tokenized discount feature, creators and businesses can provide di
    
 2. Verxio is building on [Candypay](https://candypay.fun/) to enable creators to accept Solana payments with our seamless, mobile native, NFT/ Token-ownership loyalty discount Checkout solution in minutes.
 
-3. Verxio is also integrating [Pyth Network's](https://pyth.network/) oracle to pull in $BONK/USDC price feed which is used to calculate the $BONK equivalent that customers need to pay for their purchase
+3. Verxio is also integrating [Pyth Network's](https://pyth.network/) Oracle to pull in the $BONK/USDC price feed, which calculates the $BONK equivalent that customers need to pay for their purchase.
 
 ## Future Plans & Implementation 🔮
 1. Adding features for everything creators need to create, market, sell, and deliver their products online including:
