@@ -4,7 +4,7 @@ import { Button } from "..";
 import QuestionFormat from "./questionFormat";
 import { setStart } from "@/store/slices/statesSlice";
 import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const questionFormatData = [
   {
@@ -37,7 +37,7 @@ const Start = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const start = useSelector((state) => state.generalStates.start);
+  // const start = useSelector((state) => state.generalStates.start);
 
   const handleSelectProduct = (value) => {
     setSelectedProduct(value);
@@ -69,7 +69,7 @@ const Start = () => {
             className="w-full text-[20px] mt-12"
             onClick={() => {
               dispatch(setStart({selectedProduct}));
-              console.log("Selected Product:", start.selectedProduct);
+              console.log("Selected Product:", selectedProduct);
               router.push("/start_selling?tab=details");
             }}
           />

@@ -5,29 +5,44 @@ import { PURGE } from "redux-persist";
 const apiUrl = process.env.BASE_URL;
 
 const initialState = {
-  Product: {
+  product: {
     status: "idle",
     error: null,
     data: {},
   },
-  // userProduct: {
-  //   status: "idle",
-  //   error: null,
-  //   data: {},
-  // },
-  // singleProduct: {
-  //   status: "idle",
-  //   error: null,
-  //   data: {},
-  // },
+  getUserNft: {
+    status: "idle",
+    error: null,
+    data: {},
+  },
 };
 
 export const createProduct = createAsyncThunk(
-  "profile/newCampaign",
+  "profile/newProduct",
   async ({ data, id }) => {
     try {
       const response = await axios.post(
         `https://backend-verxio.vercel.app/api/v1/product`,
+
+        data
+      );
+      return response.data;
+    } catch (err) {
+      console.log(err.response.data);
+      if (!err.response) {
+        throw err.message;
+      }
+      return err.response.data;
+    }
+  }
+);
+
+export const getUserNft = createAsyncThunk(
+  "profile/newUserNft",
+  async ({ data, id }) => {
+    try {
+      const response = await axios.post(
+        `https://backend-verxio.vercel.app/api/v1/projects/nft`,
 
         data
       );
@@ -49,24 +64,24 @@ const productSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createProduct.pending, (state) => {
-        state.campaign.status = "loading";
-        state.campaign.error = null;
+        state.product.status = "loading";
+        state.product.error = null;
       })
       .addCase(createProduct.fulfilled, (state, action) => {
         if (
           // action.payload === "Success" ||
           action.payload.success === true
         ) {
-          state.campaign.data = action.payload;
-          state.campaign.status = "succeeded";
+          state.product.data = action.payload;
+          state.product.status = "succeeded";
         } else {
-          state.campaign.status = "failed";
-          state.campaign.error = action.payload;
+          state.product.status = "failed";
+          state.product.error = action.payload;
         }
       })
       .addCase(createProduct.rejected, (state, action) => {
-        state.campaign.error = action.payload;
-        state.campaign.status = "failed";
+        state.product.error = action.payload;
+        state.product.status = "failed";
       })
 
       //purge all state

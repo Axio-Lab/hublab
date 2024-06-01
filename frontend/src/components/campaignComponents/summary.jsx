@@ -4,64 +4,28 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import Image from "next/image";
 import UploadIcon from "../../assets/uploadIcon.svg";
 import Button from "../Button";
-import { useSelector, useDispatch } from "react-redux";
-import { useAccount } from "@particle-network/connect-react-ui";
-// import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { toast } from "react-toastify";
-import { CloseCircle } from "iconsax-react";
-import CampaignSuccess from "../../assets/campaignSuccess.svg";
+import { useSelector, useDispatch } from "react-redux";
 import CampaignPreview from "../modals/campaignPreview";
 import { createProduct } from "@/store/slices/productSlice";
 import { setSummary } from "@/store/slices/statesSlice";
-
-const data = [
-  {
-    name: "Business",
-    choice: "business",
-  },
-  {
-    name: "Collectibles",
-    choice: "collectibles",
-  },
-  {
-    name: "Spirituality",
-    choice: "spirituality",
-  },
-  {
-    name: "Health and Fitness",
-    choice: "healthandfitness",
-  },
-  {
-    name: "Arts and Entertainment",
-    choice: "artsandentertainment",
-  },
-  {
-    name: "Relationship and Family",
-    choice: "relationshipandfamily",
-  },
-  {
-    name: "Others",
-    choice: "others",
-  },
-];
+import ProductModal from "@/components/modals/productModal";
+// import { useAccount } from "@particle-network/connect-react-ui";
 
 const Summary = ({ account }) => {
   const [selectedImage, setSelectedImage] = useState("");
-  // const [showOptions, setShowOptions] = useState(false);
-  // const [index, setIndex] = useState(0);
-  const [modalOpen, setModalOpen] = useState(false);
   const [campaignModalOpen, setCampaignModalOpen] = useState(false);
-  const [campaignId, setCampaignId] = useState("");
+  const [openModal, setOpenModal] = useState(false);
 
   const fileInputRef = useRef(null);
   const handleImageChange = (event, setFieldValue) => {
     const file = event.target.files[0];
-    console.log("file", file);
-    setFieldValue("bannerImg", file);
+    // console.log("file", file);
+    setFieldValue("productCollectionFile", file);
 
     if (file) {
       const reader = new FileReader();
-      console.log("reader", reader);
+      // console.log("reader", reader);
 
       reader.onloadend = () => {
         setSelectedImage(reader.result);
@@ -81,26 +45,36 @@ const Summary = ({ account }) => {
     fileInputRef.current.click();
   };
 
-  const handleNFTChange = (event, setFieldValue) => {
-    const newNFT = event.target.value;
-    setFieldValue("proofOfPurchase", newNFT);
-  };
-
   const handleCategoryChange = (event, setFieldValue) => {
     const category = event.target.value;
     setFieldValue("category", category);
   };
 
-  const initialValues = {
-    quantity: "",
-    category: "",
-    proofOfPurchase: "",
-    bannerImg: "",
+  const handleProofOfPurchaseChange = (event, setFieldValue) => {
+    const { name, value } = event.target;
+    setFieldValue(`proofOfPurchase.${name}`, value);
   };
 
+  const initialValues = {
+    category: "",
+    quantity: "",
+    proofOfPurchase: {
+      address: "",
+      name: "",
+      imageUrl: "",
+    },
+    productCollectionFile: "",
+  };
+
+  // const [showOptions, setShowOptions] = useState(false);
+  // const [index, setIndex] = useState(0);
+  // const [campaignId, setCampaignId] = useState("");
+  // const [modalOpen, setModalOpen] = useState(false);
+  // const user = useAccount();
+  // console.log(status, "srajhgfdsdfghjkl;");
+  // const status = useSelector((state) => state.product.status);
   // const userId = useSelector((state) => state.generalStates.userId);
 
-  const user = useAccount();
   const dispatch = useDispatch();
 
   const type = useSelector(
@@ -114,20 +88,17 @@ const Summary = ({ account }) => {
     (state) => state.generalStates?.details?.allowPayAnyPrice
   );
   const price = useSelector((state) => state.generalStates?.details?.price);
-  const isNFTDiscountEnabled = useSelector(
-    (state) => state.generalStates?.details?.isNFTDiscountEnabled
-  );
-  const isCustomNFTEnabled = useSelector(
-    (state) => state.generalStates?.details?.isCustomNFTEnabled
+  const discount = useSelector(
+    (state) => state.generalStates?.details?.discount
   );
   const NFTAddress = useSelector(
-    (state) => state.generalStates?.details?.isCustomNFTEnabled.address
+    (state) => state.generalStates?.details?.customNFT?.address
   );
   const NFTName = useSelector(
-    (state) => state.generalStates?.details?.isCustomNFTEnabled.name
+    (state) => state.generalStates?.details?.customNFT?.name
   );
   const NFTImageUrl = useSelector(
-    (state) => state.generalStates?.details?.isCustomNFTEnabled.imageUrl
+    (state) => state.generalStates?.details?.customNFT?.imageUrl
   );
 
   const createNewProduct = async (values) => {
@@ -142,37 +113,46 @@ const Summary = ({ account }) => {
             description: description,
             payAnyPrice: allowPayAnyPrice,
             price: parseInt(price),
-            nftBasedDiscount: isNFTDiscountEnabled,
-            enableNftSelection: isCustomNFTEnabled,
             nftSelection: {
               address: NFTAddress,
               name: NFTName,
               imageUrl: NFTImageUrl,
             },
-            discountAmount: discount,
-            category: parseInt(values.category),
-            quantity: values.quantity,
-            pop: values.proofOfPurchase,
+            discountAmount: parseInt(discount),
+            category: values.category,
+            quantity: parseInt(values.quantity),
+            unlimitedQuantity: values.quantity === 0 ? true : false,
+            pop: {
+              address: values.proofOfPurchase.address,
+              name: values.proofOfPurchase.name,
+              imageUrl: values.proofOfPurchase.imageUrl,
+            },
             purchaseXP: 50,
+            // product: values.productCollectionFile,
+            product:
+              "https://www.google.com/url?sa=i&url=https%3A%2F%2Fcondusiv.com%2Fsequential-io-always-outperforms-random-io-on-hard-disk-drives-or-ssds%2F&psig=AOvVaw0gIZMjG4dtsc3otXxWQgHx&ust=1711935077938000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPi7q6KtnYUDFQAAAAAdAAAAABAE",
           },
           // id: 1,
         })
       );
+      console.log(response);
       if (response?.payload?.success === true) {
         toast.success(response?.payload?.message);
-        setCampaignId(response?.payload?.campaignId);
-        console.log(response);
-        setModalOpen(true);
-        setCampaignModalOpen(true);
-        setTimeout(() => {
-          setModalOpen(false);
-        }, 3000);
+        console.log(response.payload);
+        setOpenModal(true);
+        // setCampaignId(response?.payload?.campaignId);
+        // setModalOpen(true);
+        // setCampaignModalOpen(true);
+        // setTimeout(() => {
+        //   setModalOpen(false);
+        // }, 3000);
+        // console.log(response);
       } else {
         toast.error(response?.payload?.message);
         console.log(response);
       }
     } catch (error) {
-      console.error(error);
+      console.error("error:", error);
     }
   };
 
@@ -194,9 +174,7 @@ const Summary = ({ account }) => {
                       handleCategoryChange(event, setFieldValue)
                     }
                   >
-                    <option value="">
-                      Choose an NFT from your Collection on Verxio
-                    </option>
+                    <option value="">Select product category</option>
                     <option value="business">Business</option>
                     <option value="collectibles">Collectibless</option>
                     <option value="Spirituality">Spirituality</option>
@@ -210,42 +188,6 @@ const Summary = ({ account }) => {
                     <option value="others">Others</option>
                   </select>
                 </div>
-
-                {/* <div
-                  onClick={() => setShowOptions(!showOptions)}
-                  className="w-full border border-primary rounded-lg px-5 py-3 flex justify-between items-center gap-3 cursor-pointer relative"
-                >
-                  <div>
-                    <h2 className="semibold text-[18px]">
-                      {data[index]?.name}
-                    </h2>
-                  </div>
-
-                  <span className={"cursor-pointer"}>
-                    {showOptions ? <IoIosArrowUp /> : <IoIosArrowDown />}
-                  </span>
-                  {showOptions && (
-                    <section className="absolute bg-white z-50 w-full top-[70px] left-0 flex flex-col items-center gap-3 rounded-lg p-3 shadow-lg ">
-                      {data.map((items, index) => (
-                        <div
-                          key={index}
-                          onClick={() => {
-                            setIndex(index);
-                            setShowOptions(false);
-                            setFieldValue("category", items.choice);
-                            console.log(
-                              values.category,
-                              "category Item selected!!!!!"
-                            );
-                          }}
-                          className="w-full bg-white border border-primary rounded-lg p-2 flex flex-col items-start cursor-pointer  hover:shadow-sm hover:border-[3px]"
-                        >
-                          <h2 className="semibold text-[18px]">{items.name}</h2>
-                        </div>
-                      ))}
-                    </section>
-                  )}
-                </div> */}
               </div>
 
               <div>
@@ -272,19 +214,37 @@ const Summary = ({ account }) => {
                 <p className="font-semibold text-[24px] mb-5">
                   <span className="mr-3 text-">*</span>Proof of Purchase (cNFT)
                 </p>
-                <div className="mb-5">
-                  <select
+                <div>
+                  <input
+                    type="text"
+                    name="address"
+                    placeholder="NFT Collection Address"
+                    className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
+                    value={values?.proofOfPurchase?.address}
+                    onChange={(event) =>
+                      handleProofOfPurchaseChange(event, setFieldValue)
+                    }
+                  />
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="NFT Name"
+                    className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
+                    value={values.proofOfPurchase.name}
+                    onChange={(event) =>
+                      handleProofOfPurchaseChange(event, setFieldValue)
+                    }
+                  />
+                  <input
+                    type="text"
+                    name="imageUrl"
+                    placeholder="NFT Image URL"
                     className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                    value={values.proofOfPurchase}
-                    onChange={(event) => handleNFTChange(event, setFieldValue)}
-                  >
-                    <option value="">
-                      Choose an NFT from your Collection on Verxio
-                    </option>
-                    <option value="Space NFT">Space NFT</option>
-                    <option value="Drips">Drips</option>
-                    <option value="Early Badge NFT">Early Badge NFT</option>
-                  </select>
+                    value={values.proofOfPurchase.imageUrl}
+                    onChange={(event) =>
+                      handleProofOfPurchaseChange(event, setFieldValue)
+                    }
+                  />
                 </div>
               </div>
 
@@ -356,7 +316,7 @@ const Summary = ({ account }) => {
                   outline
                   onClick={() => {
                     setCampaignModalOpen(true);
-                    // dispatch(setRewards(values));
+                    dispatch(setSummary(values));
                   }}
                 />
                 <Button
@@ -364,15 +324,20 @@ const Summary = ({ account }) => {
                   name="publish"
                   className="border border-primary font-medium text-[20px]"
                   shade="border-primary"
-                  isLoading={status === "loading"}
+                  // isLoading={status === "loading" ? <LoadingSpinner /> : name}
+                  // isLoading={loading}
                   onClick={() => {
-                    if (user) {
-                      setFieldValue("totalRewardPoint", totalReward);
-                      dispatch(setSummary(values));
-                      createNewProduct(values);
-                    } else {
-                      toast.info("Connect your wallet to publish campaign");
-                    }
+                    // console.log(values);
+                    dispatch(setSummary(values));
+                    createNewProduct(values);
+                    // if (user) {
+                    //   setFieldValue("totalRewardPoint", totalReward);
+                    //   // dispatch(setSummary(values));
+                    //   // createNewProduct(values);
+
+                    // } else {
+                    //   toast.info("Connect your wallet to publish campaign");
+                    // }
                   }}
                 />
               </div>
@@ -381,45 +346,18 @@ const Summary = ({ account }) => {
         </Formik>
       </div>
 
-      {modalOpen && (
-        <div
-          className={`bg-[#000]/40  absolute w-full h-screen top-0 left-0 z-50 flex justify-center items-center px-28 ${
-            modalOpen && "overflow-hidden"
-          }`}
-        >
-          <div className="bg-white p-5 rounded-lg">
-            <div className="flex justify-end mb-2">
-              <CloseCircle
-                size={32}
-                onClick={() => {
-                  setModalOpen(false);
-                }}
-                className="cursor-pointer w-7 sm:w-10"
-              />
-            </div>
-            <div className="flex justify-center ">
-              <Image
-                alt="success"
-                src={CampaignSuccess}
-                className="w-[250px]"
-              />
-            </div>
-
-            <p className="text-[20px] text-center">
-              You have successfully published your product. Happy Selling!{" "}
-            </p>
-          </div>
-        </div>
+      {openModal && (
+        <ProductModal setOpenModal={setOpenModal} openModal={openModal} />
       )}
 
       {campaignModalOpen && (
         <div className="bg-[#000]/40  absolute w-full h-full top-0 left-0 z-50 p-10 text-[#484851] ">
           <CampaignPreview
-            campaignId={campaignId}
+            // campaignId={campaignId}
             setCampaignModalOpen={setCampaignModalOpen}
-            reward={reward}
-            totalPoints={totalPoints}
-            totalReward={totalReward}
+            // reward={reward}
+            // totalPoints={totalPoints}
+            // totalReward={totalReward}
           />
         </div>
       )}

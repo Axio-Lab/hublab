@@ -2,14 +2,15 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { PURGE } from "redux-persist";
 
 const initialState = {
-  userProfile: {},
-  userId: "",
-  edit: false,
   start: {},
   details: {},
   summary: {},
+  userProfile: {},
+  userId: "",
+  edit: false,
   totalCampaignPoint: {},
   choosePoint: 0,
+  actionModal: false,
 };
 
 const statesSlice = createSlice({
@@ -24,6 +25,9 @@ const statesSlice = createSlice({
     },
     setEdit: (state, action) => {
       state.edit = action.payload;
+    },
+    setCloseActionModal: (state, action) => {
+      state.actionModal = action.payload;
     },
     setStart: (state, action) => {
       // state.start = action.payload;
@@ -61,5 +65,6 @@ export const {
   setTotalCampaignPoint,
   setSummary,
   setChoosePoint,
+  setCloseActionModal,
 } = statesSlice.actions;
 export default statesSlice.reducer;
