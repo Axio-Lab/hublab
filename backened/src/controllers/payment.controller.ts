@@ -1,45 +1,31 @@
 import { Request, Response } from "express";
 import PaymentService from "../services/payment.service";
 import axios from "axios";
-const { createCandypaySession, generatePaymentURL } = new PaymentService();
+import ProductService from "../services/product.servicee";
+const { getProduct } = new ProductService();
+const { createCandypaySession } = new PaymentService();
 
 export default class PaymentController {
 
     async createPayment(req: Request, res: Response) {
-        const candypaySession = await createCandypaySession();
+        try {
+            const productId = req.params.productId;
+            const product = await getProduct(productId);
+            const candypaySession = await createCandypaySession(product!);
 
-        return res.status(200)
-            .send({
-                success: true,
-                message: "Payment session created successfully",
-                session: candypaySession
-            })
-    }
-
-    async createPaymentAPI(req: Request, res: Response) {
-        
-        const sessionId = await axios.post("https://checkout-api.candypay.fun/api/v1/session", {
-            network: "devnet",
-            success_url: "https://www.google.com",
-            cancel_url: "https://www.jumia.ng",
-            tokens: ["bonk"],
-            items: [
-                {
-                    name: "Throwback Hip Bag",
-                    price: 0.0001,
-                    image: "https://imgur.com/EntGcVQ.png",
-                    quantity: 1
-                }
-            ]
-        }, {
-            headers: { Authorization: `Bearer ${process.env.CANDYPAY_PUBLIC_API_KEY}` }
-        })
-        return res.status(200)
-            .send({
-                success: true,
-                message: "Payment sessionId created successfully",
-                sessionId
-            })
+            return res.status(200)
+                .send({
+                    success: true,
+                    message: "Payment session url returned successfully",
+                    data: candypaySession.payment_url
+                })
+        } catch (error: any) {
+            return res.status(500)
+                .send({
+                    success: false,
+                    message: `Error occured while creating a candy pay session\nError: ${error.message}`
+                })
+        }
     }
 
 }
