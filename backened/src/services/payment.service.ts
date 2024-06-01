@@ -5,14 +5,14 @@ export default class PaymentService {
 
     async createCandypaySession(product: IProduct) {
         return await candypay.session.create({
-            success_url: "https://www.google.com",
+            success_url: product.product,
             cancel_url: "https://www.jumia.ng",
             tokens: ["bonk"],
             items: [
                 {
                     name: product.name,
                     price: product.price || 20,
-                    image: product.product,
+                    image: product.image,
                     quantity: 1
                 }
             ],
