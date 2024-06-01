@@ -17,14 +17,14 @@ class PaymentService {
     createCandypaySession(product) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield candypay_config_1.default.session.create({
-                success_url: "https://www.google.com",
+                success_url: product.product,
                 cancel_url: "https://www.jumia.ng",
                 tokens: ["bonk"],
                 items: [
                     {
                         name: product.name,
                         price: product.price || 20,
-                        image: product.product,
+                        image: product.image,
                         quantity: 1
                     }
                 ],
