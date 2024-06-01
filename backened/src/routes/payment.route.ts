@@ -3,13 +3,13 @@ import PaymentController from '../controllers/payment.controller';
 const router = Router();
 const {
     createPayment,
-    createPaymentAPI
+    // createPaymentAPI
 } = new PaymentController();
 
 //create a payment
-router.post("/", createPayment);
+router.get("/:productId", createPayment);
 
-//create a payment API
-router.post("/api", createPaymentAPI);
+// //create a payment API
+// router.post("/api", createPaymentAPI);
 
 export default router;

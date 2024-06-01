@@ -13,44 +13,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const payment_service_1 = __importDefault(require("../services/payment.service"));
-const axios_1 = __importDefault(require("axios"));
-const { createCandypaySession, generatePaymentURL } = new payment_service_1.default();
+const product_servicee_1 = __importDefault(require("../services/product.servicee"));
+const { getProduct } = new product_servicee_1.default();
+const { createCandypaySession } = new payment_service_1.default();
 class PaymentController {
     createPayment(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const candypaySession = yield createCandypaySession();
-            return res.status(200)
-                .send({
-                success: true,
-                message: "Payment session created successfully",
-                session: candypaySession
-            });
-        });
-    }
-    createPaymentAPI(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const sessionId = yield axios_1.default.post("https://checkout-api.candypay.fun/api/v1/session", {
-                network: "devnet",
-                success_url: "https://www.google.com",
-                cancel_url: "https://www.jumia.ng",
-                tokens: ["bonk"],
-                items: [
-                    {
-                        name: "Throwback Hip Bag",
-                        price: 0.0001,
-                        image: "https://imgur.com/EntGcVQ.png",
-                        quantity: 1
-                    }
-                ]
-            }, {
-                headers: { Authorization: `Bearer ${process.env.CANDYPAY_PUBLIC_API_KEY}` }
-            });
-            return res.status(200)
-                .send({
-                success: true,
-                message: "Payment sessionId created successfully",
-                sessionId
-            });
+            try {
+                const productId = req.params.productId;
+                const product = yield getProduct(productId);
+                const candypaySession = yield createCandypaySession(product);
+                return res.status(200)
+                    .send({
+                    success: true,
+                    message: "Payment session url returned successfully",
+                    data: candypaySession.payment_url
+                });
+            }
+            catch (error) {
+                return res.status(500)
+                    .send({
+                    success: false,
+                    message: `Error occured while creating a candy pay session\nError: ${error.message}`
+                });
+            }
         });
     }
 }

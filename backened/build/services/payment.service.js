@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const candypay_config_1 = __importDefault(require("../configs/candypay.config"));
 class PaymentService {
-    createCandypaySession() {
+    createCandypaySession(product) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield candypay_config_1.default.session.create({
                 success_url: "https://www.google.com",
@@ -22,22 +22,18 @@ class PaymentService {
                 tokens: ["bonk"],
                 items: [
                     {
-                        name: "Throwback Hip Bag",
-                        price: 0.0001,
-                        image: "https://imgur.com/EntGcVQ.png",
+                        name: product.name,
+                        price: product.price || 20,
+                        image: product.product,
                         quantity: 1
                     }
                 ],
-                metadata: {
-                    customer_name: "Jon Doe",
-                } // optional 
-            });
-        });
-    }
-    generatePaymentURL(session_id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return candypay_config_1.default.session.generatePaymentURL({
-                session_id,
+                discounts: {
+                    collection_id: product.nftSelection.address,
+                    discount: (product.discountAmount || 0) / 100,
+                    name: product.nftSelection.name,
+                    image: product.nftSelection.imageUrl,
+                },
             });
         });
     }
