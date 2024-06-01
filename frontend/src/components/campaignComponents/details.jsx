@@ -18,11 +18,9 @@ const Details = () => {
   //   imageUrl: "",
   // });
 
-  const [address, setAddress] = useState("");
   const router = useRouter();
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);
-
   const details = useSelector((state) => state.generalStates.details);
 
   const handleImageChange = (event, setFieldValue) => {

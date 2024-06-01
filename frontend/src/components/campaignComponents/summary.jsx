@@ -4,48 +4,13 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import Image from "next/image";
 import UploadIcon from "../../assets/uploadIcon.svg";
 import Button from "../Button";
-// import LoadingSpinner from "../loadingSpinner";
-import { useSelector, useDispatch } from "react-redux";
-// import { useAccount } from "@particle-network/connect-react-ui";
-// import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { toast } from "react-toastify";
-// import { CloseCircle } from "iconsax-react";
-// import CampaignSuccess from "../../assets/campaignSuccess.svg";
+import { useSelector, useDispatch } from "react-redux";
 import CampaignPreview from "../modals/campaignPreview";
 import { createProduct } from "@/store/slices/productSlice";
 import { setSummary } from "@/store/slices/statesSlice";
 import ProductModal from "@/components/modals/productModal";
-
-const data = [
-  {
-    name: "Business",
-    choice: "business",
-  },
-  {
-    name: "Collectibles",
-    choice: "collectibles",
-  },
-  {
-    name: "Spirituality",
-    choice: "spirituality",
-  },
-  {
-    name: "Health and Fitness",
-    choice: "healthandfitness",
-  },
-  {
-    name: "Arts and Entertainment",
-    choice: "artsandentertainment",
-  },
-  {
-    name: "Relationship and Family",
-    choice: "relationshipandfamily",
-  },
-  {
-    name: "Others",
-    choice: "others",
-  },
-];
+// import { useAccount } from "@particle-network/connect-react-ui";
 
 const Summary = ({ account }) => {
   const [selectedImage, setSelectedImage] = useState("");
@@ -56,7 +21,7 @@ const Summary = ({ account }) => {
   const handleImageChange = (event, setFieldValue) => {
     const file = event.target.files[0];
     // console.log("file", file);
-    setFieldValue("bannerImg", file);
+    setFieldValue("productCollectionFile", file);
 
     if (file) {
       const reader = new FileReader();
@@ -67,7 +32,7 @@ const Summary = ({ account }) => {
       };
 
       const data = reader.readAsDataURL(file);
-      // console.log(data);
+      console.log(data);
     }
   };
 
@@ -80,21 +45,25 @@ const Summary = ({ account }) => {
     fileInputRef.current.click();
   };
 
-  const handleNFTChange = (event, setFieldValue) => {
-    const newNFT = event.target.value;
-    setFieldValue("proofOfPurchase", newNFT);
-  };
-
   const handleCategoryChange = (event, setFieldValue) => {
     const category = event.target.value;
     setFieldValue("category", category);
   };
 
+  const handleProofOfPurchaseChange = (event, setFieldValue) => {
+    const { name, value } = event.target;
+    setFieldValue(`proofOfPurchase.${name}`, value);
+  };
+
   const initialValues = {
     category: "",
     quantity: "",
-    proofOfPurchase: "",
-    bannerImg: "",
+    proofOfPurchase: {
+      address: "",
+      name: "",
+      imageUrl: "",
+    },
+    productCollectionFile: "",
   };
 
   // const [showOptions, setShowOptions] = useState(false);
@@ -122,60 +91,15 @@ const Summary = ({ account }) => {
   const discount = useSelector(
     (state) => state.generalStates?.details?.discount
   );
-  const isNFTDiscountEnabled = useSelector(
-    (state) => state.generalStates?.details?.isNFTDiscountEnabled
-  );
-  const isCustomNFTEnabled = useSelector(
-    (state) => state.generalStates?.details?.isCustomNFTEnabled
-  );
   const NFTAddress = useSelector(
-    (state) => state.generalStates?.details?.customNFT.address
+    (state) => state.generalStates?.details?.customNFT?.address
   );
   const NFTName = useSelector(
-    (state) => state.generalStates?.details?.customNFT.name
+    (state) => state.generalStates?.details?.customNFT?.name
   );
   const NFTImageUrl = useSelector(
-    (state) => state.generalStates?.details?.customNFT.imageUrl
+    (state) => state.generalStates?.details?.customNFT?.imageUrl
   );
-
-  // const consoleAllDetails = () => {
-  //   console.log(
-  //     "product type:",
-  //     type,
-  //     "product name:",
-  //     title,
-  //     "product description:",
-  //     description,
-  //     "allow any price:",
-  //     allowPayAnyPrice,
-  //     "product price:",
-  //     price,
-  //     "product custom nft enabled:",
-  //     isCustomNFTEnabled,
-  //     "product nFT discount enabled:",
-  //     isNFTDiscountEnabled,
-  //     "product nft address:",
-  //     NFTAddress,
-  //     "product NFT name:",
-  //     NFTName,
-  //     "product NFT image:",
-  //     NFTImageUrl,
-  //     "product discount:",
-  //     discount,
-  //     "produvt category:",
-  //     category,
-  //     "produvt quantity:",
-  //     quantity,
-  //     "produvt unlimitedQuantity:",
-  //     unlimitedQuantity,
-  //     "produvt pop:",
-  //     proofOfPurchase,
-  //     "produvt bannerImg:",
-  //     bannerImg,
-  //     "produvt purchaseXP:",
-  //     purchaseXP
-  //   );
-  // };
 
   const createNewProduct = async (values) => {
     try {
@@ -189,8 +113,6 @@ const Summary = ({ account }) => {
             description: description,
             payAnyPrice: allowPayAnyPrice,
             price: parseInt(price),
-            nftBasedDiscount: isNFTDiscountEnabled,
-            enableNftSelection: isCustomNFTEnabled,
             nftSelection: {
               address: NFTAddress,
               name: NFTName,
@@ -200,8 +122,13 @@ const Summary = ({ account }) => {
             category: values.category,
             quantity: parseInt(values.quantity),
             unlimitedQuantity: values.quantity === 0 ? true : false,
-            pop: values.proofOfPurchase,
+            pop: {
+              address: values.proofOfPurchase.address,
+              name: values.proofOfPurchase.name,
+              imageUrl: values.proofOfPurchase.imageUrl,
+            },
             purchaseXP: 50,
+            // product: values.productCollectionFile,
             product:
               "https://www.google.com/url?sa=i&url=https%3A%2F%2Fcondusiv.com%2Fsequential-io-always-outperforms-random-io-on-hard-disk-drives-or-ssds%2F&psig=AOvVaw0gIZMjG4dtsc3otXxWQgHx&ust=1711935077938000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPi7q6KtnYUDFQAAAAAdAAAAABAE",
           },
@@ -261,42 +188,6 @@ const Summary = ({ account }) => {
                     <option value="others">Others</option>
                   </select>
                 </div>
-
-                {/* <div
-                  onClick={() => setShowOptions(!showOptions)}
-                  className="w-full border border-primary rounded-lg px-5 py-3 flex justify-between items-center gap-3 cursor-pointer relative"
-                >
-                  <div>
-                    <h2 className="semibold text-[18px]">
-                      {data[index]?.name}
-                    </h2>
-                  </div>
-
-                  <span className={"cursor-pointer"}>
-                    {showOptions ? <IoIosArrowUp /> : <IoIosArrowDown />}
-                  </span>
-                  {showOptions && (
-                    <section className="absolute bg-white z-50 w-full top-[70px] left-0 flex flex-col items-center gap-3 rounded-lg p-3 shadow-lg ">
-                      {data.map((items, index) => (
-                        <div
-                          key={index}
-                          onClick={() => {
-                            setIndex(index);
-                            setShowOptions(false);
-                            setFieldValue("category", items.choice);
-                            console.log(
-                              values.category,
-                              "category Item selected!!!!!"
-                            );
-                          }}
-                          className="w-full bg-white border border-primary rounded-lg p-2 flex flex-col items-start cursor-pointer  hover:shadow-sm hover:border-[3px]"
-                        >
-                          <h2 className="semibold text-[18px]">{items.name}</h2>
-                        </div>
-                      ))}
-                    </section>
-                  )}
-                </div> */}
               </div>
 
               <div>
@@ -323,19 +214,37 @@ const Summary = ({ account }) => {
                 <p className="font-semibold text-[24px] mb-5">
                   <span className="mr-3 text-">*</span>Proof of Purchase (cNFT)
                 </p>
-                <div className="mb-5">
-                  <select
+                <div>
+                  <input
+                    type="text"
+                    name="address"
+                    placeholder="NFT Collection Address"
+                    className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
+                    value={values?.proofOfPurchase?.address}
+                    onChange={(event) =>
+                      handleProofOfPurchaseChange(event, setFieldValue)
+                    }
+                  />
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="NFT Name"
+                    className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
+                    value={values.proofOfPurchase.name}
+                    onChange={(event) =>
+                      handleProofOfPurchaseChange(event, setFieldValue)
+                    }
+                  />
+                  <input
+                    type="text"
+                    name="imageUrl"
+                    placeholder="NFT Image URL"
                     className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                    value={values.proofOfPurchase}
-                    onChange={(event) => handleNFTChange(event, setFieldValue)}
-                  >
-                    <option value="">
-                      Choose an NFT from your Collection on Verxio
-                    </option>
-                    <option value="Space NFT">Space NFT</option>
-                    <option value="Drips">Drips</option>
-                    <option value="Early Badge NFT">Early Badge NFT</option>
-                  </select>
+                    value={values.proofOfPurchase.imageUrl}
+                    onChange={(event) =>
+                      handleProofOfPurchaseChange(event, setFieldValue)
+                    }
+                  />
                 </div>
               </div>
 
@@ -408,7 +317,6 @@ const Summary = ({ account }) => {
                   onClick={() => {
                     setCampaignModalOpen(true);
                     dispatch(setSummary(values));
-
                   }}
                 />
                 <Button
@@ -417,7 +325,7 @@ const Summary = ({ account }) => {
                   className="border border-primary font-medium text-[20px]"
                   shade="border-primary"
                   // isLoading={status === "loading" ? <LoadingSpinner /> : name}
-                  // isLoading={<LoadingSpinner />}
+                  // isLoading={loading}
                   onClick={() => {
                     // console.log(values);
                     dispatch(setSummary(values));

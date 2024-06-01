@@ -78,60 +78,220 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
   const summary = useSelector((state) => state.generalStates.summary);
 
   const { selectedProduct } = start;
-  const { title, bannerImg, description } = details;
-  const {} = summary;
+  const { category, productCollectionFile, quantity, proofOfPurchase } =
+    summary;
+  const {
+    title,
+    description,
+    bannerImg,
+    allowPayAnyPrice,
+    price,
+    discount,
+    customNFT,
+  } = details;
 
   return (
     <>
-      <div className="bg-white w-full h-full flex flex-col p-6 border rounded-lg overflow-hidden">
-        <div className="w-[100%] border-r p-6 ">
+      <div className="bg-white relative w-full h-full flex flex-col p-6 border rounded-lg overflow-hidden overflow-y-auto">
+        <div className="w-[100%] border rounded-md p-6 ">
+          <span
+            onClick={() => setCampaignModalOpen(false)}
+            className="absolute top-8 right-8 cursor-pointer"
+          >
+            <CloseCircle color="#484851" />
+          </span>
           <Formik onSubmit={() => {}}>
             {({ values, setFieldValue }) => (
-              <Form className="flex flex-col gap-11 w-full md:w-[60%]">
-                <div>
-                  <p className="font-semibold text-[24px] mb-5">
-                    <span className="mr-3 text-">*</span>Selected Product Type
-                  </p>
-                  <Field
-                    className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                    readOnly
-                    placeholder={selectedProduct}
-                  />
-                </div>
-
-                <div>
-                  <p className="font-semibold text-[24px] mb-5">
-                    <span className="mr-3 text-">*</span>Name of Product
-                  </p>
-                  <Field
-                    className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                    readOnly
-                    placeholder={title}
-                  />
-                </div>
-
-                <div className="w-[65%]">
-                  <div className=" rounded-lg border border-primary border-dashed bg-[#E7E7F9]">
-                    <Image
-                      src={bannerImg}
-                      alt="cover Banner"
-                      className="w-full h-full bg-cover"
-                      width={500}
-                      height={400}
+              <Form className="flex flex-col gap-11 w-full">
+                <section className="flex items-center gap-4 flex-col md:flex-row my-4">
+                  <div className="w-full">
+                    <p className="font-semibold text-[24px] mb-5">
+                      <span className="mr-3 text-">*</span>Selected Product Type
+                    </p>
+                    <Field
+                      className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
+                      readOnly
+                      placeholder={selectedProduct}
                     />
                   </div>
-                </div>
 
-                <div>
-                  <p className="font-semibold text-[24px] mb-5">
-                    <span className="mr-3 text-">*</span>Product Description
-                  </p>
-                  <Field
-                    className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                    readOnly
-                    placeholder={description}
-                  />
-                </div>
+                  <div className="w-full">
+                    <p className="font-semibold text-[24px] mb-5">
+                      <span className="mr-3 text-">*</span>Name of Product
+                    </p>
+                    <Field
+                      className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
+                      readOnly
+                      placeholder={title}
+                    />
+                  </div>
+                </section>
+
+                <section className="flex items-start gap-4 flex-col md:flex-row my-4">
+                  <div className="w-full">
+                    <div className=" rounded-lg border border-primary border-dashed bg-[#E7E7F9]">
+                      <Image
+                        src={bannerImg}
+                        alt="cover Banner"
+                        className="w-full h-full bg-cover"
+                        width={500}
+                        height={200}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="w-full">
+                    <p className="font-semibold text-[24px] mb-5">
+                      <span className="mr-3 text-">*</span>Product Description
+                    </p>
+                    <Field
+                      className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
+                      readOnly
+                      placeholder={description}
+                    />
+                  </div>
+                </section>
+
+                <section className="flex items-center gap-4 flex-col md:flex-row my-4">
+                  <div className="w-full">
+                    <p className="font-semibold text-[24px] mb-5">
+                      <span className="mr-3 text-">*</span>Sale Price (USD)
+                    </p>
+                    <div className="mb-5">
+                      <Field
+                        className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
+                        placeholder={
+                          !allowPayAnyPrice
+                            ? price
+                            : "Customers are alowed to pay any price"
+                        }
+                        readOnly
+                      />
+                    </div>
+                  </div>
+                  <div className="w-full">
+                    <label className="font-semibold text-[24px] mb-5">
+                      <span className="mr-3 text-">*</span>Discount Amount (%)
+                    </label>
+                    <Field
+                      className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
+                      placeholder={discount}
+                      readOnly
+                    />
+                    {/* <div className="flex justify-between items-center font-normal text-[16px] mt-2">
+                      <p>
+                        Holders of the selected NFTs will receive {discount}%
+                        discount.
+                      </p>
+                    </div> */}
+                  </div>
+                </section>
+
+                <section className="flex items-start gap-4 flex-col md:flex-row my-4">
+                  <div className="w-full">
+                    <p className="font-semibold text-[24px] mb-5">
+                      <span className="mr-3 text-">*</span>Selected Category
+                    </p>
+                    <Field
+                      className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
+                      placeholder={category}
+                      readOnly
+                    />
+                  </div>
+
+                  <div className="w-full">
+                    <p className="font-semibold text-[24px] mb-5">
+                      <span className="mr-3 text-">*</span>Quantity
+                    </p>
+                    <Field
+                      className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
+                      placeholder={
+                        quantity === 0 ? "Unlimited Product Quantity" : quantity
+                      }
+                      readOnly
+                    />
+                  </div>
+                </section>
+
+                <section className="flex items-start gap-4 flex-col md:flex-row my-4">
+                  <div className="relative z-40 -right-[1px] w-full">
+                    <p className="font-semibold text-[24px] mb-5">
+                      <span className="mr-3 text-">*</span>Proof of Purchase
+                      (cNFT)
+                    </p>
+                    <div>
+                      <input
+                        type="text"
+                        name="address"
+                        placeholder={proofOfPurchase.address}
+                        readOnly
+                        className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
+                      />
+                      <input
+                        type="text"
+                        name="name"
+                        placeholder={proofOfPurchase.name}
+                        readOnly
+                        className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
+                      />
+                      <input
+                        type="text"
+                        name="imageUrl"
+                        placeholder={proofOfPurchase.imageUrl}
+                        readOnly
+                        className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="relative z-40 -right-[1px] w-full">
+                    <p className="font-semibold text-[24px] mb-5">
+                      <span className="mr-3 text-">*</span>Selected Custom NFT
+                      (cNFT)
+                    </p>
+                    <div>
+                      <input
+                        type="text"
+                        name="address"
+                        placeholder={customNFT.address}
+                        readOnly
+                        className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
+                      />
+                      <input
+                        type="text"
+                        name="name"
+                        placeholder={customNFT.name}
+                        readOnly
+                        className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
+                      />
+                      <input
+                        type="text"
+                        name="imageUrl"
+                        placeholder={customNFT.imageUrl}
+                        readOnly
+                        className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
+                      />
+                    </div>
+                  </div>
+                </section>
+
+                <section className="flex items-center justify-center mx-auto">
+                  <div className="w-full">
+                    <div className=" rounded-lg border border-primary border-dashed bg-[#E7E7F9]">
+                      <Image
+                        src={bannerImg}
+                        alt="cover Banner"
+                        className="w-inherit h-inherit bg-cover"
+                        width={500}
+                        height={200}
+                      />
+                    </div>
+                  </div>
+                </section>
+
+                <section className="w-full md:max-w-xl mx-auto my-8">
+                  <Button name={"Buy Now"} />
+                </section>
               </Form>
             )}
           </Formik>

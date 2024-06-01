@@ -2,12 +2,12 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { PURGE } from "redux-persist";
 
 const initialState = {
-  userProfile: {},
-  userId: "",
-  edit: false,
   start: {},
   details: {},
   summary: {},
+  userProfile: {},
+  userId: "",
+  edit: false,
   totalCampaignPoint: {},
   choosePoint: 0,
   actionModal: false,
