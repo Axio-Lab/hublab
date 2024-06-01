@@ -5,19 +5,19 @@ export default interface IProduct {
     description: string;
     payAnyPrice?: boolean;
     price?: number;
-    nftSelection?: {
-        address?: string;
-        name?: string;
-        imageUrl?: string;
+    nftSelection: {
+        address: string;
+        name: string;
+        imageUrl: string;
     };
     discountAmount?: number;
     category: string;
     quantity: number;
     unlimitedQuantity?: boolean;
     pop: {
-        address?: string;
-        name?: string;
-        imageUrl?: string;
+        address: string;
+        name: string;
+        imageUrl: string;
     };
     purchaseXP: number;
     product: string;
