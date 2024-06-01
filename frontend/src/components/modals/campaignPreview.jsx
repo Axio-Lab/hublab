@@ -111,7 +111,11 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
                     <Field
                       className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
                       readOnly
-                      placeholder={selectedProduct}
+                      placeholder={
+                        selectedProduct
+                          ? selectedProduct
+                          : "No product type was selected"
+                      }
                     />
                   </div>
 
@@ -122,7 +126,7 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
                     <Field
                       className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
                       readOnly
-                      placeholder={title}
+                      placeholder={title ? title : "Title was not inputed"}
                     />
                   </div>
                 </section>
@@ -132,7 +136,7 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
                     <div className=" rounded-lg border border-primary border-dashed bg-[#E7E7F9]">
                       <Image
                         src={bannerImg}
-                        alt="cover Banner"
+                        alt="Product Banner"
                         className="w-full h-full bg-cover"
                         width={500}
                         height={200}
@@ -147,7 +151,11 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
                     <Field
                       className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
                       readOnly
-                      placeholder={description}
+                      placeholder={
+                        description
+                          ? description
+                          : "Description was not inputed"
+                      }
                     />
                   </div>
                 </section>
@@ -175,7 +183,9 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
                     </label>
                     <Field
                       className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                      placeholder={discount}
+                      placeholder={
+                        discount ? discount : "Discount was not inputed"
+                      }
                       readOnly
                     />
                     {/* <div className="flex justify-between items-center font-normal text-[16px] mt-2">
@@ -194,7 +204,9 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
                     </p>
                     <Field
                       className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                      placeholder={category}
+                      placeholder={
+                        category ? category : "Category type was not selected"
+                      }
                       readOnly
                     />
                   </div>
@@ -206,7 +218,7 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
                     <Field
                       className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
                       placeholder={
-                        quantity === 0 ? "Unlimited Product Quantity" : quantity
+                        quantity === 0 || quantity === undefined ? "Unlimited Product Quantity" : quantity
                       }
                       readOnly
                     />
@@ -223,21 +235,33 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
                       <input
                         type="text"
                         name="address"
-                        placeholder={proofOfPurchase.address}
+                        placeholder={
+                          proofOfPurchase.address
+                            ? proofOfPurchase.address
+                            : "Address was not inputed"
+                        }
                         readOnly
                         className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
                       />
                       <input
                         type="text"
                         name="name"
-                        placeholder={proofOfPurchase.name}
+                        placeholder={
+                          proofOfPurchase.name
+                            ? proofOfPurchase.name
+                            : "Name was not inputed"
+                        }
                         readOnly
                         className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
                       />
                       <input
                         type="text"
                         name="imageUrl"
-                        placeholder={proofOfPurchase.imageUrl}
+                        placeholder={
+                          proofOfPurchase.imageUrl
+                            ? proofOfPurchase.imageUrl
+                            : "Image Url was not inputed"
+                        }
                         readOnly
                         className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
                       />
@@ -253,21 +277,33 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
                       <input
                         type="text"
                         name="address"
-                        placeholder={customNFT.address}
+                        placeholder={
+                          customNFT.address
+                            ? customNFT.address
+                            : "Address was not inputed"
+                        }
                         readOnly
                         className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
                       />
                       <input
                         type="text"
                         name="name"
-                        placeholder={customNFT.name}
+                        placeholder={
+                          customNFT.name
+                            ? customNFT.name
+                            : "Name was not inputed"
+                        }
                         readOnly
                         className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
                       />
                       <input
                         type="text"
                         name="imageUrl"
-                        placeholder={customNFT.imageUrl}
+                        placeholder={
+                          customNFT.imageUrl
+                            ? customNFT.imageUrl
+                            : "Image Url was not inputed"
+                        }
                         readOnly
                         className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
                       />
@@ -279,8 +315,8 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
                   <div className="w-full">
                     <div className=" rounded-lg border border-primary border-dashed bg-[#E7E7F9]">
                       <Image
-                        src={bannerImg}
-                        alt="cover Banner"
+                        src={productCollectionFile}
+                        alt="product"
                         className="w-inherit h-inherit bg-cover"
                         width={500}
                         height={200}
