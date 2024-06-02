@@ -10,6 +10,7 @@ import CampaignPreview from "../modals/campaignPreview";
 import { createProduct } from "@/store/slices/productSlice";
 import { setSummary } from "@/store/slices/statesSlice";
 import ProductModal from "@/components/modals/productModal";
+import { FolderCloud } from "iconsax-react";
 // import { useAccount } from "@particle-network/connect-react-ui";
 
 const Summary = ({ account }) => {
@@ -212,39 +213,25 @@ const Summary = ({ account }) => {
               </div>
               <div className="relative z-40 -right-[1px]">
                 <p className="font-semibold text-[24px] mb-5">
-                  <span className="mr-3 text-">*</span>Proof of Purchase (cNFT)
+                  <span className="mr-3 text-">*</span>Select Proof of Purchase
+                  (NFT)
                 </p>
-                <div>
-                  <input
-                    type="text"
-                    name="address"
-                    placeholder="NFT Collection Address"
-                    className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
-                    value={values?.proofOfPurchase?.address}
-                    onChange={(event) =>
-                      handleProofOfPurchaseChange(event, setFieldValue)
-                    }
-                  />
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="NFT Name"
-                    className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
-                    value={values.proofOfPurchase.name}
-                    onChange={(event) =>
-                      handleProofOfPurchaseChange(event, setFieldValue)
-                    }
-                  />
-                  <input
-                    type="text"
-                    name="imageUrl"
-                    placeholder="NFT Image URL"
+                <div className="mb-5">
+                  {/* <label className="font-semibold text-[24px] mb-5">
+                    Select Proof of Purchase NFT
+                  </label> */}
+                  <select
                     className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                    value={values.proofOfPurchase.imageUrl}
-                    onChange={(event) =>
-                      handleProofOfPurchaseChange(event, setFieldValue)
-                    }
-                  />
+                    value={values.selectedNFT}
+                    onChange={(event) => handleNFTChange(event, setFieldValue)}
+                  >
+                    <option value="">
+                      Choose an NFT from your Collection on Verxio
+                    </option>
+                    <option value="Space NFT">Space NFT</option>
+                    <option value="Drips">Drips</option>
+                    <option value="Early Badge NFT">Early Badge NFT</option>
+                  </select>
                 </div>
               </div>
 
@@ -276,7 +263,8 @@ const Summary = ({ account }) => {
                     ) : (
                       <div className="mx-28 my-24 border rounded-lg px-2 py-1 border-[#0D0E32] ">
                         <div className="flex items-center gap-2 justify-center">
-                          <Image alt="upload" src={UploadIcon} />
+                          {/* <Image alt="upload" src={UploadIcon} /> */}
+                          <FolderCloud color="#FF8A65" />
                           <button
                             className="text-[14px]"
                             onClick={handleUploadButtonClick}
