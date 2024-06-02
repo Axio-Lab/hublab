@@ -11,5 +11,5 @@ const authentication_middleware_1 = __importDefault(require("../middlewares/auth
 const router = (0, express_1.Router)();
 const { createProduct } = new product_controllers_1.default();
 //create a product
-router.post("/", (0, validate_middleware_1.default)(product_schema_1.createProductSchema), authentication_middleware_1.default, createProduct);
+router.post("/:userId", (0, validate_middleware_1.default)(product_schema_1.createProductSchema), authentication_middleware_1.default, createProduct);
 exports.default = router;

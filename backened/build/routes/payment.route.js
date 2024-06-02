@@ -9,7 +9,7 @@ const authentication_middleware_1 = __importDefault(require("../middlewares/auth
 const router = (0, express_1.Router)();
 const { createPayment, sendPaymentMail } = new payment_controller_1.default();
 //create a payment
-router.get("/:productId", authentication_middleware_1.default, createPayment);
+router.get("/:productId/:userId", authentication_middleware_1.default, createPayment);
 //send mail
 router.post("/mail", sendPaymentMail);
 // //create a payment API
