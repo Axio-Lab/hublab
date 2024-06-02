@@ -47,6 +47,7 @@ With Verxio's tokenized discount feature, creators and businesses can provide di
 ## Future Plans & Implementation 🔮
 1. Adding features for everything creators need to create, market, sell, and deliver their products online including:
    - AI-powered Sales Pages
+   - AI-Powered Sales & Marketing Video Kit (TTS, CV, LLMs)
    - Product Funnels
    - Email Marketing
    - A/B Testing integrations
