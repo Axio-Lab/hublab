@@ -12,13 +12,13 @@ const {
 } = new ProjectController();
 
 //create a project
-router.post("/:userId", authenticate, createProject);
+router.post("/:userId", createProject);
 
 //create an NFT
 router.post("/nft/:projectId", authenticate, createNFT);
 
 //get users projects
-router.get("/nft/:userId", authenticate, getUserNFTS);
+router.get("/nft/:userId", getUserNFTS);
 
 //generate NFT claim link
 router.get("/:projectId/nft/:nftId", authenticate, generateNftClaimLink);

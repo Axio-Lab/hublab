@@ -9,6 +9,6 @@ const {
 } = new ProductController();
 
 //create a product
-router.post("/:userId", validate(createProductSchema), authenticate, createProduct);
+router.post("/:userId", validate(createProductSchema), createProduct);
 
 export default router;
