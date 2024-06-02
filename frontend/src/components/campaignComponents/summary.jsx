@@ -7,6 +7,7 @@ import Button from "../Button";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import CampaignPreview from "../modals/campaignPreview";
+import ProductPage from "../modals/productPreview";
 import { createProduct } from "@/store/slices/productSlice";
 import { setSummary } from "@/store/slices/statesSlice";
 import ProductModal from "@/components/modals/productModal";
@@ -141,13 +142,6 @@ const Summary = ({ account }) => {
         toast.success(response?.payload?.message);
         console.log(response.payload);
         setOpenModal(true);
-        // setCampaignId(response?.payload?.campaignId);
-        // setModalOpen(true);
-        // setCampaignModalOpen(true);
-        // setTimeout(() => {
-        //   setModalOpen(false);
-        // }, 3000);
-        // console.log(response);
       } else {
         toast.error(response?.payload?.message);
         console.log(response);
@@ -312,20 +306,9 @@ const Summary = ({ account }) => {
                   name="publish"
                   className="border border-primary font-medium text-[20px]"
                   shade="border-primary"
-                  // isLoading={status === "loading" ? <LoadingSpinner /> : name}
-                  // isLoading={loading}
                   onClick={() => {
-                    // console.log(values);
                     dispatch(setSummary(values));
                     createNewProduct(values);
-                    // if (user) {
-                    //   setFieldValue("totalRewardPoint", totalReward);
-                    //   // dispatch(setSummary(values));
-                    //   // createNewProduct(values);
-
-                    // } else {
-                    //   toast.info("Connect your wallet to publish campaign");
-                    // }
                   }}
                 />
               </div>
@@ -341,12 +324,9 @@ const Summary = ({ account }) => {
       {campaignModalOpen && (
         <div className="bg-[#000]/40  absolute w-full h-full top-0 left-0 z-50 p-10 text-[#484851] ">
           <CampaignPreview
-            // campaignId={campaignId}
             setCampaignModalOpen={setCampaignModalOpen}
-            // reward={reward}
-            // totalPoints={totalPoints}
-            // totalReward={totalReward}
           />
+          {/* <ProductPage /> */}
         </div>
       )}
     </section>

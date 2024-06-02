@@ -1,78 +1,18 @@
 "use client";
 import React, { useState } from "react";
 import { Button } from "..";
-import SocialTask from "../campaignComponents/socialTask";
 import Image from "next/image";
 import VerxioGold from "../../assets/VerxioCoin.svg";
 import { CloseCircle } from "iconsax-react";
-import PreviewTask from "../campaignComponents/previewTask";
-import CampaignLink from "./campainLink";
 import { useSelector, useDispatch } from "react-redux";
 import { useAccount } from "@particle-network/connect-react-ui";
-import mintVerxioTokens from "@/utils/claimVerxioToken";
 import { toast } from "react-toastify";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { RiExternalLinkFill } from "react-icons/ri";
 
 const CampaignPreview = ({ setCampaignModalOpen }) => {
-  // const [totalPointArray, setTotalPointArray] = useState([]);
-  // const [transactionUrl, setTransactionUrl] = useState(null);
-  // const [loading, setLoading] = useState(false);
-  // const [modalOpen, setModalOpen] = useState(false);
-  // const user = useAccount();
-  // const userId = useSelector((state) => state.generalStates.userId);
-  // const status = useSelector((state) => state.campaign.campaign.status);
-
-  // console.log("User Account", user);
-
-  // const addValueToArray = (newValue) => {
-  //   // Copy the current array state
-  //   const newArray = [...totalPointArray];
-
-  //   // Push the new value into the copied array
-  //   newArray.push(newValue);
-
-  //   // Update the state variable 'array' with the modified array
-  //   setTotalPointArray(newArray);
-  // };
-
-  // console.log(reward);
-  // console.log(totalPointArray);
-
-  // const handleClaimRewards = async (total) => {
-  //   if (!user) {
-  //     toast.info("Please connect your wallet 😒");
-  //     return;
-  //   }
-
-  //   if (total > 0) {
-  //     setLoading(true);
-  //     try {
-  //       const destinationAddress = user;
-  //       const claimAmount = total;
-  //       const url = await mintVerxioTokens(destinationAddress, claimAmount);
-  //       setTransactionUrl(url);
-  //       setLoading(false);
-  //       toast.success(`${claimAmount} Verxio soulbound token claimed 🎊`);
-  //     } catch (error) {
-  //       toast.error("Error claiming rewards:");
-  //       console.log("Error claiming rewards:", error);
-  //     }
-  //   } else {
-  //     toast.info("Complete task first 😶‍🌫️");
-  //   }
-  // };
-
-  // let total = 0;
-
-  // for (let i = 0; i < totalPointArray.length; i++) {
-  //   total += totalPointArray[i];
-  // }
-
-  // console.log("The total number is:", total);
 
   const dispatch = useDispatch();
-
   const start = useSelector((state) => state.generalStates.start);
   const details = useSelector((state) => state.generalStates.details);
   const summary = useSelector((state) => state.generalStates.summary);
