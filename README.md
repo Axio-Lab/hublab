@@ -2,7 +2,7 @@
 
 [![logo](https://github.com/onyekachi11/Verxio-ICP-Zero-To-dApp/blob/main/src/assets/Logo.svg)](https://www.verxio.xyz)
 
-$BONK based on-chain digital commerce protocol on Solana
+$BONK powered on-chain digital commerce protocol
 
 <h3>
    
