@@ -3,6 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const constants_configs_1 = require("../configs/constants.configs");
 const productSchema = new mongoose_1.Schema({
+    userId: {
+        type: String,
+        required: true,
+        ref: "Profile"
+    },
     type: {
         type: String,
         required: true,
@@ -59,7 +64,8 @@ const productSchema = new mongoose_1.Schema({
     pop: {
         address: String,
         name: String,
-        imageUrl: String
+        imageUrl: String,
+        projectId: Number
     },
     purchaseXP: {
         type: Number,

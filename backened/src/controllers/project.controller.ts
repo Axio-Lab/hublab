@@ -61,28 +61,28 @@ export default class ProjectController {
         try {
             const createdProjects = await underdog.get(`/v2/projects/n`);
 
-            const projectsId = createdProjects.data.results
+            const projects = createdProjects.data.results
                 .filter((project: any) => {
                     return project.attributes && project.attributes.userId === (req as AuthRequest).user._id;
                 })
-                .map((project: any) => project.id);
+                .map((project: any) => ({ id: project.id, name: project.name, image: project.image, mintAddress: project.mintAddress }));
 
-            const nfts: any[] = [];
+            // const nfts: any[] = [];
 
-            // Using Promise.all to handle asynchronous operations
-            const projectPromises = projectsId.map(async (id: any) => {
-                const nftArray = await underdog.get(`/v2/projects/n/${id}/nfts`);
-                const nftss = nftArray.data.results.map((nft: any) => ({ id: nft.id, projectId: nft.projectId, name: nft.name, image: nft.image, mintAddress: nft.mintAddress }));
-                nfts.push(...nftss);
-            });
+            // // Using Promise.all to handle asynchronous operations
+            // const projectPromises = projectsId.map(async (id: any) => {
+            //     const nftArray = await underdog.get(`/v2/projects/n/${id}/nfts`);
+            //     const nftss = nftArray.data.results.map((nft: any) => ({ id: nft.id, projectId: nft.projectId, name: nft.name, image: nft.image, mintAddress: nft.mintAddress }));
+            //     nfts.push(...nftss);
+            // });
 
-            // Awaiting all promises
-            await Promise.all(projectPromises);
+            // // Awaiting all promises
+            // await Promise.all(projectPromises);
 
             return res.status(201).send({
                 success: true,
                 message: "NFTs returned successfully",
-                nfts
+                nfts: projects
             });
         } catch (error: any) {
             return res.status(500).send({

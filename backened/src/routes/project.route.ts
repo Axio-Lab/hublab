@@ -17,7 +17,7 @@ router.post("/", authenticate, createProject);
 //create an NFT
 router.post("/nft/:projectId", authenticate, createNFT);
 
-//get users nfts
+//get users projects
 router.get("/nft", authenticate, getUserNFTS);
 
 //generate NFT claim link

@@ -3,6 +3,11 @@ import { DATABASES } from "../configs/constants.configs";
 import IProduct from "../interfaces/product.interface";
 
 const productSchema = new Schema<IProduct>({
+    userId: {
+        type: String,
+        required: true,
+        ref: "Profile"
+    },
     type: {
         type: String,
         required: true,
@@ -59,7 +64,8 @@ const productSchema = new Schema<IProduct>({
     pop: {
         address: String,
         name: String,
-        imageUrl: String
+        imageUrl: String,
+        projectId: Number
     },
     purchaseXP: {
         type: Number,
