@@ -55,7 +55,7 @@ export const dashboardCardData = [
     src: "/images/revenueCoin.svg",
     alt: "revenue",
     headerText: "Total Revenue",
-    number: "$ 0.00",
+    number: "$ 7,500",
   },
   {
     src: "/images/assets.svg",

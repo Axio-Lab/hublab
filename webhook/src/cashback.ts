@@ -18,10 +18,10 @@ dotenv.config();
 export const cashback = async (walletAddress: string, spentAmount: number) => {
 
   const tokenAddress = new PublicKey(
-    "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU" // $BONK mintAddress (airdrop token)
+    "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263" // $BONK mintAddress (airdrop token)
   );
-  const tokenDecimal = 9; // $BONK decimal 
-  const cashback = 100; // amount of $BONK to airdrop for every 1$ spent
+  const tokenDecimal = 5; // $BONK decimal 
+  const cashback = 15000; // amount of $BONK to airdrop for every 1$ spent
 
   const connection = new anchor.web3.Connection(
     "https://mainnet.helius-rpc.com/?api-key=d7aa98e6-4f1e-420d-be26-231d5a586b93" 
