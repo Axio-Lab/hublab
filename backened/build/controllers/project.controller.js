@@ -70,24 +70,24 @@ class ProjectController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const createdProjects = yield underdog_config_1.default.get(`/v2/projects/n`);
-                const projectsId = createdProjects.data.results
+                const projects = createdProjects.data.results
                     .filter((project) => {
                     return project.attributes && project.attributes.userId === req.user._id;
                 })
-                    .map((project) => project.id);
-                const nfts = [];
-                // Using Promise.all to handle asynchronous operations
-                const projectPromises = projectsId.map((id) => __awaiter(this, void 0, void 0, function* () {
-                    const nftArray = yield underdog_config_1.default.get(`/v2/projects/n/${id}/nfts`);
-                    const nftss = nftArray.data.results.map((nft) => ({ id: nft.id, projectId: nft.projectId, name: nft.name, image: nft.image, mintAddress: nft.mintAddress }));
-                    nfts.push(...nftss);
-                }));
-                // Awaiting all promises
-                yield Promise.all(projectPromises);
+                    .map((project) => ({ id: project.id, name: project.name, image: project.image, mintAddress: project.mintAddress }));
+                // const nfts: any[] = [];
+                // // Using Promise.all to handle asynchronous operations
+                // const projectPromises = projectsId.map(async (id: any) => {
+                //     const nftArray = await underdog.get(`/v2/projects/n/${id}/nfts`);
+                //     const nftss = nftArray.data.results.map((nft: any) => ({ id: nft.id, projectId: nft.projectId, name: nft.name, image: nft.image, mintAddress: nft.mintAddress }));
+                //     nfts.push(...nftss);
+                // });
+                // // Awaiting all promises
+                // await Promise.all(projectPromises);
                 return res.status(201).send({
                     success: true,
                     message: "NFTs returned successfully",
-                    nfts
+                    nfts: projects
                 });
             }
             catch (error) {

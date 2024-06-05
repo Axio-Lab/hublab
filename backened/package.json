@@ -26,6 +26,7 @@
     "mongoose": "^8.2.2",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.13",
     "path": "^0.12.7",
     "pino": "^8.19.0",
     "ts-node": "^10.9.2"
@@ -36,6 +37,7 @@
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/morgan": "^1.9.9",
-    "@types/multer": "^1.4.11"
+    "@types/multer": "^1.4.11",
+    "@types/nodemailer": "^6.4.15"
   }
 }

@@ -13,9 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const candypay_config_1 = __importDefault(require("../configs/candypay.config"));
+const profile_services_1 = __importDefault(require("./profile.services"));
+const ProfileService = new profile_services_1.default();
 class PaymentService {
-    createCandypaySession(product) {
+    createCandypaySession(product, userId) {
         return __awaiter(this, void 0, void 0, function* () {
+            const profile = yield ProfileService.findOne({ _id: product.userId });
+            const buyer = yield ProfileService.findOne({ _id: userId });
+            if (!profile)
+                throw new Error("Seller doesn't exist");
+            if (!buyer)
+                throw new Error("Buyer doesn't exist");
             return yield candypay_config_1.default.session.create({
                 success_url: product.product,
                 cancel_url: "https://www.jumia.ng",
@@ -34,6 +42,20 @@ class PaymentService {
                     name: product.nftSelection.name,
                     image: product.nftSelection.imageUrl,
                 },
+                custom_data: {
+                    name: profile.email,
+                    image: profile.imageUrl,
+                    wallet_address: profile._id
+                },
+                metadata: {
+                    buyerId: userId,
+                    buyerName: buyer.email,
+                    buyerImage: buyer.imageUrl,
+                    productId: product._id,
+                    productName: product.name,
+                    product: product.product,
+                    pop: product.pop
+                }
             });
         });
     }
