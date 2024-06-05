@@ -12,19 +12,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const product_servicee_1 = __importDefault(require("../services/product.servicee"));
-const { create } = new product_servicee_1.default();
-class ProductController {
-    createProduct(req, res) {
+const payload_model_1 = __importDefault(require("../models/payload.model"));
+class PayloadService {
+    create(payload) {
         return __awaiter(this, void 0, void 0, function* () {
-            const product = yield create(Object.assign(Object.assign({}, req.body), { userId: req.user._id }));
-            return res.status(200)
-                .send({
-                success: true,
-                message: "Product created successfully",
-                product
-            });
+            return yield payload_model_1.default.create(payload);
+        });
+    }
+    findOne(filter) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield payload_model_1.default.findOne(filter);
+        });
+    }
+    update(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield payload_model_1.default.findByIdAndUpdate(id, data);
         });
     }
 }
-exports.default = ProductController;
+exports.default = PayloadService;

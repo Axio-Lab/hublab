@@ -12,19 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const product_servicee_1 = __importDefault(require("../services/product.servicee"));
-const { create } = new product_servicee_1.default();
-class ProductController {
-    createProduct(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const product = yield create(Object.assign(Object.assign({}, req.body), { userId: req.user._id }));
-            return res.status(200)
-                .send({
-                success: true,
-                message: "Product created successfully",
-                product
-            });
-        });
-    }
+const nodemailer_config_1 = __importDefault(require("../configs/nodemailer.config"));
+function sendEmail(mailOptions) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield nodemailer_config_1.default.sendMail(mailOptions);
+            return true;
+        }
+        catch (error) {
+            throw new Error(`Error sending email: ${error}`);
+        }
+    });
 }
-exports.default = ProductController;
+exports.default = sendEmail;
