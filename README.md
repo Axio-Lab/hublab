@@ -46,13 +46,13 @@ With Verxio's tokenized discount feature, creators and businesses can provide di
 ## Bonk Integration & Overall Impact  🐶
 1. $BONK Payment: Verxio provides users an innovative way to spend their $BONK on digital product purchases.
    
-2. $BONK Token ownership-based discounts: Creators can enable buy-to-redeem commerce by offering discounts ranging from 0% to 100% to customers who hold $BONK.
+2. $BONK ownership-based discounts: Creators can enable buy-to-redeem commerce by offering discounts ranging from 0% to 100% to customers who hold $BONK.
 
 3. $BONK Cashback System: Creators can drive sales by incentivizing purchases with $BONK, encouraging repeat business, attracting new customers, and gaining a competitive edge.
 
 4. $BONK Revenue Share: Customers who purchase items on Verxio will partake in a 50% revenue split shared based on the $BONK holdings of customers.
 
-## In Talk Partnerships and Potential Impact 🤝🏼
+## Partnerships and Potential Impact 🤝🏼
 
 
 ## Solana & Protocol Integrations ⚙️
