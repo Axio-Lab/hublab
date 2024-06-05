@@ -37,6 +37,9 @@ With Verxio's tokenized discount feature, creators and businesses can provide di
 
 4. $BONK Revenue Share: Customers who purchase items on Verxio will partake in a 50% revenue split shared based on the $BONK holdings of customers.
 
+## In Talk Partnerships and Potential Impact 🤝🏼
+
+
 ## Solana & Protocol Integrations ⚙️
 1. Verxio is integrating [Underdog Protocol](https://www.underdogprotocol.com/) to create dynamic/soulbound NFTs, manage NFTs, and connect off-chain workflows, on-chain enabling on-chain marketing automation.
    
