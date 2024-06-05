@@ -14,8 +14,7 @@ const CollectionTable = () => {
       page: "campaignpreview",
       reward: "NFT Badge",
       statusText: "Transferable",
-      NFT: "NFT",
-    //   Token: "Token",
+      collectionAddress: "0x0378rtdg4ee",
     },
     {
       id: 2,
@@ -24,8 +23,7 @@ const CollectionTable = () => {
       page: "campaignpreview",
       reward: "Token",
       statusText: "Non Transferable",
-      NFT: "NFT",
-      Token: "Token",
+      collectionAddress: "0x03786dBD74ee",
     },
     {
       id: 3,
@@ -34,8 +32,7 @@ const CollectionTable = () => {
       page: "campaignpreview",
       reward: "Soulbound NFT",
       statusText: "Transferable",
-      NFT: "NFT",
-      Token: "Token",
+      collectionAddress: "0x0ff7E15BD74ee",
     },
     {
       id: 4,
@@ -44,15 +41,14 @@ const CollectionTable = () => {
       page: "campaignpreview",
       reward: "Soulbound Token",
       statusText: "Non Transferable",
-    //   NFT: "NFT",
-      Token: "Token",
+      collectionAddress: "0x03E15BD74ee",
     },
   ]);
 
   return (
     <section className="w-full gap-6 shadow px-2 md:px-5 py-[18px] rounded-[14px] border">
       <div className="flex items-center justify-between my-4">
-        <h2 className="text-primary font-semibold text-[20px]">Collection</h2>
+        <h2 className="text-primary font-semibold text-[20px]">My Collections</h2>
 
         <Link href={"dashboard/createcollection"} className="mr relative">
           <div className="rounded-lg bg-[#fff] border border-[#00ADEF] h-full w-full absolute left-[4px] top-[6px]"></div>
@@ -70,7 +66,7 @@ const CollectionTable = () => {
       </div>
       <div className="flex max-w-full overflow-x-auto w-full">
         <Table
-          tableHeads={["All Assets", "Assets Status", "Date ", "Asset Type"]}
+          tableHeads={["Asset Name", "Assets Status", "Date ", "Collection Address"]}
         >
           <TableBody tableData={campaignData} />
         </Table>

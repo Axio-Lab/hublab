@@ -1,8 +1,19 @@
 "use client";
 import Image from "next/image";
 import { Button } from "@/components";
+import {useDispatch} from 'react-redux'
+import { setUserId } from "@/store/slices/statesSlice";
+import { useAccount } from "@particle-network/connect-react-ui";
 
 const page = () => {
+
+  const account = useAccount();
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    dispatch(setUserId(account))
+  },[account])
+
   return (
     <section className="w-full h-full p-2 md:p-10 ">
       <section className="w-full border rounded-lg p-2 md:p-6 flex flex-col items-start gap-3">

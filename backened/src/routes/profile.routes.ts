@@ -1,5 +1,6 @@
 import { Router } from "express";
 import ProfileController from '../controllers/profile.controllers';
+import PointsController from '../controllers/points.controller';
 import validate from "../middlewares/validate.middleware";
 import { profileSchema } from "../schemas/profile.schemas";
 import upload from "../configs/multer.configs";
@@ -11,6 +12,9 @@ const {
     claimPoints,
     getReferralLink
 } = new ProfileController();
+const {
+    getTodaysPoints
+} = new PointsController();
 
 //create or update a profile
 router.put("/:id", validate(profileSchema), createProfile);
@@ -23,6 +27,9 @@ router.get("/:id", getProfile);
 
 //claim points
 router.patch("/claim/:id", claimPoints);
+
+//fetch today's points
+router.get("/points/:profileId", getTodaysPoints);
 
 //get referral link
 router.get("/referral/:id", getReferralLink);
