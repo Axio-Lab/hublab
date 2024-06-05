@@ -12,9 +12,28 @@ const campaignSchema = joi_1.default.object({
     description: joi_1.default.string().required().trim(),
     startDate: joi_1.default.string().required().trim(),
     endDate: joi_1.default.string().required().trim(),
-    questions: joi_1.default.array().required(),
+    questions: joi_1.default.object({
+        pickAnswer: joi_1.default.object({
+            value: joi_1.default.array()
+        }),
+        chooseImg: joi_1.default.object({
+            value: joi_1.default.array()
+        }),
+        submitUrl: joi_1.default.object({
+            value: joi_1.default.array()
+        }),
+        openEndedQuestion: joi_1.default.object({
+            value: joi_1.default.array()
+        }),
+        performAction: joi_1.default.object({
+            value: joi_1.default.array()
+        })
+    }).required(),
     eligibility: joi_1.default.required(),
     participants: joi_1.default.number().required(),
-    reward: joi_1.default.string().required().trim()
+    methodOfReward: joi_1.default.string().required().trim(),
+    rewardCoin: joi_1.default.string().required().trim(),
+    totalRewardPoint: joi_1.default.number().required(),
+    rewardWith: joi_1.default.string().required().trim()
 });
 exports.campaignSchema = campaignSchema;

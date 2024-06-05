@@ -25,12 +25,12 @@ const campaignSchema = new Schema({
         trim: true
     },
     startDate: {
-        type: String,
+        type: Date,
         required: true,
         trim: true
     },
     endDate: {
-        type: String,
+        type: Date,
         required: true,
         trim: true
     },
@@ -86,7 +86,7 @@ const campaignSchema = new Schema({
                 },
                 required: false
             },
-            action: {
+            performAction: {
                 type: {
                     value: [{
                         question: String,
@@ -127,11 +127,13 @@ const campaignSchema = new Schema({
         required: true,
         trim: true
     },
-    status: {
-        type: String,
-        required: true,
-        default: "Ongoing",
-        trim: true
+    winners: {
+        type: {
+            value: [{
+                userId: String,
+                amount: Number
+            }]
+        }
     }
 }, {
     strict: false,
