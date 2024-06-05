@@ -28,14 +28,16 @@ With Verxio, creators/businesses can also offer NFTs and Token ownership-based d
 
 With Verxio's tokenized discount feature, creators and businesses can provide discounts to convert users and drive more sales while encouraging users to join their community.
 
-## Creator Workflow 👾
+<hr />
+
 ![creator workflow image](https://github.com/Axio-Lab/hublab/blob/bonk/develop/frontend/src/assets/Verxio%20Workflow%20-%20Creator.png)
 
 1. The creator must log in to their `dashboard` and create an NFT `collection` to use as proof of purchase NFT on the payment page. 
 2. The creator should click the start selling icon on the dashboard to create a product instantly. Here they can enable `NFT-gated discount`. `BONK-ownership` can also be enabled on the Create product page.
 3. Upon completion a product URL is generated that the creator can share with their audience to `start selling`.
 
-## Customer Workflow 👤
+<hr />
+
 ![customer workflow image](https://github.com/Axio-Lab/hublab/blob/bonk/develop/frontend/src/assets/Verxio%20Workflow%20-%20Customer.png)
 1. The customers click on the `product URL` to head to the payment page.
 2. When they click the `Buy Now` button, they're redirected to a `checkout` page to make payment with BONK. The checkout page automatically checks if they qualify for the tokenized discount criteria set by the creator.
