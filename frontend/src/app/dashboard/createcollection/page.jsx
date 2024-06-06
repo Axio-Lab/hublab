@@ -140,7 +140,7 @@ const page = () => {
                       onClick={() => handleClick("transferable")}
                       className={`bg-[#fff] text-[#484851] border-[#00ADEF] text-[16px] font-normal w-[300px] py-2 border rounded-l-lg ${
                         selectedMode === "transferable"
-                          ? "bg-[#00ADEF] text-[#fff]"
+                          ? "bg-[#00ADEF] text-[#FF0000]"
                           : ""
                       } `}
                     >
@@ -150,7 +150,7 @@ const page = () => {
                       onClick={() => handleClick("non-transferable")}
                       className={`bg-[#fff] text-[#484851] border-[#00ADEF] text-[16px] font-normal border rounded-r-lg w-[300px] py-2 ${
                         selectedMode === "non-transferable"
-                          ? "bg-[#00ADEF] text-[#fff]"
+                          ? "bg-[#00ADEF] text-[#FF0000]"
                           : ""
                       }`}
                     >
@@ -229,7 +229,7 @@ const page = () => {
                   onClick={() => {
                     // isLoading = { loading };
                     createNewCollection(values);
-                    console.log(values.collectionName, "ajifxgouhgirgfihe");
+                    console.log(values.collectionName, "Collection Verified");
                   }}
                 />
               </div>
