@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Image from "next/image";
-import UploadIcon from "../../assets/uploadIcon.svg";
 import Button from "../Button";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
@@ -12,6 +11,7 @@ import { createProduct } from "@/store/slices/productSlice";
 import { setSummary } from "@/store/slices/statesSlice";
 import ProductModal from "@/components/modals/productModal";
 import { FolderCloud } from "iconsax-react";
+// import UploadIcon from "../../assets/uploadIcon.svg";
 // import { useAccount } from "@particle-network/connect-react-ui";
 
 const Summary = ({ account }) => {
@@ -52,10 +52,10 @@ const Summary = ({ account }) => {
     setFieldValue("category", category);
   };
 
-  const handleProofOfPurchaseChange = (event, setFieldValue) => {
-    const { name, value } = event.target;
-    setFieldValue(`proofOfPurchase.${name}`, value);
-  };
+  // const handleProofOfPurchaseChange = (event, setFieldValue) => {
+  //   const { name, value } = event.target;
+  //   setFieldValue(`proofOfPurchase.${name}`, value);
+  // };
 
   const initialValues = {
     category: "",
@@ -102,6 +102,8 @@ const Summary = ({ account }) => {
   const NFTImageUrl = useSelector(
     (state) => state.generalStates?.details?.customNFT?.imageUrl
   );
+
+  const status = useSelector((state) => state.product.product.status);
 
   const createNewProduct = async (values) => {
     try {
@@ -306,6 +308,7 @@ const Summary = ({ account }) => {
                   name="publish"
                   className="border border-primary font-medium text-[20px]"
                   shade="border-primary"
+                  isLoading={status === "loading"}
                   onClick={() => {
                     dispatch(setSummary(values));
                     createNewProduct(values);
@@ -323,10 +326,8 @@ const Summary = ({ account }) => {
 
       {campaignModalOpen && (
         <div className="bg-[#000]/40  absolute w-full h-full top-0 left-0 z-50 p-10 text-[#484851] ">
-          <CampaignPreview
-            setCampaignModalOpen={setCampaignModalOpen}
-          />
-          {/* <ProductPage /> */}
+          <CampaignPreview setCampaignModalOpen={setCampaignModalOpen} />
+          <ProductPage />
         </div>
       )}
     </section>

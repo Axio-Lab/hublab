@@ -13,19 +13,18 @@ import {
   setEdit,
 } from "@/store/slices/statesSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { root } from "@/store/store";
+// import { root } from "@/store/store";
 
 const page = () => {
-  const account = useAccount();
   const router = useRouter();
-
+  const account = useAccount();
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.profile.profile.status);
-  const id2 = useSelector((state) => state);
 
-  console.log(id2);
-  const id = useSelector((state) => state.profile.userId);
+  // console.log(id2);
+  // const id2 = useSelector((state) => state);
+  // const id = useSelector((state) => state.profile.userId);
 
   const getUserProfile = async () => {
     try {

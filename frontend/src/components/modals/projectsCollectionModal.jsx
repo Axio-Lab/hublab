@@ -3,12 +3,12 @@ import { CloseCircle } from "iconsax-react";
 import { Button } from "@/components";
 import { useRouter } from "next/navigation";
 
-const ProjectCollectionModal = ({ setCreateCollection }) => {
+const ProjectCollectionModal = ({ setOpenCreateModal }) => {
 
  const router = useRouter();
 
   const closeModal = () => {
-    setCreateCollection(false)
+    setOpenCreateModal(false)
     router.push("/dashboard/collections")
   }
 
