@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { Button } from "@/components";
+import { useEffect } from "react";
 import {useDispatch} from 'react-redux'
 import { setUserId } from "@/store/slices/statesSlice";
 import { useAccount } from "@particle-network/connect-react-ui";

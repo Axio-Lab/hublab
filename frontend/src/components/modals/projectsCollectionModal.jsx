@@ -10,6 +10,8 @@ const ProjectCollectionModal = ({ setOpenCreateModal }) => {
   const closeModal = () => {
     setOpenCreateModal(false)
     router.push("/dashboard/collections")
+    // setCreateCollection(false)
+    // router.push("/dashboard")
   }
 
   return (
@@ -22,12 +24,12 @@ const ProjectCollectionModal = ({ setOpenCreateModal }) => {
           <CloseCircle color="#484851" />
         </span>
         <h2 className="font-semibold text-[32px] text-[#484851] ">Successful</h2>
-        <p clasName="text-[16px]">You have successfully created your project collection</p>
-        <p className="text-[12px]">It’s time to create assets for your collection!</p>
+        <p clasName="text-[16px]">You have successfully created an NFT collection</p>
+        <p className="text-[12px]">Seamlessly enable on-chain proof of purchase in your product!</p>
 
         <div className="w-full">
         <Button 
-        href={"/dashboard/collections"}
+        href={"/dashboard"}
         name="Continue"  />
         </div>
       </div>

@@ -1,5 +1,4 @@
 "use client";
-// import Link from "next/link";
 
 export const Table = ({ tableHeads, tableData, children }) => {
   return (

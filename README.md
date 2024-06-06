@@ -28,14 +28,33 @@ With Verxio, creators/businesses can also offer NFTs and Token ownership-based d
 
 With Verxio's tokenized discount feature, creators and businesses can provide discounts to convert users and drive more sales while encouraging users to join their community.
 
+<hr />
+
+![creator workflow image](https://github.com/Axio-Lab/hublab/blob/bonk/develop/frontend/src/assets/Verxio%20Workflow%20-%20Creator.png)
+
+1. The creator must log in to their `dashboard` and create an NFT `collection` to use as proof of purchase NFT on the payment page. 
+2. The creator should click the start selling icon on the dashboard to create a product instantly. Here they can enable `NFT-gated discount`. `BONK-ownership` can also be enabled on the Create product page.
+3. Upon completion a product URL is generated that the creator can share with their audience to `start selling`.
+4. For every purchase, the creator receives the BONK payment directly in their wallet and then an email notification is sent to them with details of the transaction.
+
+<hr />
+
+![customer workflow image](https://github.com/Axio-Lab/hublab/blob/bonk/develop/frontend/src/assets/Verxio%20Workflow%20-%20Customer.png)
+1. The customers click on the `product URL` to head to the payment page.
+2. When they click the `Buy Now` button, they're redirected to a `checkout` page to make payment with BONK. The checkout page automatically checks if they qualify for the tokenized discount criteria set by the creator.
+3. Upon successful payment, the custom `verxio` webhook and BONK cashback program are triggered to execute accordingly, sending them an email notification with a record of the transaction and detail of their purchase.
+
 ## Bonk Integration & Overall Impact  🐶
 1. $BONK Payment: Verxio provides users an innovative way to spend their $BONK on digital product purchases.
    
-2. $BONK Token ownership-based discounts: Creators can enable buy-to-redeem commerce by offering discounts ranging from 0% to 100% to customers who hold $BONK.
+2. $BONK ownership-based discounts: Creators can enable buy-to-redeem commerce by offering discounts ranging from 0% to 100% to customers who hold $BONK.
 
 3. $BONK Cashback System: Creators can drive sales by incentivizing purchases with $BONK, encouraging repeat business, attracting new customers, and gaining a competitive edge.
 
 4. $BONK Revenue Share: Customers who purchase items on Verxio will partake in a 50% revenue split shared based on the $BONK holdings of customers.
+
+## Partnerships and Potential Impact 🤝🏼
+
 
 ## Solana & Protocol Integrations ⚙️
 1. Verxio is integrating [Underdog Protocol](https://www.underdogprotocol.com/) to create dynamic/soulbound NFTs, manage NFTs, and connect off-chain workflows, on-chain enabling on-chain marketing automation.
