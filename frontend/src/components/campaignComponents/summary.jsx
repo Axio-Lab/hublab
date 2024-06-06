@@ -105,6 +105,12 @@ const Summary = ({ account }) => {
 
   const status = useSelector((state) => state.product.product.status);
 
+  const userProfile = useSelector((state) => state.generalStates.userProfile);
+
+  useEffect(() => {
+    console.log(userProfile, ": User profile details");
+  }, []);
+
   const createNewProduct = async (values) => {
     try {
       const response = await dispatch(
@@ -325,9 +331,9 @@ const Summary = ({ account }) => {
       )}
 
       {campaignModalOpen && (
-        <div className="bg-[#000]/40  absolute w-full h-full top-0 left-0 z-50 p-10 text-[#484851] ">
+        <div className="bg-[#000]/40 absolute w-full h-full top-0 left-0 z-50 p-10 text-[#484851">
           <CampaignPreview setCampaignModalOpen={setCampaignModalOpen} />
-          <ProductPage />
+          {/* <ProductPage /> */}
         </div>
       )}
     </section>
