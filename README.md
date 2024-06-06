@@ -35,13 +35,14 @@ With Verxio's tokenized discount feature, creators and businesses can provide di
 1. The creator must log in to their `dashboard` and create an NFT `collection` to use as proof of purchase NFT on the payment page. 
 2. The creator should click the start selling icon on the dashboard to create a product instantly. Here they can enable `NFT-gated discount`. `BONK-ownership` can also be enabled on the Create product page.
 3. Upon completion a product URL is generated that the creator can share with their audience to `start selling`.
+4. For every purchase, the creator receives the BONK payment directly in their wallet and then an email notification is sent to them with details of the transaction.
 
 <hr />
 
 ![customer workflow image](https://github.com/Axio-Lab/hublab/blob/bonk/develop/frontend/src/assets/Verxio%20Workflow%20-%20Customer.png)
 1. The customers click on the `product URL` to head to the payment page.
 2. When they click the `Buy Now` button, they're redirected to a `checkout` page to make payment with BONK. The checkout page automatically checks if they qualify for the tokenized discount criteria set by the creator.
-3. Upon successful payment, the custom `verxio` webhook and BONK cashback program are triggered to execute accordingly, sending both the creator and customer an email notification.
+3. Upon successful payment, the custom `verxio` webhook and BONK cashback program are triggered to execute accordingly, sending them an email notification with a record of the transaction and detail of their purchase.
 
 ## Bonk Integration & Overall Impact  🐶
 1. $BONK Payment: Verxio provides users an innovative way to spend their $BONK on digital product purchases.
