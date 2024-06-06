@@ -1,5 +1,4 @@
 "use client";
-// import Link from "next/link";
 
 export const Table = ({ tableHeads, tableData, children }) => {
   return (
@@ -42,7 +41,7 @@ export const TableBody = ({ tableData }) => {
             <CampaignDateTemplate date={data.date} />
           </td>
           <td className="border border-[#F3F3FC] text-center py-2 px-4">
-            <CampaignAsset NFT={data.NFT} Token={data.Token} />
+            <CampaignAsset collectionAddress={data.collectionAddress} />
           </td>
         </tr>
       ))}
@@ -72,11 +71,17 @@ const CampaignDateTemplate = (tableData) => {
   );
 };
 
-const CampaignAsset = ({ NFT, Token }) => {
+const CampaignAsset = ({ collectionAddress }) => {
   return (
-    <div className="flex items-center justify-between w-full font-normal text-[16px] text-[#424242]">
-      {NFT ? <p className="mr-2">{NFT}</p> : "-----"}
-      {Token ? <p>{Token}</p> : "----"}
-    </div>
+    <p className="font-normal text-[16px] text-[#424242]">{collectionAddress}</p>
   );
 };
+
+// const CampaignAsset = ({ NFT, Token }) => {
+//   return (
+//     <div className="flex items-center justify-between w-full font-normal text-[16px] text-[#424242]">
+//       {NFT ? <p className="mr-2">{NFT}</p> : "-----"}
+//       {Token ? <p>{Token}</p> : "----"}
+//     </div>
+//   );
+// };

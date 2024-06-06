@@ -4,6 +4,7 @@ import { Button } from "@/components";
 import { useSearchParams, permanentRedirect, redirect } from "next/navigation";
 import Image from "next/image";
 import logo from "../../assets/Logo.svg";
+import Link from 'next/link';
 import campaignBanner from "../../assets/campaignBanner.svg"
 import { useAccount } from "@particle-network/connect-react-ui";
 import WalletLogin from "@/components/walletLogin";
@@ -17,9 +18,6 @@ const layout = ({ children }) => {
   const tab = searchParams.get("tab");
   const account = useAccount();
   const dispatch = useDispatch()
-
-  
-  console.log(account)
   
   useEffect(()=>{
     dispatch(setUserId(account))
@@ -28,7 +26,9 @@ const layout = ({ children }) => {
   return (
     <div className="relative">
       <div className="bg-primary flex justify-between items-center px-5 py-3">
+      <Link href="/dashboard">
         <Image src={logo} alt="Verxio Logo" className="w-[50px]" />
+    </Link>
         <div className="flex items-center gap-3">
           {/* <Button name="start earning" /> */}
           {account ? <LogoutButton /> : <WalletLogin />}
