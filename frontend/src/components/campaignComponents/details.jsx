@@ -6,7 +6,10 @@ import Image from "next/image";
 import UploadIcon from "../../assets/uploadIcon.svg";
 import Button from "../Button";
 import { useDispatch, useSelector } from "react-redux";
-import { setDetails } from "@/store/slices/statesSlice";
+import {
+  setDetails,
+  setSelectedProductImage,
+} from "@/store/slices/statesSlice";
 import Tiptap from "../tiptap";
 
 const Details = () => {
@@ -37,7 +40,8 @@ const Details = () => {
       };
 
       const data = reader.readAsDataURL(file);
-      console.log(data);
+      console.log(data, "file url that is been expected!!!!!");
+      console.log(selectedImage, "image that is been expected!!!!!");
     }
   };
 
@@ -345,6 +349,7 @@ const Details = () => {
                 className="text-[20px]"
                 onClick={() => {
                   dispatch(setDetails(values));
+                  dispatch(setSelectedProductImage({ selectedImage }));
                   router.push("/start_selling?tab=summary");
                 }}
               />
