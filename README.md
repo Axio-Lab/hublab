@@ -57,6 +57,7 @@ With Verxio's tokenized discount feature, creators and businesses can provide di
 
 <hr />
 ## Partnerships and Potential Impact 🤝🏼
+
 - We're currently talking with [Stakecut](https://www.stakecut.com) & [Selar](https://selar.co) both are commerce platforms with over 500,000 monthly active users combined and processing millions in monthly revenue, to integrate Verxio's tokenized checkout SDK and webhooks built on top of Solana Pay and CandyPay into their existing payment gateway to give their existing merchants and customer access to experience Verxio in a nutshell.
 
 - We also have network access to over 3000 creators selling to their audience. We intend to onboard a fraction of them to try out Verxio and we will use their success stories of the platform to make case studies to attract more creators.
