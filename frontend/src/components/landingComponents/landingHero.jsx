@@ -53,20 +53,19 @@ const LandingPageHero = () => {
           <div className="relative h-full flex flex-col items-center justify-center text-center mx-auto gap-8 md:gap-12 px-[MIN(100px,8%)]">
             <div className="flex flex-col font-medium text-3xl md:text-6xl text-textColor leading-10 md:leading-[80px]">
               <h2>
-                Create and Manage <br className="hidden md:block" /> Tokenized{" "}
-                ad Campaigns <br className="hidden md:block" /> in
-                <span className="text-[#00ADEF]"> Minutes</span>
+              Instant Tool <br className="hidden md:block" /> for anyone{" "}
+              to sell their  <br className="hidden md:block" /> digital 
+                <span className="text-[#00ADEF]"> products!</span>
               </h2>
             </div>
 
             <p className="font-normal text-lg text-[#DFDFF7]">
-              Grow your business by rewarding community particpiation with{" "}
-              <br className="hidden md:block" /> crypto incentives.
+              leverage verxio's on-chain commerce protocol to Create, Manage, and {" "}
+              <br className="hidden md:block" />distribute your digital product to your audience easily with.
             </p>
 
             <div className="flex gap-3 items-center relative z-20">
-              {/* <Button name="Start Earning" href={"/welcome"} /> */}
-              <Button href="/welcome" name="Get Started" />
+              <Button href="/welcome" name="Start Selling" />
             </div>
           </div>
         </section>

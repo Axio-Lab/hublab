@@ -24,7 +24,8 @@ const Sidebar = () => {
           <Logo className="py-12" />
         </div>
         <div className="mx-5">
-          <Button name="Profile" className="my-7" />
+        {/* <Button href="/dashboard/" name="Dashboard" className="my-7" /> */}
+          <Button href="/dashboard/profile" name="Profile" className="my-7" />
         </div>
         <div className="flex flex-col justify-between h-[60%]">
           <ul className="">

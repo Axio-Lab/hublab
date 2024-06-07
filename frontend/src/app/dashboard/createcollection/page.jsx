@@ -6,12 +6,12 @@ import UploadIcon from "../../../assets/uploadIcon.svg";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import ProjectCollectionModal from "@/components/modals/projectsCollectionModal";
 import { useSelector } from "react-redux";
-// import { createCollection } from "@/store/slices/productSlice";
-import { toast } from "react-toastify";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 
 const page = () => {
-  // const dispatch = useDispatch();
+
   const fileInputRef = useRef(null);
   const [selectedMode, setSelectedMode] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
@@ -20,7 +20,6 @@ const page = () => {
   const initialValues = {
     collectionName: "",
     collectionImage: "",
-    // collectionMode: "",
   };
 
   const handleCollectionNameChange = (event, setFieldValue) => {
@@ -30,7 +29,7 @@ const page = () => {
 
   const handleClick = (mode) => {
     setSelectedMode(mode);
-    console.log(selectedMode, "selected mode!!!!!!");
+    // console.log(selectedMode, "selected mode!!!!!!");
   };
 
   const handleImageChange = (event, setSelectedImage) => {
@@ -58,38 +57,10 @@ const page = () => {
 
   const userId = useSelector((state) => state.generalStates.userId);
 
-  useEffect(() => {
-    console.log(userId, "Logged in User");
-  }, []);
-
-  // const createNewCollection = async (values) => {
-  //   try {
-  //     const response = await dispatch(
-  //       createCollection({
-  //         data: {
-  //           name: values.collectionName,
-  //           image:
-  //             "https://www.google.com/url?sa=i&url=https%3A%2F%2Fcondusiv.com%2Fsequential-io-always-outperforms-random-io-on-hard-disk-drives-or-ssds%2F&psig=AOvVaw0gIZMjG4dtsc3otXxWQgHx&ust=1711935077938000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPi7q6KtnYUDFQAAAAAdAAAAABAE",
-  //         },
-  //       })
-  //     );
-  //     console.log(response);
-  //     if (response?.payload?.success === true) {
-  //       toast.success(response?.payload?.message);
-  //       console.log(response.payload);
-  //       setOpenModal(true);
-  //     } else {
-  //       toast.error(response?.payload?.message);
-  //       console.log(response);
-  //     }
-  //   } catch (error) {
-  //     console.error("error:", error);
-  //   }
-  // };
 
   const createNewCollection = async (values) => {
     try {
-      const url = `https://backend-verxio.vercel.app/api/v1/projects`;
+      const url = `https://backend-verxio.vercel.app/api/v1/collection/${userId}`;
       const requestData = {
         name: values.collectionName,
         image:
@@ -98,10 +69,8 @@ const page = () => {
 
       const response = await axios.post(url, requestData);
 
-      console.log(response.data);
-
       if (response.data.success === true) {
-        toast.success(response.data.message);
+        // toast.success(response.data.message);
         setOpenModal(true);
       } else {
         toast.error(response.data.message);
@@ -142,7 +111,7 @@ const page = () => {
                       onClick={() => handleClick("transferable")}
                       className={`bg-[#fff] text-[#484851] border-[#00ADEF] text-[16px] font-normal w-[300px] py-2 border rounded-l-lg ${
                         selectedMode === "transferable"
-                          ? "bg-[#00ADEF] text-[#fff]"
+                          ? "bg-[#00ADEF] text-[#FF0000]"
                           : ""
                       } `}
                     >
@@ -152,7 +121,7 @@ const page = () => {
                       onClick={() => handleClick("non-transferable")}
                       className={`bg-[#fff] text-[#484851] border-[#00ADEF] text-[16px] font-normal border rounded-r-lg w-[300px] py-2 ${
                         selectedMode === "non-transferable"
-                          ? "bg-[#00ADEF] text-[#fff]"
+                          ? "bg-[#00ADEF] text-[#FF0000]"
                           : ""
                       }`}
                     >
@@ -231,7 +200,6 @@ const page = () => {
                   onClick={() => {
                     // isLoading = { loading };
                     createNewCollection(values);
-                    // console.log(values.collectionName, "ajifxgouhgirgfihe");
                   }}
                 />
               </div>

@@ -6,7 +6,6 @@ import Button from "../Button";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import CampaignPreview from "../modals/campaignPreview";
-import ProductPage from "../modals/productPreview";
 import { createProduct } from "@/store/slices/productSlice";
 import { setSummary } from "@/store/slices/statesSlice";
 import ProductModal from "@/components/modals/productModal";
@@ -104,12 +103,6 @@ const Summary = ({ account }) => {
   );
 
   const status = useSelector((state) => state.product.product.status);
-
-  const userProfile = useSelector((state) => state.generalStates.userProfile);
-
-  useEffect(() => {
-    console.log(userProfile, ": User profile details");
-  }, []);
 
   const createNewProduct = async (values) => {
     try {
@@ -250,10 +243,10 @@ const Summary = ({ account }) => {
               </div>
               <div>
                 <p className="font-semibold text-[24px] mb-5">
-                  <span className="mr-3 text-">*</span>Upload Product
+                  <span className="mr-3 text-">*</span>Upload File
                 </p>
-                <div className="w-[65%]">
-                  <div className=" rounded-lg border border-primary border-dashed bg-[#E7E7F9]">
+                <div className="w-[65%] ">
+                  <div className=" rounded-lg border border-primary border-dashed bg-[#dde3ed]">
                     {selectedImage ? (
                       <Image
                         src={selectedImage}
@@ -333,7 +326,6 @@ const Summary = ({ account }) => {
       {campaignModalOpen && (
         <div className="bg-[#000]/40 absolute w-full h-full top-0 left-0 z-50 p-10 text-[#484851">
           <CampaignPreview setCampaignModalOpen={setCampaignModalOpen} />
-          {/* <ProductPage /> */}
         </div>
       )}
     </section>
