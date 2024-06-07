@@ -29,7 +29,7 @@ const page = () => {
 
   const handleClick = (mode) => {
     setSelectedMode(mode);
-    console.log(selectedMode, "selected mode!!!!!!");
+    // console.log(selectedMode, "selected mode!!!!!!");
   };
 
   const handleImageChange = (event, setSelectedImage) => {
@@ -56,10 +56,6 @@ const page = () => {
   );
 
   const userId = useSelector((state) => state.generalStates.userId);
-
-  useEffect(() => {
-    console.log(userId, "Logged in User");
-  }, []);
 
 
   const createNewCollection = async (values) => {
@@ -203,7 +199,6 @@ const page = () => {
                   onClick={() => {
                     // isLoading = { loading };
                     createNewCollection(values);
-                    console.log(values.collectionName, "Collection Verified");
                   }}
                 />
               </div>
