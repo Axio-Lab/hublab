@@ -35,7 +35,7 @@ class PaymentController {
                     });
                 }
                 const product = yield getProduct(productId);
-                const { session_id, order_id, payment_url } = yield createCandypaySession(product, req.user._id);
+                const { session_id, order_id, payment_url } = yield createCandypaySession(product, req.params.userId);
                 yield create({ paymentInfo: { productId, session_id, order_id, payment_url } });
                 return res.status(200)
                     .send({

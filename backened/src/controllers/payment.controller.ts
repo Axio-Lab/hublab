@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import PaymentService from "../services/payment.service";
 import ProductService from "../services/product.servicee";
 import PayloadService from "../services/payload.service";
-import AuthRequest from "../interfaces/auth.interface";
 import sendEmail from "../utils/sendmail.util";
 import underdog from "../configs/underdog.config";
 const { getProduct } = new ProductService();
@@ -25,7 +24,7 @@ export default class PaymentController {
             }
 
             const product = await getProduct(productId);
-            const { session_id, order_id, payment_url } = await createCandypaySession(product!, (req as AuthRequest).user._id);
+            const { session_id, order_id, payment_url } = await createCandypaySession(product!, req.params.userId);
             await create({ paymentInfo: { productId, session_id, order_id, payment_url } });
 
             return res.status(200)

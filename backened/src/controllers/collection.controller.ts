@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import underdog from "../configs/underdog.config";
-import AuthRequest from "../interfaces/auth.interface";
 
 export default class ProjectController {
 
@@ -11,7 +10,7 @@ export default class ProjectController {
                 name: req.body.name,
                 image: req.body.image,
                 attributes: {
-                    userId: (req as AuthRequest).user._id
+                    userId: req.params.userId
                 }
             });
 
@@ -63,21 +62,9 @@ export default class ProjectController {
 
             const projects = createdProjects.data.results
                 .filter((project: any) => {
-                    return project.attributes && project.attributes.userId === (req as AuthRequest).user._id;
+                    return project.attributes && project.attributes.userId === req.params.userId;
                 })
                 .map((project: any) => ({ id: project.id, name: project.name, image: project.image, mintAddress: project.mintAddress }));
-
-            // const nfts: any[] = [];
-
-            // // Using Promise.all to handle asynchronous operations
-            // const projectPromises = projectsId.map(async (id: any) => {
-            //     const nftArray = await underdog.get(`/v2/projects/n/${id}/nfts`);
-            //     const nftss = nftArray.data.results.map((nft: any) => ({ id: nft.id, projectId: nft.projectId, name: nft.name, image: nft.image, mintAddress: nft.mintAddress }));
-            //     nfts.push(...nftss);
-            // });
-
-            // // Awaiting all promises
-            // await Promise.all(projectPromises);
 
             return res.status(201).send({
                 success: true,
