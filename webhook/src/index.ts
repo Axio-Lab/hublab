@@ -50,7 +50,7 @@ app.post("/", async (req: Request, res: Response) => {
 
    // store transaction to verxio database
    try {
-    const url = `https://backend-verxio.vercel.app/api/v1/projects`;
+    const url = `https://backend-verxio.vercel.app/api/v1/payment/mail`;
     
     const response = await axios.post(url, payload);
 
