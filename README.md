@@ -18,7 +18,7 @@ BONK powered on-chain digital commerce protocol
 
 Verxio helps creators sell digital products directly to their audience, offering tools for setting up storefronts, managing sales, NFT-based proof of purchase, and payment processing in $BONK, etc.
 
-The Digital Commerce payment in the world is projected to grow by 9.52% (2024-2028) resulting in a market volume of US$16.59 trillion in 2028 with over 2.71 billion digital buyers while the global creator economy is estimated to reach $528.39 billion by 2030.
+The [Digital Commerce payment](https://www.statista.com/outlook/fmo/digital-payments/worldwide#:~:text=Total%20transaction%20value%20in%20the,US%2416.59tn%20by%202028) in the world is projected to grow by 9.52% (2024-2028) resulting in a market volume of US$16.59 trillion in 2028 with over [2.71 billion digital buyers](https://www.oberlo.com/statistics/how-many-people-shop-online) while the global creator economy is estimated to reach $528.39 billion by 2030.
 
 We're building Verxio to be the bedrock of this growth by enabling creators and businesses with an all-in-one platform to create, sell, receive payment in $BONK, and distribute their products to their audience.
 
@@ -56,6 +56,7 @@ With Verxio's tokenized discount feature, creators and businesses can provide di
 4. $BONK Revenue Share: Customers who purchase items on Verxio will partake in a 50% revenue split shared based on the $BONK holdings of customers.
 
 <hr />
+
 ## Partnerships and Potential Impact 🤝🏼
 
 - We're currently talking with [Stakecut](https://www.stakecut.com) & [Selar](https://selar.co) both are commerce platforms with over 500,000 monthly active users combined and processing millions in monthly revenue, to integrate Verxio's tokenized checkout SDK and webhooks built on top of Solana Pay and CandyPay into their existing payment gateway to give their existing merchants and customer access to experience Verxio in a nutshell.
@@ -64,23 +65,26 @@ With Verxio's tokenized discount feature, creators and businesses can provide di
 
 By allowing people to innovatively spend their $BONK on digital payments, and integrating on-chain commerce features and AI, Verxio enhances payment processing, NFT issuance, product distribution, customer incentivization, and loyalty rewards at scale. 
 
-This approach is estimated to onboard millions of people into crypto, driving up the adoption of $BONK, showcasing Solana’s capabilities, greatly contributing to the growth of the Solana ecosystem.
+This approach is estimated to onboard millions of people into crypto, driving up the adoption of $BONK, showcasing Solana’s capabilities, and greatly contributing to the growth of the Solana ecosystem.
 
 <hr />
 
 ## Solana & Protocol Integrations ⚙️
-1. Verxio is integrating [Underdog Protocol](https://www.underdogprotocol.com/) to create dynamic/soulbound NFTs, manage NFTs, and connect off-chain workflows, on-chain enabling on-chain marketing automation.
+1. Verxio is integrating [`Underdog Protocol`](https://www.underdogprotocol.com/) to create dynamic/soulbound NFTs, manage NFTs, and connect off-chain workflows, on-chain enabling on-chain marketing automation.
    
-2. Verxio is building on [Candypay](https://candypay.fun/) to enable creators to accept Solana payments with our seamless, mobile native, NFT/ Token-ownership loyalty discount Checkout solution in minutes.
+2. Verxio is building on [`Candypay`](https://candypay.fun/) to enable creators to accept Solana payments with our seamless, mobile native, NFT/ Token-ownership loyalty discount Checkout solution in minutes.
 
-3. Verxio is also integrating [Pyth Network's](https://pyth.network/) Oracle to pull in the $BONK/USDC price feed, which calculates the $BONK equivalent that customers need to pay for their purchase.
+3. Verxio is also integrating [`Pyth Network's`](https://pyth.network/) Oracle to pull in the $BONK/USDC price feed, which calculates the $BONK equivalent that customers need to pay for their purchase.
+
+4. Verxio uses a [`Cashback Webhook`](https://github.com/Axio-Lab/hublab/tree/bonk/develop/webhook) from the Verxio SDK to power the $BONK cashback program which also sends a notification to both the customer and seller about a purchase transaction and the cashback incentive trigger.
+<hr />
 
 ## Future Plans & Implementation 🔮
 1. Adding features for everything creators need to create, market, sell, and deliver their products online including:
    - AI-powered Sales Pages
    - AI-Powered Sales & Marketing Video Kit (TTS, CV, LLMs)
    - Product Funnels
-   - One click Upsell
+   - One-click Upsell
    - Email Marketing
    - A/B Testing integrations
    - Workflows integration
