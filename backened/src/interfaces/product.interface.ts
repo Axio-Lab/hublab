@@ -22,7 +22,7 @@ export default interface IProduct {
         address: string;
         name: string;
         imageUrl: string;
-        projectId: Number;
+        collectionId: Number;
     };
     purchaseXP: number;
     product: string;
