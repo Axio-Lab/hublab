@@ -11,4 +11,9 @@ export default class ProductService {
         if(!product) throw new Error("Invalid ProductId");
         return product;
     }
+
+    async getProducts(query: Partial<IProduct>) {
+        const products = await Product.find(query, "name type product sales revenue");
+        return products;
+    }
 }

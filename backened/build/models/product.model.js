@@ -76,6 +76,16 @@ const productSchema = new mongoose_1.Schema({
         type: String,
         required: true,
         trim: true
+    },
+    sales: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    revenue: {
+        type: Number,
+        required: true,
+        default: 0
     }
 }, {
     strict: true,
