@@ -27,5 +27,11 @@ class ProductService {
             return product;
         });
     }
+    getProducts(query) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const products = yield product_model_1.default.find(query, "name type product sales revenue");
+            return products;
+        });
+    }
 }
 exports.default = ProductService;

@@ -2,7 +2,7 @@ import { ObjectId } from "mongoose";
 
 export default interface IProduct {
     _id?: string;
-    userId: ObjectId;
+    userId: string;
     type: string;
     name: string;
     image: string;
@@ -26,4 +26,6 @@ export default interface IProduct {
     };
     purchaseXP: number;
     product: string;
+    sales: number;
+    revenue: number;
 }
