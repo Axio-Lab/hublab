@@ -65,7 +65,7 @@ const productSchema = new Schema<IProduct>({
         address: String,
         name: String,
         imageUrl: String,
-        projectId: Number
+        collectionId: Number
     },
     purchaseXP: {
         type: Number,

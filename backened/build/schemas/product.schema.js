@@ -25,7 +25,7 @@ const createProductSchema = joi_1.default.object({
         address: joi_1.default.string().required().trim(),
         name: joi_1.default.string().required().trim(),
         imageUrl: joi_1.default.string().required().trim(),
-        productId: joi_1.default.number().required()
+        collectionId: joi_1.default.number().required()
     }).optional(),
     purchaseXP: joi_1.default.number().required().default(50),
     product: joi_1.default.string().required().trim()
