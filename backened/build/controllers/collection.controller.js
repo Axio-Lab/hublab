@@ -17,16 +17,19 @@ class ProjectController {
     createProject(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                const currentDate = new Date();
+                const formattedDate = `${String(currentDate.getDate()).padStart(2, '0')}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${currentDate.getFullYear()}`;
                 const createdProject = yield underdog_config_1.default.post('/v2/projects/n', {
                     name: req.body.name,
                     image: req.body.image,
                     attributes: {
-                        userId: req.params.userId
+                        userId: req.params.userId,
+                        createdAt: formattedDate
                     }
                 });
                 return res.status(201).send({
                     success: true,
-                    message: 'Project created successfully',
+                    message: 'Collection created successfully',
                     createdProject: createdProject.data
                 });
             }
@@ -74,10 +77,17 @@ class ProjectController {
                     .filter((project) => {
                     return project.attributes && project.attributes.userId === req.params.userId;
                 })
-                    .map((project) => ({ id: project.id, name: project.name, image: project.image, mintAddress: project.mintAddress }));
+                    .map((project) => ({
+                    id: project.id,
+                    name: project.name,
+                    image: project.image,
+                    mintAddress: project.mintAddress,
+                    transferable: project.transferable,
+                    createdAt: project.attributes.createdAt
+                }));
                 return res.status(201).send({
                     success: true,
-                    message: "NFTs returned successfully",
+                    message: "Collections returned successfully",
                     nfts: projects
                 });
             }

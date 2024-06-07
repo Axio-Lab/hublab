@@ -85,6 +85,11 @@ export default class PaymentController {
                     })
             }
 
+            const product = await getProduct(payload.paymentInfo.productId);
+            product.sales = product.sales + 1;
+            product.revenue = product.revenue + payload.payment_amount;
+            await product.save();
+
             await update(payload.metadata.produtId, payload);
             //send mail to seller
             await sendEmail({

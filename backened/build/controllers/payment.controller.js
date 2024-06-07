@@ -93,6 +93,10 @@ class PaymentController {
                         message: "Payment not successful"
                     });
                 }
+                const product = yield getProduct(payload.paymentInfo.productId);
+                product.sales = product.sales + 1;
+                product.revenue = product.revenue + payload.payment_amount;
+                yield product.save();
                 yield update(payload.metadata.produtId, payload);
                 //send mail to seller
                 yield (0, sendmail_util_1.default)({
