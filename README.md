@@ -18,7 +18,9 @@ BONK powered on-chain digital commerce protocol
 
 Verxio helps creators sell digital products directly to their audience, offering tools for setting up storefronts, managing sales, NFT-based proof of purchase, and payment processing in $BONK, etc.
 
-The global creator economy is estimated to reach $528.39 billion by 2030. We're building Verxio to be the bedrock of this growth by enabling creators and businesses with an all-in-one platform to create, sell, receive payment in $BONK, and distribute their products to their audience.
+The Digital Commerce payment in the world is projected to grow by 9.52% (2024-2028) resulting in a market volume of US$16.59 trillion in 2028 with over 2.71 billion digital buyers while the global creator economy is estimated to reach $528.39 billion by 2030.
+
+We're building Verxio to be the bedrock of this growth by enabling creators and businesses with an all-in-one platform to create, sell, receive payment in $BONK, and distribute their products to their audience.
 
 With Verxio, creators/businesses can also offer NFTs and Token ownership-based discounts to achieve the following use case:
 
