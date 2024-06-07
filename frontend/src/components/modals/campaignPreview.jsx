@@ -1,29 +1,29 @@
 "use client";
-import React, { useState } from "react";
 import { Button } from "..";
 import Image from "next/image";
-// import VerxioGold from "../../assets/VerxioCoin.svg";
 import { CloseCircle } from "iconsax-react";
 import { useSelector, useDispatch } from "react-redux";
-// import { useAccount } from "@particle-network/connect-react-ui";
-// import { toast } from "react-toastify";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+// import { useAccount } from "@particle-network/connect-react-ui";
+// import React, { useState } from "react";
+// import VerxioGold from "../../assets/VerxioCoin.svg";
+// import { toast } from "react-toastify";
 // import { RiExternalLinkFill } from "react-icons/ri";
 
 const CampaignPreview = ({ setCampaignModalOpen }) => {
-  const dispatch = useDispatch();
-  const start = useSelector((state) => state.generalStates.start);
+  // const dispatch = useDispatch();
+  // const start = useSelector((state) => state.generalStates.start);
   const selectedProductImage = useSelector(
     (state) => state.generalStates.selectedProductImage
   );
   const details = useSelector((state) => state.generalStates.details);
-  const summary = useSelector((state) => state.generalStates.summary);
+  // const summary = useSelector((state) => state.generalStates.summary);
   const userprofile = useSelector((state) => state.generalStates.userProfile);
 
   // const { selectedProduct } = start;
   const { selectedImage } = selectedProductImage;
-  const { category, productCollectionFile, quantity, proofOfPurchase } =
-    summary;
+  // const { category, productCollectionFile, quantity, proofOfPurchase } =
+  //   summary;
   const {
     title,
     description,
@@ -31,7 +31,7 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
     allowPayAnyPrice,
     price,
     discount,
-    customNFT,
+    // customNFT,
   } = details;
 
   return (

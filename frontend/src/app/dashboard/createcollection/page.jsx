@@ -7,6 +7,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import ProjectCollectionModal from "@/components/modals/projectsCollectionModal";
 import { useSelector } from "react-redux";
 // import { createCollection } from "@/store/slices/productSlice";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 const page = () => {
@@ -92,7 +93,7 @@ const page = () => {
       const requestData = {
         name: values.collectionName,
         image:
-          "https://www.google.com/url?sa=i&url=https%3A%2F%2Fcondusiv.com%2Fsequential-io-always-outperforms-random-io-on-hard-disk-drives-or-ssds%2F&psig=AOvVaw0gIZMjG4dtsc3otXxWQgHx&ust=1711935077938000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPi7q6KtnYUDFQAAAAAdAAAAABAE",
+          "https://res.cloudinary.com/drzpirtgn/image/upload/v1716291673/WhatsApp_Image_2024-05-21_at_12.40.33_e3034f5c_apdcwl.jpg",
       };
 
       const response = await axios.post(url, requestData);
@@ -107,6 +108,7 @@ const page = () => {
       }
     } catch (error) {
       console.log("error:", error);
+      toast.error(response.data.message);
     }
   };
 
@@ -229,7 +231,7 @@ const page = () => {
                   onClick={() => {
                     // isLoading = { loading };
                     createNewCollection(values);
-                    console.log(values.collectionName, "ajifxgouhgirgfihe");
+                    // console.log(values.collectionName, "ajifxgouhgirgfihe");
                   }}
                 />
               </div>
