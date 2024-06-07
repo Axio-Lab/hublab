@@ -1,6 +1,6 @@
 import profileRouter from "./profile.routes";
 import campaignRouter from "./campaign.routes";
-import projectRouter from "./project.route";
+import collectionRouter from "./collection.route";
 import paymentRouter from "./payment.route";
 import productRouter from "./product.routes";
 import docRouter from "./doc.routes";
@@ -10,7 +10,7 @@ import { Request, Response } from "express";
 export default (app: { use: (arg0: string, arg1: any) => void; }) => {
     app.use(`${basePath}/profiles`, profileRouter);
     app.use(`${basePath}/campaigns`, campaignRouter);
-    app.use(`${basePath}/projects`, projectRouter);
+    app.use(`${basePath}/collection`, collectionRouter);
     app.use(`${basePath}/payment`, paymentRouter);
     app.use(`${basePath}/product`, productRouter);
     app.use(`${basePath}/docs`, docRouter);

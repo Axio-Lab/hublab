@@ -17,7 +17,7 @@ const { create } = new product_servicee_1.default();
 class ProductController {
     createProduct(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const product = yield create(Object.assign(Object.assign({}, req.body), { userId: req.user._id }));
+            const product = yield create(Object.assign(Object.assign({}, req.body), { userId: req.params.userId }));
             return res.status(200)
                 .send({
                 success: true,

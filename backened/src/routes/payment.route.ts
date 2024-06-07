@@ -8,7 +8,7 @@ const {
 } = new PaymentController();
 
 //create a payment
-router.get("/:productId", authenticate, createPayment);
+router.get("/:productId/:userId", createPayment);
 
 //send mail
 router.post("/mail", sendPaymentMail);
