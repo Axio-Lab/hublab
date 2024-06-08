@@ -63,7 +63,7 @@ With Verxio's tokenized discount feature, creators and businesses can provide di
 
 - We also have network access to over 3000 creators selling to their audience. We intend to onboard a fraction of them to try out Verxio and we will use their success stories of the platform to make case studies to attract more creators.
 
-- Partnering and listing verxio on [Impact](https://impact.com/) which is the world's largest affiliate network with over 200,000 monthly active affiliates who will refer Verxio to their audience, email lists, their network of businesses and creators, and community. 
+- Partnering and listing verxio on [Impact](https://impact.com/) which is the world's largest affiliate network with over 200,000 monthly active affiliates who will refer Verxio to their audience, email lists, their network of businesses and creators, and community to receive commission payment in $BONK for any user referred that subscribe to Verxio's premium plan. 
 
 By allowing people to innovatively spend their $BONK on digital payments, and integrating full-stack AI-powered on-chain commerce features, Verxio enhances payment processing, proof of purchase NFT issuance, product distribution, customer incentivization, and loyalty rewards at scale. 
 
