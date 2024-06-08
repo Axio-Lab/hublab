@@ -12,6 +12,7 @@ export default class ProjectController {
             const createdProject = await underdog.post('/v2/projects/n', {
                 name: req.body.name,
                 image: req.body.image,
+                core: true,
                 attributes: {
                     userId: req.params.userId,
                     createdAt: formattedDate
