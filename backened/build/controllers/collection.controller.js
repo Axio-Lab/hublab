@@ -22,6 +22,7 @@ class ProjectController {
                 const createdProject = yield underdog_config_1.default.post('/v2/projects/n', {
                     name: req.body.name,
                     image: req.body.image,
+                    core: true,
                     attributes: {
                         userId: req.params.userId,
                         createdAt: formattedDate
