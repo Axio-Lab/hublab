@@ -63,7 +63,9 @@ With Verxio's tokenized discount feature, creators and businesses can provide di
 
 - We also have network access to over 3000 creators selling to their audience. We intend to onboard a fraction of them to try out Verxio and we will use their success stories of the platform to make case studies to attract more creators.
 
-By allowing people to innovatively spend their $BONK on digital payments, and integrating on-chain commerce features and AI, Verxio enhances payment processing, proof of purchase NFT issuance, product distribution, customer incentivization, and loyalty rewards at scale. 
+- Partnering and listing verxio on [Impact](https://impact.com/) which is the world's largest affiliate network with over 200,000 monthly active affiliates who will refer Verxio to their audience, email lists, their network of businesses and creators, and community. 
+
+By allowing people to innovatively spend their $BONK on digital payments, and integrating full-stack AI-powered on-chain commerce features, Verxio enhances payment processing, proof of purchase NFT issuance, product distribution, customer incentivization, and loyalty rewards at scale. 
 
 This approach is estimated to onboard millions of people into crypto, driving up the adoption of $BONK, showcasing Solana’s capabilities, and greatly contributing to the growth of the Solana ecosystem.
 
