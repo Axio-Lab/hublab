@@ -98,7 +98,7 @@ This approach is estimated to onboard millions of people into crypto, driving up
    
 5. Build out the `Verxio` explore page where users and creator communities can discover products by several creators.
    
-6. VexList which will be a collaborative social blacklist where users can share and openly dislike products/services they've had bad experiences with both on `Verxio` and generally while getting $BONK incentive rewards.
+6. VexList which will be an on-chain collaborative social blacklist where users can share and openly dislike products/services they've had bad experiences with both on `Verxio` and generally while getting $BONK incentive rewards.
    
 7. We're also looking to allow creators and businesses to integrate `Verxio` on some of the top eCommerce platforms like:
    - WooCommerce
