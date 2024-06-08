@@ -24,7 +24,7 @@ export default class PaymentController {
             }
 
             const product = await getProduct(productId);
-            const { session_id, order_id, payment_url } = await createCandypaySession(product!, req.params.userId);
+            const { session_id, order_id, payment_url } = await createCandypaySession(product!);
             await create({ paymentInfo: { productId, session_id, order_id, payment_url } });
 
             return res.status(200)
@@ -60,11 +60,11 @@ export default class PaymentController {
                 //send mail to the buyer
                 await sendEmail({
                     from: `Verxio <${process.env.MAIL_USER}>`,
-                    to: payload.metadata.buyerName,
+                    to: payload.customer_email,
                     sender: "Verxio",
                     subject: 'Payment Unsuccessful for Your Recent Purchase',
                     html: `
-                        <p>Hello ${payload.metadata.buyerName},</p>
+                        <p>Hello ${payload.customer_email},</p>
                 
                         <p>We regret to inform you that your payment for the purchase of ${payload.metadata.productName} was unsuccessful.</p>
                 
@@ -113,11 +113,11 @@ export default class PaymentController {
             //send mail to buyer
             await sendEmail({
                 from: `Verxio <${process.env.MAIL_USER}>`,
-                to: payload.metadata.buyerName,
+                to: payload.customer_email,
                 sender: "Verxio",
                 subject: 'Your Purchase Confirmation and Reward Details',
                 html: `
-                    <p>Hello ${payload.metadata.buyerName},</p>
+                    <p>Hello ${payload.customer_email},</p>
             
                     <p>Thank you for your purchase!</p>
             
