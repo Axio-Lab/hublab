@@ -27,7 +27,6 @@ const Details = () => {
   //   imageUrl: "",
   // });
 
-
   // const getAllUserCollection = async () => {
   //   try {
   //     const response = await dispatch(getUserCollection(userId));
@@ -72,7 +71,7 @@ const Details = () => {
 
   const handleImageChange = (event, setFieldValue) => {
     const file = event.target.files[0];
-    console.log("file", file);
+    // console.log("file", file);
     setFieldValue("bannerImg", file);
 
     if (file) {
@@ -84,8 +83,8 @@ const Details = () => {
       };
 
       const data = reader.readAsDataURL(file);
-      console.log(data, "file url that is been expected!!!!!");
-      console.log(selectedImage, "image that is been expected!!!!!");
+      // console.log(data, "file url that is been expected!!!!!");
+      // console.log(selectedImage, "image that is been expected!!!!!");
     }
   };
 

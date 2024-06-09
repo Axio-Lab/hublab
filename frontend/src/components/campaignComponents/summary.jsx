@@ -73,7 +73,7 @@ const Summary = () => {
       });
     }
   };
-  
+
   const getAllUserCollection = async () => {
     try {
       const url = `https://backend-verxio.vercel.app/api/v1/collection/nft/${userId}`;
@@ -167,7 +167,7 @@ const Summary = () => {
       console.log(response);
       if (response?.payload?.success === true) {
         toast.success(response?.payload?.message);
-        console.log(response.payload);
+        console.log(response);
         setOpenModal(true);
       } else {
         toast.error(response?.payload?.message);

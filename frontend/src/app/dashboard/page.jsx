@@ -58,7 +58,7 @@ const Page = () => {
     getAllUserDashboardInfo();
   }, []);
 
-  console.log(userId);
+  // console.log(userId);
 
   useEffect(() => {
     if (userId === "") {

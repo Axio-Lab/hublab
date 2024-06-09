@@ -2,35 +2,21 @@
 import { Button } from "..";
 import Image from "next/image";
 import { CloseCircle } from "iconsax-react";
-import { useSelector, useDispatch } from "react-redux";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-// import { useAccount } from "@particle-network/connect-react-ui";
-// import React, { useState } from "react";
-// import VerxioGold from "../../assets/VerxioCoin.svg";
-// import { toast } from "react-toastify";
-// import { RiExternalLinkFill } from "react-icons/ri";
+import { useSelector } from "react-redux";
+import { Formik, Form } from "formik";
 
 const CampaignPreview = ({ setCampaignModalOpen }) => {
-  // const dispatch = useDispatch();
-  // const start = useSelector((state) => state.generalStates.start);
   const selectedProductImage = useSelector(
     (state) => state.generalStates.selectedProductImage
   );
   const details = useSelector((state) => state.generalStates.details);
   const summary = useSelector((state) => state.generalStates.summary);
   const userprofile = useSelector((state) => state.generalStates.userProfile);
+  // console.log(userprofile, "usreefmm;f");
 
+  const { quantity } = summary;
   const { selectedImage } = selectedProductImage;
-  const { category, productCollectionFile, quantity, proofOfPurchase } =
-    summary;
-  const {
-    title,
-    description,
-    allowPayAnyPrice,
-    price,
-    discount,
-    // customNFT,
-  } = details;
+  const { title, description, allowPayAnyPrice, price, discount } = details;
 
   return (
     <>
@@ -92,10 +78,6 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
                       <p className="font-semibold text-[14px]">
                         Holders of this NFT will receive {discount}% discount.
                       </p>
-                      {/* <p className="font-semibold text-[14px]">
-                        Holders of {customNFT.name} NFT will receive {discount}%
-                        discount.
-                      </p> */}
                     </div>
 
                     <div className="w-full flex flex-col mb-4">

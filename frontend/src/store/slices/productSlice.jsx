@@ -59,6 +59,7 @@ const productSlice = createSlice({
         state.product.status = "failed";
       })
 
+
       //purge all state
       .addCase(PURGE, () => {
         return initialState;
