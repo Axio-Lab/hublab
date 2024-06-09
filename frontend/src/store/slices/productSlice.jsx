@@ -12,12 +12,13 @@ const initialState = {
   },
 };
 
+
 export const createProduct = createAsyncThunk(
   "profile/newProduct",
-  async ({ data }) => {
+  async ({ data, userId }) => {
     try {
       const response = await axios.post(
-        `https://backend-verxio.vercel.app/api/v1/product`,
+        `https://backend-verxio.vercel.app/api/v1/product/${userId}`,
 
         data
       );

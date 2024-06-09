@@ -162,6 +162,7 @@ const Summary = () => {
             product:
               "https://res.cloudinary.com/drzpirtgn/image/upload/v1716291673/WhatsApp_Image_2024-05-21_at_12.40.33_e3034f5c_apdcwl.jpg",
           },
+          userId: userId,
         })
       );
       console.log(response);
@@ -335,6 +336,7 @@ const Summary = () => {
                   onClick={() => {
                     dispatch(setSummary(values));
                     createNewProduct(values);
+                    console.log(values, "values of product...")
                   }}
                 />
               </div>
