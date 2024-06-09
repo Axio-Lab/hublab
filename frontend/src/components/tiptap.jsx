@@ -53,7 +53,6 @@ const Tiptap = ({ onChange, setFieldValue }) => {
     },
     onUpdate({ editor }) {
       onChange(() => setFieldValue("description", editor.getHTML()));
-      console.log(editor.getHTML());
     },
   });
 

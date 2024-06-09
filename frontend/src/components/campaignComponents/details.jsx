@@ -27,23 +27,6 @@ const Details = () => {
   //   imageUrl: "",
   // });
 
-  // const getAllUserCollection = async () => {
-  //   try {
-  //     const response = await dispatch(getUserCollection(userId));
-  //     if (userId === undefined || !userId) {
-  //       toast.info("Connect your wallet to create collection");
-  //     } else if (response?.payload?.success === true) {
-  //       setUserCollectioNFT(response?.payload?.nfts);
-  //       // toast.success(response?.payload?.message);
-  //       console.log(response, "Response data!!!!");
-  //     } else {
-  //       toast.error("Error:: failed to load user collection");
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   const getAllUserCollection = async () => {
     try {
       const url = `https://backend-verxio.vercel.app/api/v1/collection/nft/${userId}`;
