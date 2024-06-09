@@ -1,6 +1,5 @@
 import { Router } from "express";
 import PaymentController from '../controllers/payment.controller';
-import authenticate from "../middlewares/authentication.middleware";
 const router = Router();
 const {
     createPayment,
@@ -8,7 +7,7 @@ const {
 } = new PaymentController();
 
 //create a payment
-router.get("/:productId/:userId", createPayment);
+router.get("/:productId", createPayment);
 
 //send mail
 router.post("/mail", sendPaymentMail);
