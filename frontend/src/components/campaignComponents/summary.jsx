@@ -10,13 +10,20 @@ import { createProduct } from "@/store/slices/productSlice";
 import { setSummary } from "@/store/slices/statesSlice";
 import ProductModal from "@/components/modals/productModal";
 import { FolderCloud } from "iconsax-react";
-// import UploadIcon from "../../assets/uploadIcon.svg";
-// import { useAccount } from "@particle-network/connect-react-ui";
+import axios from "axios";
 
-const Summary = ({ account }) => {
-  const [selectedImage, setSelectedImage] = useState("");
-  const [campaignModalOpen, setCampaignModalOpen] = useState(false);
+// const handleProofOfPurchaseChange = (event, setFieldValue) => {
+//   const { name, value } = event.target;
+//   setFieldValue(`proofOfPurchase.${name}`, value);
+// };
+
+const Summary = () => {
+  const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [userCollectionNFT, setUserCollectioNFT] = useState([]);
+  const [campaignModalOpen, setCampaignModalOpen] = useState(false);
+  const userId = useSelector((state) => state.generalStates.userId);
 
   const fileInputRef = useRef(null);
   const handleImageChange = (event, setFieldValue) => {
@@ -51,32 +58,41 @@ const Summary = ({ account }) => {
     setFieldValue("category", category);
   };
 
-  // const handleProofOfPurchaseChange = (event, setFieldValue) => {
-  //   const { name, value } = event.target;
-  //   setFieldValue(`proofOfPurchase.${name}`, value);
-  // };
+  const handleNFTChange = (event, setFieldValue) => {
+    const selectedNFTId = parseInt(event.target.value);
+    const selectedNFT = userCollectionNFT.find(
+      (nft) => nft.id === selectedNFTId
+    );
 
-  const initialValues = {
-    category: "",
-    quantity: "",
-    proofOfPurchase: {
-      address: "",
-      name: "",
-      imageUrl: "",
-    },
-    productCollectionFile: "",
+    if (selectedNFT) {
+      setFieldValue("proofOfPurchase", {
+        address: selectedNFT.mintAddress,
+        name: selectedNFT.name,
+        imageUrl: selectedNFT.image,
+        collectionId: selectedNFT.id,
+      });
+    }
+  };
+  
+  const getAllUserCollection = async () => {
+    try {
+      const url = `https://backend-verxio.vercel.app/api/v1/collection/nft/${userId}`;
+      if (userId === undefined || !userId) {
+        toast.info("Connect your wallet to get user collection");
+      } else {
+        const response = await axios.get(url);
+        if (response.data.success === true) {
+          setUserCollectioNFT(response.data.nfts);
+        }
+      }
+    } catch (error) {
+      console.log("error:", error);
+    }
   };
 
-  // const [showOptions, setShowOptions] = useState(false);
-  // const [index, setIndex] = useState(0);
-  // const [campaignId, setCampaignId] = useState("");
-  // const [modalOpen, setModalOpen] = useState(false);
-  // const user = useAccount();
-  // console.log(status, "srajhgfdsdfghjkl;");
-  // const status = useSelector((state) => state.product.status);
-  // const userId = useSelector((state) => state.generalStates.userId);
-
-  const dispatch = useDispatch();
+  useEffect(() => {
+    getAllUserCollection();
+  }, []);
 
   const type = useSelector(
     (state) => state.generalStates?.start?.selectedProduct
@@ -101,8 +117,19 @@ const Summary = ({ account }) => {
   const NFTImageUrl = useSelector(
     (state) => state.generalStates?.details?.customNFT?.imageUrl
   );
-
   const status = useSelector((state) => state.product.product.status);
+
+  const initialValues = {
+    category: "",
+    quantity: "",
+    proofOfPurchase: {
+      address: "",
+      name: "",
+      imageUrl: "",
+      collectionId: "",
+    },
+    productCollectionFile: "",
+  };
 
   const createNewProduct = async (values) => {
     try {
@@ -112,7 +139,7 @@ const Summary = ({ account }) => {
             type: type,
             name: title,
             image:
-              "https://www.google.com/url?sa=i&url=https%3A%2F%2Fcondusiv.com%2Fsequential-io-always-outperforms-random-io-on-hard-disk-drives-or-ssds%2F&psig=AOvVaw0gIZMjG4dtsc3otXxWQgHx&ust=1711935077938000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPi7q6KtnYUDFQAAAAAdAAAAABAE",
+              "https://res.cloudinary.com/drzpirtgn/image/upload/v1716291673/WhatsApp_Image_2024-05-21_at_12.40.33_e3034f5c_apdcwl.jpg",
             description: description,
             payAnyPrice: allowPayAnyPrice,
             price: parseInt(price),
@@ -129,13 +156,12 @@ const Summary = ({ account }) => {
               address: values.proofOfPurchase.address,
               name: values.proofOfPurchase.name,
               imageUrl: values.proofOfPurchase.imageUrl,
+              collectionId: parseInt(values.proofOfPurchase.collectionId),
             },
             purchaseXP: 50,
-            // product: values.productCollectionFile,
             product:
-              "https://www.google.com/url?sa=i&url=https%3A%2F%2Fcondusiv.com%2Fsequential-io-always-outperforms-random-io-on-hard-disk-drives-or-ssds%2F&psig=AOvVaw0gIZMjG4dtsc3otXxWQgHx&ust=1711935077938000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPi7q6KtnYUDFQAAAAAdAAAAABAE",
+              "https://res.cloudinary.com/drzpirtgn/image/upload/v1716291673/WhatsApp_Image_2024-05-21_at_12.40.33_e3034f5c_apdcwl.jpg",
           },
-          // id: 1,
         })
       );
       console.log(response);
@@ -212,20 +238,19 @@ const Summary = ({ account }) => {
                   (NFT)
                 </p>
                 <div className="mb-5">
-                  {/* <label className="font-semibold text-[24px] mb-5">
-                    Select Proof of Purchase NFT
-                  </label> */}
                   <select
                     className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                    value={values.selectedNFT}
+                    value={values.proofOfPurchase.collectionId}
                     onChange={(event) => handleNFTChange(event, setFieldValue)}
                   >
                     <option value="">
                       Choose an NFT from your Collection on Verxio
                     </option>
-                    <option value="Space NFT">Space NFT</option>
-                    <option value="Drips">Drips</option>
-                    <option value="Early Badge NFT">Early Badge NFT</option>
+                    {userCollectionNFT.map((collection, index) => (
+                      <option key={index} value={collection.id}>
+                        {collection.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -258,7 +283,6 @@ const Summary = ({ account }) => {
                     ) : (
                       <div className="mx-28 my-24 border rounded-lg px-2 py-1 border-[#0D0E32] ">
                         <div className="flex items-center gap-2 justify-center">
-                          {/* <Image alt="upload" src={UploadIcon} /> */}
                           <FolderCloud color="#FF8A65" />
                           <button
                             className="text-[14px]"

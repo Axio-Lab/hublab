@@ -1,7 +1,10 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useRouter } from "next/navigation";
+// import { getUserCollection } from "@/store/slices/collectionSlice";
+import axios from "axios";
+import { toast } from "react-toastify";
 import Image from "next/image";
 import UploadIcon from "../../assets/uploadIcon.svg";
 import Button from "../Button";
@@ -9,17 +12,58 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setDetails,
   setSelectedProductImage,
+  setUserCollectionNFTOBJ,
 } from "@/store/slices/statesSlice";
 import Tiptap from "../tiptap";
 
 const Details = () => {
-  const [selectedImage, setSelectedImage] = useState("");
   const [description, setDescription] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [userCollectionNFT, setUserCollectioNFT] = useState([]);
+  const userId = useSelector((state) => state.generalStates.userId);
   // const [customNFT, setCustomNFT] = useState({
   //   address: "",
   //   name: "",
   //   imageUrl: "",
   // });
+
+
+  // const getAllUserCollection = async () => {
+  //   try {
+  //     const response = await dispatch(getUserCollection(userId));
+  //     if (userId === undefined || !userId) {
+  //       toast.info("Connect your wallet to create collection");
+  //     } else if (response?.payload?.success === true) {
+  //       setUserCollectioNFT(response?.payload?.nfts);
+  //       // toast.success(response?.payload?.message);
+  //       console.log(response, "Response data!!!!");
+  //     } else {
+  //       toast.error("Error:: failed to load user collection");
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const getAllUserCollection = async () => {
+    try {
+      const url = `https://backend-verxio.vercel.app/api/v1/collection/nft/${userId}`;
+      if (userId === undefined || !userId) {
+        toast.info("Connect your wallet to get user collection");
+      } else {
+        const response = await axios.get(url);
+        if (response.data.success === true) {
+          setUserCollectioNFT(response.data.nfts);
+        }
+      }
+    } catch (error) {
+      console.log("error:", error);
+    }
+  };
+
+  useEffect(() => {
+    getAllUserCollection();
+  }, []);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -96,7 +140,6 @@ const Details = () => {
   const handleCustomNFTChange = (event, setFieldValue) => {
     const { name, value } = event.target;
     setFieldValue(`customNFT.${name}`, value);
-    // console.log(value, name, "input value!!!!");
   };
 
   const handleCustomNFTEnabledChange = (event, setFieldValue) => {
@@ -124,7 +167,7 @@ const Details = () => {
   return (
     <div className="mt-10 w-[60%] text-[#484851]">
       <Formik onSubmit={() => {}} initialValues={initialValues}>
-        {({ isValid, handleSubmit, dirty, values, setFieldValue }) => (
+        {({ values, setFieldValue }) => (
           <Form className="flex flex-col gap-8">
             <div>
               <p className="font-semibold text-[24px] mb-5">
@@ -263,9 +306,11 @@ const Details = () => {
                       <option value="">
                         Choose an NFT from your Collection on Verxio
                       </option>
-                      <option value="Space NFT">Space NFT</option>
-                      <option value="Drips">Drips</option>
-                      <option value="Early Badge NFT">Early Badge NFT</option>
+                      {userCollectionNFT.map((collection, index) => (
+                        <option key={index} value={collection.id}>
+                          {collection.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 )}
@@ -350,6 +395,7 @@ const Details = () => {
                 onClick={() => {
                   dispatch(setDetails(values));
                   dispatch(setSelectedProductImage({ selectedImage }));
+                  dispatch(setUserCollectionNFTOBJ({ userCollectionNFT }));
                   router.push("/start_selling?tab=summary");
                 }}
               />

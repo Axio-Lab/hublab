@@ -1,19 +1,62 @@
 "use client";
 import Link from "next/link";
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { getUserDashboardInfo } from "@/store/slices/dashboardSlice";
 import Image from "next/image";
 import {
   DashboardCards,
   CampaignTable,
   CollectionTable,
 } from "@/components/dashHomeComponents";
-import { dashboardCardData } from "@/utils/data";
 
 const Page = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const [userDashboardInfo, setUserDashboardInfo] = useState({});
+  const [userCollectionInfo, setUserCollectionInfo] = useState([]);
   const userId = useSelector((state) => state.generalStates.userId);
+
+  const getAllUserDashboardInfo = async () => {
+    try {
+      const response = await dispatch(getUserDashboardInfo(userId));
+      if (response?.payload?.success === true) {
+        setUserDashboardInfo(response?.payload?.dashboardInfo);
+      } else if (userId === undefined) {
+        toast.info("Connect your wallet to access user dashboard info");
+      } else {
+        toast.error("Error:: failed to load");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getAllUsersCollectionInfo = async () => {
+    try {
+      const url = `https://backend-verxio.vercel.app/api/v1/collection/nft/${userId}`;
+      if (userId === undefined || !userId) {
+        toast.info("Connect your wallet to create collection");
+      } else {
+        const response = await axios.get(url);
+        if (response.data.success === true) {
+          // toast.success(response.data.message);
+          setUserCollectionInfo(response.data.nfts);
+        }
+      }
+    } catch (error) {
+      console.log("error:", error);
+      // toast.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllUsersCollectionInfo();
+    getAllUserDashboardInfo();
+  }, []);
 
   console.log(userId);
 
@@ -29,6 +72,37 @@ const Page = () => {
     { borderColor: "#ADEF00", backgroundColor: "#F7FFE0" },
     { borderColor: "#00ADEF", backgroundColor: "#E0F7FF" },
   ];
+
+  const transformDashboardData = (userDashboardInfo) => {
+    return [
+      {
+        headerText: "All Product",
+        number: userDashboardInfo.allProducts,
+        src: "/images/allCampaigns.svg",
+        alt: "allCampaign",
+      },
+      {
+        headerText: "Total Sales",
+        number: userDashboardInfo.totalSales,
+        src: "/images/allParticipants.svg",
+        alt: "allParticipants",
+      },
+      {
+        headerText: "Total Revenue",
+        number: userDashboardInfo.totalRevenue,
+        src: "/images/revenueCoin.svg",
+        alt: "revenue",
+      },
+      {
+        headerText: "Number of Assets",
+        number: userDashboardInfo.numberOfAssets,
+        src: "/images/assets.svg",
+        alt: "numberofassets",
+      },
+    ];
+  };
+
+  const transformedData = transformDashboardData(userDashboardInfo);
 
   return (
     <section className="w-full h-full p-2 md:p-10">
@@ -50,12 +124,12 @@ const Page = () => {
               Start Selling
             </h3>
           </Link>
-          {dashboardCardData.map((data, index) => (
+          {transformedData.map((data, index) => (
             <DashboardCards key={index} {...data} {...colors[index]} />
           ))}
         </section>
 
-        <CollectionTable />
+        <CollectionTable userCollectionInfo={userCollectionInfo} />
         <CampaignTable />
       </section>
     </section>

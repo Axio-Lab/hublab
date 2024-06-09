@@ -60,19 +60,19 @@ const Navbar = () => {
           >
             {isOpen && (
               <div className=" relative top-[100px] flex flex-col justify-center items-center gap-4 my-6 md:hidden">
-                <Button href="/start_selling?tab=start" name="Start Selling"/>
+                <Button href="/start_selling?tab=start" name="Start Selling" />
               </div>
             )}
           </ul>
         </div>
 
         <div className="hidden md:block gap-4">
-          <Button 
-          href="/welcome" 
-          name="Start Campaign"
-          outline
-          className="bg-primary"
-           />
+          <Button
+            href="/welcome"
+            name="Start Campaign"
+            outline
+            className="bg-primary px-10"
+          />
         </div>
 
         <button

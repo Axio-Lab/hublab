@@ -9,10 +9,9 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-
 const page = () => {
-
   const fileInputRef = useRef(null);
+  const [loading, setLoading] = useState(false);
   const [selectedMode, setSelectedMode] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
   const [openCreateModal, setOpenCreateModal] = useState(false);
@@ -51,15 +50,12 @@ const page = () => {
   const handleUploadButtonClick = () => {
     fileInputRef.current.click();
   };
-  const type = useSelector(
-    (state) => state.generalStates?.start?.selectedProduct
-  );
 
   const userId = useSelector((state) => state.generalStates.userId);
 
-
   const createNewCollection = async (values) => {
     try {
+      setLoading(true);
       const url = `https://backend-verxio.vercel.app/api/v1/collection/${userId}`;
       const requestData = {
         name: values.collectionName,
@@ -67,17 +63,19 @@ const page = () => {
           "https://res.cloudinary.com/drzpirtgn/image/upload/v1716291673/WhatsApp_Image_2024-05-21_at_12.40.33_e3034f5c_apdcwl.jpg",
       };
 
-      const response = await axios.post(url, requestData);
-
-      if (response.data.success === true) {
-        // toast.success(response.data.message);
-        setOpenModal(true);
+      if (userId === undefined || !userId) {
+        toast.info("Connect your wallet to create collection");
       } else {
-        toast.error(response.data.message);
+        const response = await axios.post(url, requestData);
+        if (response.data.success === true) {
+          toast.success(response.data.message);
+          setLoading(false);
+          setOpenCreateModal(true);
+        }
       }
     } catch (error) {
       console.log("error:", error);
-      toast.error(response.data.message);
+      toast.error(error);
     }
   };
 
@@ -197,8 +195,8 @@ const page = () => {
                   name="Create Collection"
                   className="w-full"
                   type="button"
+                  isLoading={loading}
                   onClick={() => {
-                    // isLoading = { loading };
                     createNewCollection(values);
                   }}
                 />
@@ -208,9 +206,7 @@ const page = () => {
         </Formik>
       </section>
 
-      {openCreateModal && (
-        <ProjectCollectionModal setOpenCreateModal={setOpenCreateModal} />
-      )}
+      {openCreateModal && <ProjectCollectionModal />}
     </>
   );
 };

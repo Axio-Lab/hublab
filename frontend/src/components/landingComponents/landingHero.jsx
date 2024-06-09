@@ -65,7 +65,7 @@ const LandingPageHero = () => {
             </p>
 
             <div className="flex gap-3 items-center relative z-20">
-              <Button href="/welcome" name="Start Selling" />
+              <Button href="/welcome" name="Start Selling" className={"px-12"} />
             </div>
           </div>
         </section>

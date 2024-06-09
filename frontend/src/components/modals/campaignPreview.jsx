@@ -17,12 +17,12 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
     (state) => state.generalStates.selectedProductImage
   );
   const details = useSelector((state) => state.generalStates.details);
-  // const summary = useSelector((state) => state.generalStates.summary);
+  const summary = useSelector((state) => state.generalStates.summary);
   const userprofile = useSelector((state) => state.generalStates.userProfile);
 
   const { selectedImage } = selectedProductImage;
-  // const { category, productCollectionFile, quantity, proofOfPurchase } =
-  //   summary;
+  const { category, productCollectionFile, quantity, proofOfPurchase } =
+    summary;
   const {
     title,
     description,
@@ -78,9 +78,9 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
                         Description
                       </p>
                       <div
-                          dangerouslySetInnerHTML={{ __html: description }}
-                          className="flex flex-col gap-2"
-                        />
+                        dangerouslySetInnerHTML={{ __html: description }}
+                        className="flex flex-col gap-2"
+                      />
                     </section>
 
                     <div className="flex items-center gap-3">
@@ -90,9 +90,12 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
                           : "Customers are alowed to pay any price"}
                       </p>
                       <p className="font-semibold text-[14px]">
+                        Holders of this NFT will receive {discount}% discount.
+                      </p>
+                      {/* <p className="font-semibold text-[14px]">
                         Holders of {customNFT.name} NFT will receive {discount}%
                         discount.
-                      </p>
+                      </p> */}
                     </div>
 
                     <div className="w-full flex flex-col mb-4">
@@ -106,7 +109,7 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
                       </div>
                     </div>
 
-                    <p className= "font-semibold text-[14px] text-red-500">
+                    <p className="font-semibold text-[14px] text-red-500">
                       NOTE: 15,000 $BONK cashback on every $1 spent in BONK
                     </p>
 
@@ -115,7 +118,6 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
                     </section>
                   </section>
                 </section>
-
               </Form>
             )}
           </Formik>
