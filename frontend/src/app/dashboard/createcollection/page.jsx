@@ -65,6 +65,7 @@ const page = () => {
 
       if (userId === undefined || !userId) {
         toast.info("Connect your wallet to create collection");
+        setLoading(false)
       } else {
         const response = await axios.post(url, requestData);
         if (response.data.success === true) {
