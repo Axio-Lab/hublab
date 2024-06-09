@@ -8,7 +8,7 @@ const payment_controller_1 = __importDefault(require("../controllers/payment.con
 const router = (0, express_1.Router)();
 const { createPayment, sendPaymentMail } = new payment_controller_1.default();
 //create a payment
-router.get("/:productId/:userId", createPayment);
+router.get("/:productId", createPayment);
 //send mail
 router.post("/mail", sendPaymentMail);
 // //create a payment API
