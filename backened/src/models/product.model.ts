@@ -65,7 +65,7 @@ const productSchema = new Schema<IProduct>({
         address: String,
         name: String,
         imageUrl: String,
-        projectId: Number
+        collectionId: Number
     },
     purchaseXP: {
         type: Number,
@@ -76,6 +76,16 @@ const productSchema = new Schema<IProduct>({
         type: String,
         required: true,
         trim: true
+    },
+    sales: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    revenue: {
+        type: Number,
+        required: true,
+        default: 0
     }
 }, {
     strict: true,

@@ -1,23 +1,27 @@
 import { Request, Response } from "express";
 import underdog from "../configs/underdog.config";
-import AuthRequest from "../interfaces/auth.interface";
 
 export default class ProjectController {
 
     async createProject(req: Request, res: Response) {
         try {
 
+            const currentDate = new Date();
+
+            const formattedDate = `${String(currentDate.getDate()).padStart(2, '0')}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${currentDate.getFullYear()}`;
             const createdProject = await underdog.post('/v2/projects/n', {
                 name: req.body.name,
                 image: req.body.image,
+                core: true,
                 attributes: {
-                    userId: (req as AuthRequest).user._id
+                    userId: req.params.userId,
+                    createdAt: formattedDate
                 }
             });
 
             return res.status(201).send({
                 success: true,
-                message: 'Project created successfully',
+                message: 'Collection created successfully',
                 createdProject: createdProject.data
             });
         } catch (err: any) {
@@ -63,25 +67,20 @@ export default class ProjectController {
 
             const projects = createdProjects.data.results
                 .filter((project: any) => {
-                    return project.attributes && project.attributes.userId === (req as AuthRequest).user._id;
+                    return project.attributes && project.attributes.userId === req.params.userId;
                 })
-                .map((project: any) => ({ id: project.id, name: project.name, image: project.image, mintAddress: project.mintAddress }));
-
-            // const nfts: any[] = [];
-
-            // // Using Promise.all to handle asynchronous operations
-            // const projectPromises = projectsId.map(async (id: any) => {
-            //     const nftArray = await underdog.get(`/v2/projects/n/${id}/nfts`);
-            //     const nftss = nftArray.data.results.map((nft: any) => ({ id: nft.id, projectId: nft.projectId, name: nft.name, image: nft.image, mintAddress: nft.mintAddress }));
-            //     nfts.push(...nftss);
-            // });
-
-            // // Awaiting all promises
-            // await Promise.all(projectPromises);
+                .map((project: any) => ({
+                    id: project.id,
+                    name: project.name,
+                    image: project.image,
+                    mintAddress: project.mintAddress,
+                    transferable: project.transferable,
+                    createdAt: project.attributes.createdAt
+                }));
 
             return res.status(201).send({
                 success: true,
-                message: "NFTs returned successfully",
+                message: "Collections returned successfully",
                 nfts: projects
             });
         } catch (error: any) {
