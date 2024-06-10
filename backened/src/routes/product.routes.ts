@@ -2,6 +2,7 @@ import { Router } from "express";
 import ProductController from '../controllers/product.controllers';
 import validate from "../middlewares/validate.middleware";
 import { createProductSchema } from "../schemas/product.schema";
+import validateEmptyString from "../middlewares/validateEmptyString.middleware";
 const router = Router();
 const router1 = Router();
 const {
@@ -11,7 +12,7 @@ const {
 } = new ProductController();
 
 //create a product
-router.post("/:userId", validate(createProductSchema), createProduct);
+router.post("/:userId", validateEmptyString, validate(createProductSchema), createProduct);
 
 //get users products info
 router.get("/:userId", getUsersProductsInfo);
