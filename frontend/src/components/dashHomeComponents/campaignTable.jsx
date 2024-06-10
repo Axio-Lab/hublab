@@ -1,7 +1,6 @@
 import { Table, TableBody } from "./campaignTableBody";
 
 const CampaignTable = ({ userproductInfo }) => {
-  console.log(userproductInfo);
   return (
     <section className="w-full gap-6 shadow px-2 md:px-5 py-[18px] rounded-[14px] mt-10 border">
       <div className="flex items-center justify-between my-4">

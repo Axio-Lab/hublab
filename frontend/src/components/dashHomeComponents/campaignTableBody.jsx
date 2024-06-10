@@ -1,5 +1,7 @@
 "use client";
 
+import { toast } from "react-toastify";
+
 export const Table = ({ tableHeads, tableData, children }) => {
   return (
     <div className="w-full h-full">
@@ -30,32 +32,41 @@ const truncateText = (text, maxLength = 16) => {
 export const TableBody = ({ tableData }) => {
   return (
     <tbody>
-      {tableData.map((data, index) => (
-        <tr
-          key={`table-data-${index}`}
-          className="hover:bg-[#e1ecf6] transition-all duration-500"
-        >
-          <td className="border border-[#F3F3FC] text-center py-2 px-4 w-1/5">
-            <CampaignNameTemplate name={truncateText(data.name)} />
-          </td>
-          <td className="border border-[#F3F3FC] text-center py-2 px-4 w-1/5">
-            <CampaignStatusTemplate type={truncateText(data.type)} />
-          </td>
+      {tableData.length > 0 ? (
+        tableData.map((data, index) => (
+          <tr
+            key={`table-data-${index}`}
+            className="hover:bg-[#e1ecf6] transition-all duration-500"
+          >
+            <td className="border border-[#F3F3FC] text-center py-2 px-4 w-1/5">
+              <CampaignNameTemplate name={truncateText(data.name)} />
+            </td>
+            <td className="border border-[#F3F3FC] text-center py-2 px-4 w-1/5">
+              <CampaignStatusTemplate type={truncateText(data.type)} />
+            </td>
 
-          <td className="border border-[#F3F3FC] text-center py-2 px-4 w-1/5">
-            <CampaignParticipantsTemplate sales={data.sales.toLocaleString()} />
-          </td>
-          <td className="border border-[#F3F3FC] text-center py-2 px-4 w-1/5">
-            <CampaignReward revenue={`$ ${data.revenue.toLocaleString()}`} />
-          </td>
-          <td className="border border-[#F3F3FC] text-center py-2 px-4 w-1/5">
-            <CampaignLinkId _id={`${data._id.toLocaleString()}`} />
+            <td className="border border-[#F3F3FC] text-center py-2 px-4 w-1/5">
+              <CampaignParticipantsTemplate sales={data.sales.toLocaleString()} />
+            </td>
+            <td className="border border-[#F3F3FC] text-center py-2 px-4 w-1/5">
+              <CampaignReward revenue={`$ ${data.revenue.toLocaleString()}`} />
+            </td>
+            <td className="border border-[#F3F3FC] text-center py-2 px-4 w-1/5">
+              <CampaignLinkId _id={`${data._id.toLocaleString()}`} />
+            </td>
+          </tr>
+        ))
+      ) : (
+        <tr>
+          <td colSpan={5} className="text-center py-4">
+            No record found
           </td>
         </tr>
-      ))}
+      )}
     </tbody>
   );
 };
+
 
 const CampaignNameTemplate = ({ name }) => {
   return (
@@ -106,13 +117,22 @@ const CampaignReward = ({ revenue }) => {
   return <p className="font-normal text-[16px] text-[#424242]">{revenue}</p>;
 };
 
+const shortenProductURL = (url) => {
+  if (url.length <= 10) return address;
+  return `${url.slice(0, 12)}....${url.slice(-5)}`;
+};
+
+
 const CampaignLinkId = ({ _id }) => {
+  const url = `product/${_id}`;
+  const productURL = shortenProductURL(url);
+
   const handleCopyLink = () => {
-    const url = `http://localhost:3000/product/${_id}`;
+    const url = `https://verxio.xyz/product/${_id}`;
     navigator.clipboard
       .writeText(url)
       .then(() => {
-        alert("Link copied to clipboard");
+        toast.info("Link copied 🔗 ");
       })
       .catch((err) => {
         console.error("Failed to copy link: ", err);
@@ -121,10 +141,10 @@ const CampaignLinkId = ({ _id }) => {
 
   return (
     <p
-      className="font-normal text-[16px] text-[#00ADEF] border border-[#00ADEF] py-2 px-6 rounded-md cursor-pointer"
+      className="font-normal text-blue-500 border border-[#00ADEF] py-2 px-6 rounded-md cursor-pointer"
       onClick={handleCopyLink}
     >
-      {_id}
+      {productURL}
     </p>
   );
 };

@@ -21,11 +21,7 @@ const Details = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [userCollectionNFT, setUserCollectioNFT] = useState([]);
   const userId = useSelector((state) => state.generalStates.userId);
-  // const [customNFT, setCustomNFT] = useState({
-  //   address: "",
-  //   name: "",
-  //   imageUrl: "",
-  // });
+
 
   const getAllUserCollection = async () => {
     try {
@@ -110,14 +106,6 @@ const Details = () => {
     const value = Math.max(0, Math.min(100, event.target.value));
     setFieldValue("discount", value);
   };
-
-  // const handleCustomNFTChange = (event) => {
-  //   const { name, value } = event.target;
-  //   setCustomNFT((prevState) => ({
-  //     ...prevState,
-  //     [name]: value,
-  //   }));
-  // };
 
   const handleCustomNFTChange = (event, setFieldValue) => {
     const { name, value } = event.target;
