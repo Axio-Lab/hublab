@@ -1,7 +1,6 @@
 "use client";
 import  Button  from "../../../components/Button";
 import Image from "next/image";
-import { CloseCircle } from "iconsax-react";
 import { useSelector } from "react-redux";
 import { Formik, Form } from "formik";
 
@@ -19,7 +18,7 @@ const page = ({ params }) => {
 
   const proceedToGeneratePaymentLink = async () => {
     try {
-      const url = `https://backend-verxio.vercel.app/api/v1/payment/:productId`;
+      const url = `https://backend-verxio.vercel.app/api/v1/payment/${productId}`;
       if (userId === undefined || !userId) {
         toast.info("Connect your wallet to create collection");
       } else {
@@ -43,7 +42,6 @@ const page = ({ params }) => {
             onClick={() => setCampaignModalOpen(false)}
             className="absolute top-8 right-8 cursor-pointer"
           >
-            <CloseCircle color="#484851" />
           </span>
           ID: {params?.["[productId"]}
           <Formik onSubmit={() => {}}>
