@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "../Button";
+import Button  from "../Button";
 import Image from "next/image";
 import { CloseCircle } from "iconsax-react";
 import { useSelector } from "react-redux";
