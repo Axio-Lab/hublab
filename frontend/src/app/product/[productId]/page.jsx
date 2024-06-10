@@ -1,11 +1,11 @@
 "use client";
-import { Button } from "../Button";
+import { Button } from "../../../components/Button";
 import Image from "next/image";
 import { CloseCircle } from "iconsax-react";
 import { useSelector } from "react-redux";
 import { Formik, Form } from "formik";
 
-const CampaignPreview = ({ setCampaignModalOpen }) => {
+const page = ({ params }) => {
   const selectedProductImage = useSelector(
     (state) => state.generalStates.selectedProductImage
   );
@@ -17,6 +17,24 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
   const { selectedImage } = selectedProductImage;
   const { title, description, allowPayAnyPrice, price, discount } = details;
 
+  const proceedToGeneratePaymentLink = async () => {
+    try {
+      const url = `https://backend-verxio.vercel.app/api/v1/payment/:productId`;
+      if (userId === undefined || !userId) {
+        toast.info("Connect your wallet to create collection");
+      } else {
+        const response = await axios.get(url);
+        if (response.data.success === true) {
+          // toast.success(response.data.message);
+          setUserCollectionInfo(response.data.nfts);
+        }
+      }
+    } catch (error) {
+      console.log("error:", error);
+      // toast.error(error);
+    }
+  };
+
   return (
     <>
       <div className="bg-white relative w-full h-full flex flex-col p-6 border rounded-lg overflow-hidden overflow-y-auto">
@@ -27,6 +45,7 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
           >
             <CloseCircle color="#484851" />
           </span>
+          ID: {params?.["[productId"]}
           <Formik onSubmit={() => {}}>
             {({ values, setFieldValue }) => (
               <Form className="flex flex-col gap-11 w-full">
@@ -95,7 +114,13 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
                     </p>
 
                     <section className="w-full md:max-w-xl mx-auto my-8">
-                      <Button name={"Buy Now"} className={"bg-green-500"} />
+                      <Button
+                        name={"Buy Now"}
+                        className={"bg-green-500"}
+                        onClick={() => {
+                          proceedToGeneratePaymentLink();
+                        }}
+                      />
                     </section>
                   </section>
                 </section>
@@ -108,4 +133,4 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
   );
 };
 
-export default CampaignPreview;
+export default page;

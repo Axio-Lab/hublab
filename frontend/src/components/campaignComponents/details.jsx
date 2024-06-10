@@ -135,7 +135,7 @@ const Details = () => {
     bannerImg: details?.bannerImg || "",
     allowPayAnyPrice: details?.allowPayAnyPrice || false,
     price: details?.price || "",
-    isNFTDiscountEnabled: details?.isNFTDiscountEnabled || false,
+    isNFTDiscountEnabled: details?.isNFTDiscountEnabled || true,
     isCustomNFTEnabled: details?.isCustomNFTEnabled || false,
     selectedNFT: details?.selectedNFT || "",
     discount: details?.discount || "",

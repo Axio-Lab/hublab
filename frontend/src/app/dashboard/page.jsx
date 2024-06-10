@@ -18,6 +18,7 @@ const Page = () => {
   const dispatch = useDispatch();
   const [userDashboardInfo, setUserDashboardInfo] = useState({});
   const [userCollectionInfo, setUserCollectionInfo] = useState([]);
+  const [userproductInfo, setUserProductInfo] = useState([]);
   const userId = useSelector((state) => state.generalStates.userId);
 
   const getAllUserDashboardInfo = async () => {
@@ -53,12 +54,35 @@ const Page = () => {
     }
   };
 
+  const getAllUserProductInfo = async () => {
+    try {
+      const url = `https://backend-verxio.vercel.app/api/v1/product/${userId}`;
+      if (userId === undefined || !userId) {
+        toast.info("Connect your wallet to create collection");
+      } else {
+        const response = await axios.get(url);
+        if (response.data.success === true) {
+          // toast.success(response.data.message);
+          setUserProductInfo(response.data.products);
+        }
+      }
+    } catch (error) {
+      console.log("error:", error);
+      // toast.error(error);
+    }
+  };
+
   useEffect(() => {
-    getAllUsersCollectionInfo();
     getAllUserDashboardInfo();
   }, []);
 
-  // console.log(userId);
+  useEffect(() => {
+    getAllUsersCollectionInfo();
+  }, []);
+
+  useEffect(() => {
+    getAllUserProductInfo()
+  }, []);
 
   useEffect(() => {
     if (userId === "") {
@@ -130,7 +154,7 @@ const Page = () => {
         </section>
 
         <CollectionTable userCollectionInfo={userCollectionInfo} />
-        <CampaignTable />
+        <CampaignTable userproductInfo={userproductInfo} />
       </section>
     </section>
   );

@@ -117,6 +117,9 @@ const Summary = () => {
   const NFTImageUrl = useSelector(
     (state) => state.generalStates?.details?.customNFT?.imageUrl
   );
+  const isNFTDiscountEnabled = useSelector(
+    (state) => state.generalStates?.details?.isNFTDiscountEnabled
+  );
   const status = useSelector((state) => state.product.product.status);
 
   const initialValues = {
@@ -133,38 +136,47 @@ const Summary = () => {
 
   const createNewProduct = async (values) => {
     try {
+      const productData = {
+        type: type,
+        name: title,
+        image:
+          "https://res.cloudinary.com/drzpirtgn/image/upload/v1716291673/WhatsApp_Image_2024-05-21_at_12.40.33_e3034f5c_apdcwl.jpg",
+        description: description,
+        payAnyPrice: allowPayAnyPrice,
+        price: parseInt(price),
+        category: values.category,
+        quantity: parseInt(values.quantity),
+        unlimitedQuantity: values.quantity === 0 ? true : false,
+        pop: {
+          address: values.proofOfPurchase.address,
+          name: values.proofOfPurchase.name,
+          imageUrl: values.proofOfPurchase.imageUrl,
+          collectionId: parseInt(values.proofOfPurchase.collectionId),
+        },
+        purchaseXP: 50,
+        product:
+          "https://res.cloudinary.com/drzpirtgn/image/upload/v1716291673/WhatsApp_Image_2024-05-21_at_12.40.33_e3034f5c_apdcwl.jpg",
+      };
+
+      // Conditionally add nftSelection and discount amount if isNFTDiscountEnabled is true
+      if (isNFTDiscountEnabled) {
+        productData.nftSelection = {
+          address: NFTAddress,
+          name: NFTName,
+          imageUrl: NFTImageUrl,
+        };
+        productData.discountAmount = parseInt(discount);
+      } else {
+        productData.discountAmount = 0;
+      }
+
       const response = await dispatch(
         createProduct({
-          data: {
-            type: type,
-            name: title,
-            image:
-              "https://res.cloudinary.com/drzpirtgn/image/upload/v1716291673/WhatsApp_Image_2024-05-21_at_12.40.33_e3034f5c_apdcwl.jpg",
-            description: description,
-            payAnyPrice: allowPayAnyPrice,
-            price: parseInt(price),
-            nftSelection: {
-              address: NFTAddress,
-              name: NFTName,
-              imageUrl: NFTImageUrl,
-            },
-            discountAmount: parseInt(discount),
-            category: values.category,
-            quantity: parseInt(values.quantity),
-            unlimitedQuantity: values.quantity === 0 ? true : false,
-            pop: {
-              address: values.proofOfPurchase.address,
-              name: values.proofOfPurchase.name,
-              imageUrl: values.proofOfPurchase.imageUrl,
-              collectionId: parseInt(values.proofOfPurchase.collectionId),
-            },
-            purchaseXP: 50,
-            product:
-              "https://res.cloudinary.com/drzpirtgn/image/upload/v1716291673/WhatsApp_Image_2024-05-21_at_12.40.33_e3034f5c_apdcwl.jpg",
-          },
+          data: productData,
           userId: userId,
         })
       );
+
       console.log(response);
       if (response?.payload?.success === true) {
         toast.success(response?.payload?.message);
@@ -336,7 +348,6 @@ const Summary = () => {
                   onClick={() => {
                     dispatch(setSummary(values));
                     createNewProduct(values);
-                    console.log(values, "values of product...")
                   }}
                 />
               </div>
@@ -350,7 +361,7 @@ const Summary = () => {
       )}
 
       {campaignModalOpen && (
-        <div className="bg-[#000]/40 absolute w-full h-full top-0 left-0 z-50 p-10 text-[#484851">
+        <div className="bg-[#000]/40 absolute w-screen h-screen top-0 left-0 z-50 p-10 text-[#484851">
           <CampaignPreview setCampaignModalOpen={setCampaignModalOpen} />
         </div>
       )}
