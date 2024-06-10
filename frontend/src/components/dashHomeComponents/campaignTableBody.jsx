@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 
 export const Table = ({ tableHeads, tableData, children }) => {
   return (
@@ -24,6 +23,10 @@ export const Table = ({ tableHeads, tableData, children }) => {
   );
 };
 
+const truncateText = (text, maxLength = 16) => {
+  return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+};
+
 export const TableBody = ({ tableData }) => {
   return (
     <tbody>
@@ -32,23 +35,21 @@ export const TableBody = ({ tableData }) => {
           key={`table-data-${index}`}
           className="hover:bg-[#e1ecf6] transition-all duration-500"
         >
-          <td className="border border-[#F3F3FC] text-center py-2 line-clamp-1 px-4">
-            <CampaignNameTemplate name={data.name} />
+          <td className="border border-[#F3F3FC] text-center py-2 px-4 w-1/5">
+            <CampaignNameTemplate name={truncateText(data.name)} />
           </td>
-          <td className="border border-[#F3F3FC] text-center py-2 px-4">
-            <CampaignStatusTemplate status={data.status} />
+          <td className="border border-[#F3F3FC] text-center py-2 px-4 w-1/5">
+            <CampaignStatusTemplate type={truncateText(data.type)} />
           </td>
-          <td className="border border-[#F3F3FC] text-center py-2 px-4">
-            <CampaignLinkTemplate
-              campaignLink={data.campaignLink}
-              link={data.link}
-            />
-          </td>
-          <td className="border border-[#F3F3FC] text-center py-2 px-4">
+
+          <td className="border border-[#F3F3FC] text-center py-2 px-4 w-1/5">
             <CampaignParticipantsTemplate sales={data.sales.toLocaleString()} />
           </td>
-          <td className="border border-[#F3F3FC] text-center py-2 px-4">
+          <td className="border border-[#F3F3FC] text-center py-2 px-4 w-1/5">
             <CampaignReward revenue={`$ ${data.revenue.toLocaleString()}`} />
+          </td>
+          <td className="border border-[#F3F3FC] text-center py-2 px-4 w-1/5">
+            <CampaignLinkId _id={`${data._id.toLocaleString()}`} />
           </td>
         </tr>
       ))}
@@ -56,19 +57,19 @@ export const TableBody = ({ tableData }) => {
   );
 };
 
-const CampaignNameTemplate = (tableData) => {
+const CampaignNameTemplate = ({ name }) => {
   return (
     <p className="font-normal line-clamp-1 text-[16px] text-[#424242]">
-      {tableData.name}
+      {name}
     </p>
   );
 };
 
-const CampaignStatusTemplate = (tableData) => {
+const CampaignStatusTemplate = ({ type }) => {
   let statusClass = "";
   let statusText = "";
 
-  switch (tableData.status) {
+  switch (type) {
     case "digitalProduct":
       statusClass = "text-[#34A90B] border-[#34A90B] bg-[#DAFCDE]";
       statusText = "Digital Product";
@@ -98,28 +99,32 @@ const CampaignStatusTemplate = (tableData) => {
   );
 };
 
-const CampaignLinkTemplate = (tableData) => {
-  return (
-    <Link
-      href={`/${tableData.page}/${tableData.id}`}
-      className="py-2 px-2 rounded-lg cursor-pointer border text-[#00ADEF] border-[#00ADEF] font-normal text-[14px]"
-    >
-      {tableData.link}
-    </Link>
-  );
+const CampaignParticipantsTemplate = ({ sales }) => {
+  return <p className="font-normal text-[16px] text-[#424242]">{sales}</p>;
+};
+const CampaignReward = ({ revenue }) => {
+  return <p className="font-normal text-[16px] text-[#424242]">{revenue}</p>;
 };
 
-const CampaignParticipantsTemplate = (tableData) => {
+const CampaignLinkId = ({ _id }) => {
+  const handleCopyLink = () => {
+    const url = `http://localhost:3000/product/${_id}`;
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        alert("Link copied to clipboard");
+      })
+      .catch((err) => {
+        console.error("Failed to copy link: ", err);
+      });
+  };
+
   return (
-    <p className="font-normal text-[16px] text-[#424242]">
-      {tableData.status === "closed" ? "---" : tableData.sales}
-    </p>
-  );
-};
-const CampaignReward = (tableData) => {
-  return (
-    <p className="font-normal text-[16px] text-[#424242]">
-      {tableData.revenue}
+    <p
+      className="font-normal text-[16px] text-[#00ADEF] border border-[#00ADEF] py-2 px-6 rounded-md cursor-pointer"
+      onClick={handleCopyLink}
+    >
+      {_id}
     </p>
   );
 };

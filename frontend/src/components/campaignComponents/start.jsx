@@ -78,3 +78,7 @@ const Start = () => {
 };
 
 export default Start;
+
+
+// https://explorer.solana.com/address/${collectionAddress}?cluster=testnet
+// https://explorer.solana.com/address/${4w8Ppcb4Trf4qwSbNVFNMt2QddBxC6QBhqQhqBvuSBzX}?cluster=testnet`
