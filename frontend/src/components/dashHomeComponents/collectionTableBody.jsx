@@ -26,62 +26,70 @@ export const Table = ({ tableHeads, tableData, children }) => {
 export const TableBody = ({ tableData }) => {
   return (
     <tbody>
-      {tableData.map((data, index) => (
-        <tr
-          key={`table-data-${index}`}
-          className="hover:bg-[#e1ecf6] transition-all duration-500"
-        >
-          <td className="border border-[#F3F3FC] text-center py-2 line-clamp-1 px-4">
-            <CampaignNameTemplate name={data.name} />
-          </td>
-          <td className="border border-[#F3F3FC] text-center py-2 px-4">
-            <CampaignStatusTemplate statusText={data.statusText} />
-          </td>
-          <td className="border border-[#F3F3FC] text-center py-2 px-4">
-            <CampaignDateTemplate date={data.date} />
-          </td>
-          <td className="border border-[#F3F3FC] text-center py-2 px-4">
-            <CampaignAsset collectionAddress={data.collectionAddress} />
+      {tableData.length > 0 ? (
+        tableData.map((data, index) => (
+          <tr
+            key={`table-data-${index}`}
+            className="hover:bg-[#e1ecf6] transition-all duration-500"
+          >
+            <td className="border border-[#F3F3FC] text-center py-2 line-clamp-1 px-4">
+              <CampaignNameTemplate name={data.name} />
+            </td>
+            <td className="border border-[#F3F3FC] text-center py-2 px-4">
+              <CampaignStatusTemplate statusText={data.transferable} />
+            </td>
+            <td className="border border-[#F3F3FC] text-center py-2 px-4">
+              <CampaignDateTemplate date={data.createdAt} />
+            </td>
+            <td className="border border-[#F3F3FC] text-center py-2 px-4">
+              <CampaignAsset collectionAddress={data.mintAddress} />
+            </td>
+          </tr>
+        ))
+      ) : (
+        <tr>
+          <td colSpan={4} className="text-center py-4">
+            No record found
           </td>
         </tr>
-      ))}
+      )}
     </tbody>
   );
 };
 
-const CampaignNameTemplate = (tableData) => {
+
+const CampaignNameTemplate = ({ name }) => {
   return (
     <p className="font-normal line-clamp-1 text-[16px] text-[#424242]">
-      {tableData.name}
+      {name}
     </p>
   );
 };
 
-const CampaignStatusTemplate = (tableData) => {
+const CampaignStatusTemplate = ({ transferable }) => {
   return (
     <p className="font-normal text-[16px] text-[#424242]">
-      {tableData.statusText}
+      {transferable ? "Transferable" : "Non-Transferable"}
     </p>
   );
 };
 
-const CampaignDateTemplate = (tableData) => {
-  return (
-    <p className="font-normal text-[16px] text-[#424242]">{tableData.date}</p>
-  );
+const CampaignDateTemplate = ({ date }) => {
+  return(<p className="font-normal text-[16px] text-[#424242]">{date}</p>);
+};
+
+const shortenAddress = (address) => {
+  if (address.length <= 10) return address;
+  return `${address.slice(0, 5)}....${address.slice(-5)}`;
 };
 
 const CampaignAsset = ({ collectionAddress }) => {
+  const shortenedAddress = shortenAddress(collectionAddress);
+  const url = `https://explorer.solana.com/address/${collectionAddress}?cluster=devnet`;
+
   return (
-    <p className="font-normal text-[16px] text-[#424242]">{collectionAddress}</p>
+    <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+      {shortenedAddress}
+    </a>
   );
 };
-
-// const CampaignAsset = ({ NFT, Token }) => {
-//   return (
-//     <div className="flex items-center justify-between w-full font-normal text-[16px] text-[#424242]">
-//       {NFT ? <p className="mr-2">{NFT}</p> : "-----"}
-//       {Token ? <p>{Token}</p> : "----"}
-//     </div>
-//   );
-// };

@@ -5,11 +5,9 @@ const ProfileService = new Profile();
 
 export default class PaymentService {
 
-    async createCandypaySession(product: IProduct, userId: string) {
+    async createCandypaySession(product: IProduct) {
         const profile = await ProfileService.findOne({_id: product.userId});
-        const buyer = await ProfileService.findOne({_id: userId});
         if(!profile) throw new Error("Seller doesn't exist");
-        if(!buyer) throw new Error("Buyer doesn't exist");
 
         return await candypay.session.create({
             success_url: product.product,
@@ -35,9 +33,6 @@ export default class PaymentService {
                 wallet_address: profile._id
             },
             metadata: {
-                buyerId: userId,
-                buyerName: buyer.email,
-                buyerImage: buyer.imageUrl,
                 productId: product._id,
                 productName: product.name,
                 product: product.product,

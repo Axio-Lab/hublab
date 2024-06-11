@@ -1,22 +1,47 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useRouter } from "next/navigation";
+// import { getUserCollection } from "@/store/slices/collectionSlice";
+import axios from "axios";
+import { toast } from "react-toastify";
 import Image from "next/image";
 import UploadIcon from "../../assets/uploadIcon.svg";
 import Button from "../Button";
 import { useDispatch, useSelector } from "react-redux";
-import { setDetails } from "@/store/slices/statesSlice";
+import {
+  setDetails,
+  setSelectedProductImage,
+  setUserCollectionNFTOBJ,
+} from "@/store/slices/statesSlice";
 import Tiptap from "../tiptap";
 
 const Details = () => {
-  const [selectedImage, setSelectedImage] = useState("");
   const [description, setDescription] = useState("");
-  // const [customNFT, setCustomNFT] = useState({
-  //   address: "",
-  //   name: "",
-  //   imageUrl: "",
-  // });
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [userCollectionNFT, setUserCollectioNFT] = useState([]);
+  const userId = useSelector((state) => state.generalStates.userId);
+
+
+  const getAllUserCollection = async () => {
+    try {
+      const url = `https://backend-verxio.vercel.app/api/v1/collection/nft/${userId}`;
+      if (userId === undefined || !userId) {
+        toast.info("Connect your wallet to get user collection");
+      } else {
+        const response = await axios.get(url);
+        if (response.data.success === true) {
+          setUserCollectioNFT(response.data.nfts);
+        }
+      }
+    } catch (error) {
+      console.log("error:", error);
+    }
+  };
+
+  useEffect(() => {
+    getAllUserCollection();
+  }, []);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -25,7 +50,7 @@ const Details = () => {
 
   const handleImageChange = (event, setFieldValue) => {
     const file = event.target.files[0];
-    console.log("file", file);
+    // console.log("file", file);
     setFieldValue("bannerImg", file);
 
     if (file) {
@@ -37,7 +62,8 @@ const Details = () => {
       };
 
       const data = reader.readAsDataURL(file);
-      console.log(data);
+      // console.log(data, "file url that is been expected!!!!!");
+      // console.log(selectedImage, "image that is been expected!!!!!");
     }
   };
 
@@ -71,28 +97,34 @@ const Details = () => {
     }
   };
 
+  // const handleNFTChange = (event, setFieldValue) => {
+  //   const newNFT = event.target.value;
+  //   setFieldValue("selectedNFT", newNFT);
+  // };
   const handleNFTChange = (event, setFieldValue) => {
-    const newNFT = event.target.value;
-    setFieldValue("selectedNFT", newNFT);
-  };
+    const selectedNFTId = parseInt(event.target.value);
+    const selectedNFT = userCollectionNFT.find(
+      (nft) => nft.id === selectedNFTId
+    );
 
+    if (selectedNFT) {
+      setFieldValue("selectedNFT", {
+        address: selectedNFT.mintAddress,
+        name: selectedNFT.name,
+        imageUrl: selectedNFT.image,
+        // collectionId: selectedNFT.id,
+      });
+    }
+  };
+  
   const handleDiscountChange = (event, setFieldValue) => {
     const value = Math.max(0, Math.min(100, event.target.value));
     setFieldValue("discount", value);
   };
 
-  // const handleCustomNFTChange = (event) => {
-  //   const { name, value } = event.target;
-  //   setCustomNFT((prevState) => ({
-  //     ...prevState,
-  //     [name]: value,
-  //   }));
-  // };
-
   const handleCustomNFTChange = (event, setFieldValue) => {
     const { name, value } = event.target;
     setFieldValue(`customNFT.${name}`, value);
-    // console.log(value, name, "input value!!!!");
   };
 
   const handleCustomNFTEnabledChange = (event, setFieldValue) => {
@@ -106,9 +138,13 @@ const Details = () => {
     bannerImg: details?.bannerImg || "",
     allowPayAnyPrice: details?.allowPayAnyPrice || false,
     price: details?.price || "",
-    isNFTDiscountEnabled: details?.isNFTDiscountEnabled || false,
+    isNFTDiscountEnabled: details?.isNFTDiscountEnabled || true,
     isCustomNFTEnabled: details?.isCustomNFTEnabled || false,
-    selectedNFT: details?.selectedNFT || "",
+    selectedNFT: {
+      address: details?.selectedNF?.address || "",
+      name: details?.selectedNF?.name || "",
+      imageUrl: details?.selectedNF?.imageUrl || "",
+    },
     discount: details?.discount || "",
     customNFT: {
       address: details?.customNFT?.address || "",
@@ -120,7 +156,7 @@ const Details = () => {
   return (
     <div className="mt-10 w-[60%] text-[#484851]">
       <Formik onSubmit={() => {}} initialValues={initialValues}>
-        {({ isValid, handleSubmit, dirty, values, setFieldValue }) => (
+        {({ values, setFieldValue }) => (
           <Form className="flex flex-col gap-8">
             <div>
               <p className="font-semibold text-[24px] mb-5">
@@ -251,7 +287,7 @@ const Details = () => {
                     </label>
                     <select
                       className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                      value={values.selectedNFT}
+                      value={values.selectedNFT.collectionId}
                       onChange={(event) =>
                         handleNFTChange(event, setFieldValue)
                       }
@@ -259,9 +295,11 @@ const Details = () => {
                       <option value="">
                         Choose an NFT from your Collection on Verxio
                       </option>
-                      <option value="Space NFT">Space NFT</option>
-                      <option value="Drips">Drips</option>
-                      <option value="Early Badge NFT">Early Badge NFT</option>
+                      {userCollectionNFT.map((collection, index) => (
+                        <option key={index} value={collection.id}>
+                          {collection.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 )}
@@ -345,6 +383,8 @@ const Details = () => {
                 className="text-[20px]"
                 onClick={() => {
                   dispatch(setDetails(values));
+                  dispatch(setSelectedProductImage({ selectedImage }));
+                  dispatch(setUserCollectionNFTOBJ({ userCollectionNFT }));
                   router.push("/start_selling?tab=summary");
                 }}
               />

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import ProjectController from '../controllers/project.controller';
+import ProjectController from '../controllers/collection.controller';
 import validate from "../middlewares/validate.middleware";
 import authenticate from "../middlewares/authentication.middleware";
 // import { projectSchema } from "../schemas/project.schema";
@@ -12,13 +12,13 @@ const {
 } = new ProjectController();
 
 //create a project
-router.post("/", authenticate, createProject);
+router.post("/:userId", createProject);
 
 //create an NFT
 router.post("/nft/:projectId", authenticate, createNFT);
 
 //get users projects
-router.get("/nft", authenticate, getUserNFTS);
+router.get("/nft/:userId", getUserNFTS);
 
 //generate NFT claim link
 router.get("/:projectId/nft/:nftId", authenticate, generateNftClaimLink);

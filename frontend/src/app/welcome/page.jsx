@@ -13,19 +13,14 @@ import {
   setEdit,
 } from "@/store/slices/statesSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { root } from "@/store/store";
+
 
 const page = () => {
-  const account = useAccount();
   const router = useRouter();
-
+  const account = useAccount();
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.profile.profile.status);
-  const id2 = useSelector((state) => state);
-
-  console.log(id2);
-  const id = useSelector((state) => state.profile.userId);
 
   const getUserProfile = async () => {
     try {
@@ -33,7 +28,7 @@ const page = () => {
       if (response.payload.success === true) {
         dispatch(setUserId(account));
         dispatch(setUserProfile(response?.payload.profile));
-        router.push("/dashboard/profile");
+        router.push("/dashboard");
         toast.success(response?.payload.message);
       } else {
         toast.info("Create a new profile");
@@ -75,7 +70,6 @@ const page = () => {
         {account && (
           <Button
             name="Continue"
-            // href={"dashboard/profile"}
             isLoading={status === "loading"}
             className={"px-24"}
             onClick={() => getUserProfile()}

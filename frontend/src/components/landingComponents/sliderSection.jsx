@@ -2,21 +2,17 @@ import SliderCards from "./sliderCards";
 
 const sliderCardsData = [
   {
-    headerText: "715,986 K+",
-    description: "Verxio Minted Tokens",
+    headerText: "86,908 K+",
+    description: "Product Launch",
   },
   {
-    headerText: "201,986,372 M+",
-    description: "Verxio Earners",
+    headerText: "201,986 M+",
+    description: "Verxio Product Revenue",
   },
   {
-    headerText: "858,96 K+",
-    description: "Verxio Communities",
+    headerText: "106,072 K+",
+    description: "Verxio Sellers",
   },
-  //   {
-  //     headerText: "858,96 K+",
-  //     description: "Verxio Refferals",
-  //   },
 ];
 
 const SliderSection = () => {

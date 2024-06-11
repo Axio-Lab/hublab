@@ -59,6 +59,7 @@ export const getUserCampaigns = createAsyncThunk(
     }
   }
 );
+
 export const getCampaign = createAsyncThunk(
   "profile/singleCampaign",
   async ({ id }) => {

@@ -33,11 +33,10 @@ const questionFormatData = [
   },
 ];
 
-const Start = () => {  
+const Start = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [selectedProduct, setSelectedProduct] = useState(null);
-  // const start = useSelector((state) => state.generalStates.start);
 
   const handleSelectProduct = (value) => {
     setSelectedProduct(value);
@@ -68,8 +67,7 @@ const Start = () => {
             name="Continue"
             className="w-full text-[20px] mt-12"
             onClick={() => {
-              dispatch(setStart({selectedProduct}));
-              console.log("Selected Product:", selectedProduct);
+              dispatch(setStart({ selectedProduct }));
               router.push("/start_selling?tab=details");
             }}
           />
@@ -77,6 +75,10 @@ const Start = () => {
       </section>
     </>
   );
-}; 
+};
 
 export default Start;
+
+
+// https://explorer.solana.com/address/${collectionAddress}?cluster=testnet
+// https://explorer.solana.com/address/${4w8Ppcb4Trf4qwSbNVFNMt2QddBxC6QBhqQhqBvuSBzX}?cluster=testnet`

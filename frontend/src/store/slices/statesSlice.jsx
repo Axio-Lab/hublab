@@ -11,6 +11,8 @@ const initialState = {
   totalCampaignPoint: {},
   choosePoint: 0,
   actionModal: false,
+  selectedProductImage: {},
+  userCollectionNFTOBJ: {}
 };
 
 const statesSlice = createSlice({
@@ -47,6 +49,12 @@ const statesSlice = createSlice({
     setChoosePoint: (state, action) => {
       state.choosePoint = action.payload;
     },
+    setSelectedProductImage: (state, action) => {
+      state.selectedProductImage = action.payload;
+    },
+    setUserCollectionNFTOBJ: (state, action) => {
+      state.userCollectionNFTOBJ = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(PURGE, () => {
@@ -66,5 +74,7 @@ export const {
   setSummary,
   setChoosePoint,
   setCloseActionModal,
+  setSelectedProductImage,
+  setUserCollectionNFTOBJ
 } = statesSlice.actions;
 export default statesSlice.reducer;

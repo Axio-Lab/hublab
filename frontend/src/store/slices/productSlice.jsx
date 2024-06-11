@@ -10,39 +10,15 @@ const initialState = {
     error: null,
     data: {},
   },
-  getUserNft: {
-    status: "idle",
-    error: null,
-    data: {},
-  },
 };
+
 
 export const createProduct = createAsyncThunk(
   "profile/newProduct",
-  async ({ data, id }) => {
+  async ({ data, userId }) => {
     try {
       const response = await axios.post(
-        `https://backend-verxio.vercel.app/api/v1/product`,
-
-        data
-      );
-      return response.data;
-    } catch (err) {
-      console.log(err.response.data);
-      if (!err.response) {
-        throw err.message;
-      }
-      return err.response.data;
-    }
-  }
-);
-
-export const getUserNft = createAsyncThunk(
-  "profile/newUserNft",
-  async ({ data, id }) => {
-    try {
-      const response = await axios.post(
-        `https://backend-verxio.vercel.app/api/v1/projects/nft`,
+        `https://backend-verxio.vercel.app/api/v1/product/${userId}`,
 
         data
       );
@@ -83,6 +59,7 @@ const productSlice = createSlice({
         state.product.error = action.payload;
         state.product.status = "failed";
       })
+
 
       //purge all state
       .addCase(PURGE, () => {

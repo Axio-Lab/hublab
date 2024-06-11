@@ -1,34 +1,51 @@
 "use client";
-import React, { useState } from "react";
-import { Button } from "..";
+import Button  from "../Button";
 import Image from "next/image";
-import VerxioGold from "../../assets/VerxioCoin.svg";
 import { CloseCircle } from "iconsax-react";
-import { useSelector, useDispatch } from "react-redux";
-import { useAccount } from "@particle-network/connect-react-ui";
-import { toast } from "react-toastify";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { RiExternalLinkFill } from "react-icons/ri";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { Formik, Form } from "formik";
+import { formatNumber } from "@/utils/bonkConverter";
+import { fetchBonkPrice } from "../fetchBonkPrice";
 
 const CampaignPreview = ({ setCampaignModalOpen }) => {
-
-  const dispatch = useDispatch();
-  const start = useSelector((state) => state.generalStates.start);
+  const selectedProductImage = useSelector(
+    (state) => state.generalStates.selectedProductImage
+  );
   const details = useSelector((state) => state.generalStates.details);
   const summary = useSelector((state) => state.generalStates.summary);
+  const userprofile = useSelector((state) => state.generalStates.userProfile);
 
-  const { selectedProduct } = start;
-  const { category, productCollectionFile, quantity, proofOfPurchase } =
-    summary;
-  const {
-    title,
-    description,
-    bannerImg,
-    allowPayAnyPrice,
-    price,
-    discount,
-    customNFT,
-  } = details;
+  const { quantity } = summary;
+  const { selectedImage } = selectedProductImage;
+  const { title, description, allowPayAnyPrice, price, discount, selectedNFT } = details;
+
+  const [bonkPrice, setBonkPrice] = useState(null);
+  const [showUsd, setShowUsd] = useState(false);
+
+  const initialValues = {
+    productName: title ? title : "",
+    description: description ? description : "",
+    allowPayAnyPrice: allowPayAnyPrice ? allowPayAnyPrice : false,
+    price: price ? price : 0,
+    discount: discount ? discount : 0,
+    quantity: quantity ? quantity : 0,
+    selectedImage: selectedImage ? selectedImage : "", 
+  };
+  
+  useEffect(() => {
+    const getBonkPrice = async () => {
+      const price = await fetchBonkPrice();
+      if (price !== null) {
+        setBonkPrice(price);
+      }
+    };
+    getBonkPrice();
+  }, []);
+
+  const handleCheckboxChange = (event) => {
+    setShowUsd(event.target.checked);
+  };
 
   return (
     <>
@@ -40,233 +57,96 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
           >
             <CloseCircle color="#484851" />
           </span>
-          <Formik onSubmit={() => {}}>
+          <Formik 
+          initialValues={initialValues}
+          onSubmit={() => {}}
+          >
             {({ values, setFieldValue }) => (
               <Form className="flex flex-col gap-11 w-full">
-                <section className="flex items-center gap-4 flex-col md:flex-row my-4">
-                  <div className="w-full">
-                    <p className="font-semibold text-[24px] mb-5">
-                      <span className="mr-3 text-">*</span>Selected Product Type
-                    </p>
-                    <Field
-                      className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                      readOnly
-                      placeholder={
-                        selectedProduct
-                          ? selectedProduct
-                          : "No product type was selected"
-                      }
-                    />
-                  </div>
-
-                  <div className="w-full">
-                    <p className="font-semibold text-[24px] mb-5">
-                      <span className="mr-3 text-">*</span>Name of Product
-                    </p>
-                    <Field
-                      className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                      readOnly
-                      placeholder={title ? title : "Title was not inputed"}
-                    />
-                  </div>
-                </section>
-
-                <section className="flex items-start gap-4 flex-col md:flex-row my-4">
-                  <div className="w-full">
+                <section className="w-full flex items-start gap-4 flex-col md:flex-row">
+                  <div className="w-full md:w-[35%]">
                     <div className=" rounded-lg border border-primary border-dashed bg-[#E7E7F9]">
                       <Image
-                        src={bannerImg}
+                        src={selectedImage}
                         alt="Product Banner"
                         className="w-full h-full bg-cover"
                         width={500}
-                        height={200}
+                        height={300}
                       />
                     </div>
                   </div>
 
-                  <div className="w-full">
-                    <p className="font-semibold text-[24px] mb-5">
-                      <span className="mr-3 text-">*</span>Product Description
-                    </p>
-                    <Field
-                      className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                      readOnly
-                      placeholder={
-                        description
-                          ? description
-                          : "Description was not inputed"
-                      }
-                    />
-                  </div>
-                </section>
-
-                <section className="flex items-center gap-4 flex-col md:flex-row my-4">
-                  <div className="w-full">
-                    <p className="font-semibold text-[24px] mb-5">
-                      <span className="mr-3 text-">*</span>Sale Price (USD)
-                    </p>
-                    <div className="mb-5">
-                      <Field
-                        className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                        placeholder={
-                          !allowPayAnyPrice
-                            ? price
-                            : "Customers are alowed to pay any price"
-                        }
-                        readOnly
-                      />
-                    </div>
-                  </div>
-                  <div className="w-full">
-                    <label className="font-semibold text-[24px] mb-5">
-                      <span className="mr-3 text-">*</span>Discount Amount (%)
-                    </label>
-                    <Field
-                      className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                      placeholder={
-                        discount ? discount : "Discount was not inputed"
-                      }
-                      readOnly
-                    />
-                    {/* <div className="flex justify-between items-center font-normal text-[16px] mt-2">
-                      <p>
-                        Holders of the selected NFTs will receive {discount}%
-                        discount.
+                  <section className="w-full md:w-[65%] flex items-start flex-col">
+                    <div className="w-full flex flex-col mb-4">
+                      <p className="font-semibold text-[24px] mb-2">
+                        {title ? title : "Product Title was not inputed"}
                       </p>
-                    </div> */}
-                  </div>
-                </section>
-
-                <section className="flex items-start gap-4 flex-col md:flex-row my-4">
-                  <div className="w-full">
-                    <p className="font-semibold text-[24px] mb-5">
-                      <span className="mr-3 text-">*</span>Selected Category
-                    </p>
-                    <Field
-                      className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                      placeholder={
-                        category ? category : "Category type was not selected"
-                      }
-                      readOnly
-                    />
-                  </div>
-
-                  <div className="w-full">
-                    <p className="font-semibold text-[24px] mb-5">
-                      <span className="mr-3 text-">*</span>Quantity
-                    </p>
-                    <Field
-                      className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                      placeholder={
-                        quantity === 0 || quantity === undefined ? "Unlimited Product Quantity" : quantity
-                      }
-                      readOnly
-                    />
-                  </div>
-                </section>
-
-                <section className="flex items-start gap-4 flex-col md:flex-row my-4">
-                  <div className="relative z-40 -right-[1px] w-full">
-                    <p className="font-semibold text-[24px] mb-5">
-                      <span className="mr-3 text-">*</span>Proof of Purchase
-                      (cNFT)
-                    </p>
-                    <div>
-                      <input
-                        type="text"
-                        name="address"
-                        placeholder={
-                          proofOfPurchase.address
-                            ? proofOfPurchase.address
-                            : "Address was not inputed"
-                        }
-                        readOnly
-                        className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
-                      />
-                      <input
-                        type="text"
-                        name="name"
-                        placeholder={
-                          proofOfPurchase.name
-                            ? proofOfPurchase.name
-                            : "Name was not inputed"
-                        }
-                        readOnly
-                        className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
-                      />
-                      <input
-                        type="text"
-                        name="imageUrl"
-                        placeholder={
-                          proofOfPurchase.imageUrl
-                            ? proofOfPurchase.imageUrl
-                            : "Image Url was not inputed"
-                        }
-                        readOnly
-                        className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                      />
+                      <div className="my-[-10px] flex items-center gap-2">
+                        Created by{" "}
+                        <span className="font-semibold">
+                          {userprofile?.firstName}
+                        </span>
+                        <span className="font-semibold">
+                          {userprofile?.lastName}
+                        </span>
+                      </div>
                     </div>
-                  </div>
+                    <section className="flex items-start gap-2 flex-col my-4">
+                      <p className="font-semibold text-[24px] capitalize">
+                        Description
+                      </p>
+                      <div
+                        dangerouslySetInnerHTML={{ __html: description }}
+                        className="flex flex-col gap-2"
+                      />
+                    </section>
+                  <div className="flex items-center mr-2">
+                            <input
+                              type="checkbox"
+                              id="togglePrice"
+                              checked={showUsd}
+                              onChange={handleCheckboxChange}
+                              className="mr-2"
+                            />
+                            <label htmlFor="togglePrice" className="font-semibold text-[13px]">Show price in USD</label>
+                          </div>
+                          
+                      <div className="flex items-center gap-3">
+                          <p className="font-semibold text-[26px] text-[#00ADEF]">
+                            {!allowPayAnyPrice ? (
+                              showUsd ? (
+                                `$${price}`
+                              ) : (
+                                `${formatNumber(price / bonkPrice)} $BONK`
+                              )
+                            ) : (
+                              "Customers are allowed to pay any price"
+                            )}
+                          </p>
+                        </div>
 
-                  <div className="relative z-40 -right-[1px] w-full">
-                    <p className="font-semibold text-[24px] mb-5">
-                      <span className="mr-3 text-">*</span>Selected Custom NFT
-                      (cNFT)
+                    <div className="w-full flex flex-col mb-4">
+                    <p className="font-semibold text-[14px]">
+                        Holders of {selectedNFT.name} will receive {discount}% discount.
+                      </p>
+                      <div className="flex items-center gap-2">
+                        Quantity:
+                        <span className="font-semibold">
+                          {quantity === 0 || quantity === undefined
+                            ? "unlimited"
+                            : quantity}
+                        </span>
+                      </div>
+                    </div>
+
+                    <p className="font-semibold text-[14px] text-red-500">
+                      NOTE: 15,000 $BONK cashback on every $1 spent in BONK
                     </p>
-                    <div>
-                      <input
-                        type="text"
-                        name="address"
-                        placeholder={
-                          customNFT.address
-                            ? customNFT.address
-                            : "Address was not inputed"
-                        }
-                        readOnly
-                        className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
-                      />
-                      <input
-                        type="text"
-                        name="name"
-                        placeholder={
-                          customNFT.name
-                            ? customNFT.name
-                            : "Name was not inputed"
-                        }
-                        readOnly
-                        className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32] mb-3"
-                      />
-                      <input
-                        type="text"
-                        name="imageUrl"
-                        placeholder={
-                          customNFT.imageUrl
-                            ? customNFT.imageUrl
-                            : "Image Url was not inputed"
-                        }
-                        readOnly
-                        className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                      />
-                    </div>
-                  </div>
-                </section>
 
-                <section className="flex items-center justify-center mx-auto">
-                  <div className="w-full">
-                    <div className=" rounded-lg border border-primary border-dashed bg-[#E7E7F9]">
-                      <Image
-                        src={productCollectionFile}
-                        alt="product"
-                        className="w-inherit h-inherit bg-cover"
-                        width={500}
-                        height={200}
-                      />
-                    </div>
-                  </div>
-                </section>
-
-                <section className="w-full md:max-w-xl mx-auto my-8">
-                  <Button name={"Buy Now"} />
+                    <section className="w-full md:max-w-xl mx-auto my-8">
+                      <Button name={"Buy Now"} className={"bg-green-500"} />
+                    </section>
+                  </section>
                 </section>
               </Form>
             )}

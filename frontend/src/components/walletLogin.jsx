@@ -11,7 +11,7 @@ const WalletLogin = () => {
   const dispatch = useDispatch();
 
   const userId = useSelector((state) => state.generalStates.userId);
-  console.log(userId);
+  // console.log(userId);
 
   useEffect(() => {
     dispatch(setUserId(account));
