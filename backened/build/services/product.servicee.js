@@ -19,9 +19,14 @@ class ProductService {
             return yield product_model_1.default.create(product);
         });
     }
+    getProductById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield product_model_1.default.findById(id).populate("userId", ["firstName", "lastName"]);
+        });
+    }
     getProduct(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const product = yield product_model_1.default.findById(id);
+            const product = yield product_model_1.default.findById(id).populate("userId", ["firstName", "lastName"]);
             if (!product)
                 throw new Error("Invalid ProductId");
             return product;
