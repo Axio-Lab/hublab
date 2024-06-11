@@ -19,6 +19,11 @@ class ProductService {
             return yield product_model_1.default.create(product);
         });
     }
+    getProductById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield product_model_1.default.findById(id);
+        });
+    }
     getProduct(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const product = yield product_model_1.default.findById(id);

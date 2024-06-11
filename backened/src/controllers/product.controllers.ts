@@ -3,7 +3,8 @@ import ProductService from "../services/product.servicee";
 import underdog from "../configs/underdog.config";
 const {
     create,
-    getProducts
+    getProducts,
+    getProductById
 } = new ProductService();
 
 export default class ProductController {
@@ -22,6 +23,32 @@ export default class ProductController {
                 .send({
                     success: false,
                     message: `Error occured while ctreating product: ${error.message}`
+                })
+        }
+    }
+
+    async getProductById(req: Request, res: Response) {
+        try {
+            const product = await getProductById(req.params.productId);
+
+            if(!product) {
+                return res.status(404)
+                .send({
+                    success: false,
+                    message: "Product with the Id not found"
+                })
+            }
+            return res.status(200)
+                .send({
+                    success: true,
+                    message: "Product fetched successfully",
+                    product
+                })
+        } catch (error: any) {
+            return res.status(500)
+                .send({
+                    success: false,
+                    message: `Error occured while fetching product: ${error.message}`
                 })
         }
     }

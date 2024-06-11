@@ -6,6 +6,10 @@ export default class ProductService {
         return await Product.create(product);
     }
 
+    async getProductById(id: string) {
+        return await Product.findById(id);
+    }
+
     async getProduct(id: string) {
         const product = await Product.findById(id);
         if(!product) throw new Error("Invalid ProductId");

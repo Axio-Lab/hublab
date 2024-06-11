@@ -8,11 +8,15 @@ const router1 = Router();
 const {
     createProduct,
     getUsersProductsInfo,
+    getProductById,
     getUsersDashboardInfo
 } = new ProductController();
 
 //create a product
 router.post("/:userId", validateEmptyString, validate(createProductSchema), createProduct);
+
+//get product by Id
+router.get("/get/:productId", getProductById);
 
 //get users products info
 router.get("/:userId", getUsersProductsInfo);
