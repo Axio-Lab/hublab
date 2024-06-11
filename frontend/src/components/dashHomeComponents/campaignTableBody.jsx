@@ -128,7 +128,7 @@ const CampaignLinkId = ({ _id }) => {
   const productURL = shortenProductURL(url);
 
   const handleCopyLink = () => {
-    const url = `https://verxio.xyz/product/${_id}`;
+    const url = `https://verxio.xyz/product/?id=${_id}`;
     navigator.clipboard
       .writeText(url)
       .then(() => {

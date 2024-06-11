@@ -1,10 +1,19 @@
 "use client";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import  Button  from "../../../components/Button";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { Formik, Form } from "formik";
+import { usePathname } from "next/navigation";
+import { fetchBonkPrice } from "@/components/fetchBonkPrice";
 
-const page = ({ params }) => {
+const page = () => {
+
+  const pathname = usePathname();
+  const pathParts = pathname.split('/');
+  const productId = pathParts[pathParts.length - 1];
+
   const selectedProductImage = useSelector(
     (state) => state.generalStates.selectedProductImage
   );
@@ -16,23 +25,43 @@ const page = ({ params }) => {
   const { selectedImage } = selectedProductImage;
   const { title, description, allowPayAnyPrice, price, discount } = details;
 
+  const [bonkPrice, setBonkPrice] = useState(null);
+
+  useEffect(() => {
+    const getBonkPrice = async () => {
+      const price = await fetchBonkPrice();
+      setBonkPrice(price);
+      if (price !== null) {
+        console.log(price, '1 $BONK - $1');
+      }
+    };
+    getBonkPrice();
+  }, []);
+
+
   const proceedToGeneratePaymentLink = async () => {
     try {
       const url = `https://backend-verxio.vercel.app/api/v1/payment/${productId}`;
-      if (userId === undefined || !userId) {
-        toast.info("Connect your wallet to create collection");
-      } else {
+      console.log(productId, "id")
         const response = await axios.get(url);
-        if (response.data.success === true) {
-          // toast.success(response.data.message);
-          setUserCollectionInfo(response.data.nfts);
-        }
-      }
-    } catch (error) {
+        console.log(response, "payment response!")
+    }
+     catch (error) {
       console.log("error:", error);
       // toast.error(error);
     }
   };
+
+  const initialValues = {
+    productName: title ? title : "",
+    description: description ? description : "",
+    allowPayAnyPrice: allowPayAnyPrice ? allowPayAnyPrice : false,
+    price: price ? price : 0,
+    discount: discount ? discount : 0,
+    quantity: quantity ? quantity : 0,
+    selectedImage: selectedImage ? selectedImage : "", 
+  };
+  
 
   return (
     <>
@@ -43,8 +72,10 @@ const page = ({ params }) => {
             className="absolute top-8 right-8 cursor-pointer"
           >
           </span>
-          ID: {params?.["[productId"]}
-          <Formik onSubmit={() => {}}>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={() => {}}
+          >
             {({ values, setFieldValue }) => (
               <Form className="flex flex-col gap-11 w-full">
                 <section className="w-full flex items-start gap-4 flex-col md:flex-row">

@@ -17,6 +17,17 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
   const { selectedImage } = selectedProductImage;
   const { title, description, allowPayAnyPrice, price, discount } = details;
 
+  const initialValues = {
+    productName: title ? title : "",
+    description: description ? description : "",
+    allowPayAnyPrice: allowPayAnyPrice ? allowPayAnyPrice : false,
+    price: price ? price : 0,
+    discount: discount ? discount : 0,
+    quantity: quantity ? quantity : 0,
+    selectedImage: selectedImage ? selectedImage : "", 
+  };
+  
+
   return (
     <>
       <div className="bg-white relative w-full h-full flex flex-col p-6 border rounded-lg overflow-hidden overflow-y-auto">
@@ -27,7 +38,10 @@ const CampaignPreview = ({ setCampaignModalOpen }) => {
           >
             <CloseCircle color="#484851" />
           </span>
-          <Formik onSubmit={() => {}}>
+          <Formik 
+          initialValues={initialValues}
+          onSubmit={() => {}}
+          >
             {({ values, setFieldValue }) => (
               <Form className="flex flex-col gap-11 w-full">
                 <section className="w-full flex items-start gap-4 flex-col md:flex-row">
