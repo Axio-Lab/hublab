@@ -12,9 +12,11 @@ const validateEmptyString_middleware_1 = __importDefault(require("../middlewares
 const router = (0, express_1.Router)();
 const router1 = (0, express_1.Router)();
 exports.router1 = router1;
-const { createProduct, getUsersProductsInfo, getUsersDashboardInfo } = new product_controllers_1.default();
+const { createProduct, getUsersProductsInfo, getProductById, getUsersDashboardInfo } = new product_controllers_1.default();
 //create a product
 router.post("/:userId", validateEmptyString_middleware_1.default, (0, validate_middleware_1.default)(product_schema_1.createProductSchema), createProduct);
+//get product by Id
+router.get("/get/:productId", getProductById);
 //get users products info
 router.get("/:userId", getUsersProductsInfo);
 //get users dashboard info

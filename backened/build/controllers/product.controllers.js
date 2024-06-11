@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const product_servicee_1 = __importDefault(require("../services/product.servicee"));
 const underdog_config_1 = __importDefault(require("../configs/underdog.config"));
-const { create, getProducts } = new product_servicee_1.default();
+const { create, getProducts, getProductById } = new product_servicee_1.default();
 class ProductController {
     createProduct(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -32,6 +32,33 @@ class ProductController {
                     .send({
                     success: false,
                     message: `Error occured while ctreating product: ${error.message}`
+                });
+            }
+        });
+    }
+    getProductById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const product = yield getProductById(req.params.productId);
+                if (!product) {
+                    return res.status(404)
+                        .send({
+                        success: false,
+                        message: "Product with the Id not found"
+                    });
+                }
+                return res.status(200)
+                    .send({
+                    success: true,
+                    message: "Product fetched successfully",
+                    product
+                });
+            }
+            catch (error) {
+                return res.status(500)
+                    .send({
+                    success: false,
+                    message: `Error occured while fetching product: ${error.message}`
                 });
             }
         });
