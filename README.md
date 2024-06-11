@@ -59,13 +59,13 @@ With Verxio's tokenized discount feature, creators and businesses can provide di
 
 ## Partnerships and Potential Impact 🤝🏼
 
-- We're currently talking with [Stakecut](https://www.stakecut.com) & [Selar](https://selar.co) both are commerce platforms with over 500,000 monthly active users combined and processing millions in monthly revenue, to integrate Verxio's tokenized checkout SDK and webhooks built on top of Solana Pay and CandyPay into their existing payment gateway to give their existing merchants and customer access to experience Verxio in a nutshell.
+- We're currently talking with [Stakecut](https://www.stakecut.com) & [Selar](https://selar.co) both are commerce platforms with over 500,000 monthly active users combined and processing millions in monthly revenue, to integrate Verxio's tokenized checkout SDK and webhooks built on top of Solana Pay and CandyPay into their existing payment gateway to give their existing merchants and customer access to experience `Verxio` in a nutshell.
 
-- We also have network access to over 3000 creators selling to their audience. We intend to onboard a fraction of them to try out Verxio and we will use their success stories of the platform to make case studies to attract more creators.
+- We also have network access to over 3000 creators selling to their audience. We intend to onboard a fraction of them to try out `Verxio` and we will use their success stories of the platform to make case studies to attract more creators.
 
-- Partnering and listing verxio on [Impact](https://impact.com/) which is the world's largest affiliate network with over 200,000 monthly active affiliates who will refer Verxio to their audience, email lists, their network of businesses and creators, and community to receive commission payment in $BONK for any user referred that subscribe to Verxio's premium plan. 
+- Partnering and listing `Verxio` on [Impact](https://impact.com/) which is the world's largest affiliate network with over 200,000 monthly active affiliates who will refer Verxio to their audience, email lists, their network of businesses and creators, and community to receive commission payment in $BONK for any user referred that subscribe to `Verxio's` premium plan. 
 
-By allowing people to innovatively spend their $BONK on digital payments, and integrating full-stack AI-powered on-chain commerce features, Verxio enhances payment processing, proof of purchase NFT issuance, product distribution, customer incentivization, and loyalty rewards at scale. 
+By allowing people to spend their $BONK on digital payments innovatively, and integrating full-stack AI-powered on-chain commerce features, `Verxio` enhances payment processing, proof of purchase NFT issuance, product distribution, customer incentivization, and loyalty rewards at scale. 
 
 This approach is estimated to onboard millions of people into crypto, driving up the adoption of $BONK, showcasing Solana’s capabilities, and greatly contributing to the growth of the Solana ecosystem.
 
@@ -76,7 +76,7 @@ This approach is estimated to onboard millions of people into crypto, driving up
    
 2. Verxio is building on [`Candypay`](https://candypay.fun/) to enable creators to accept Solana payments with our seamless, mobile native, NFT/ Token-ownership loyalty discount Checkout solution in minutes.
 
-3. Verxio is also integrating [`Pyth Network's`](https://pyth.network/) Oracle to pull in the $BONK/USDC price feed, which calculates the $BONK equivalent that customers need to pay for their purchase.
+3. Verxio also integrates [`Pyth Network's`](https://pyth.network/) Oracle to pull in the $BONK/USDC price feed, which calculates the $BONK equivalent that customers must pay for their purchase.
 
 4. Verxio uses a [`Cashback Webhook`](https://github.com/Axio-Lab/hublab/tree/bonk/develop/webhook) from the Verxio SDK to power the $BONK cashback program which also sends a notification to both the customer and seller about a purchase transaction and the cashback incentive trigger.
 <hr />
