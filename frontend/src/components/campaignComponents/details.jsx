@@ -97,11 +97,26 @@ const Details = () => {
     }
   };
 
+  // const handleNFTChange = (event, setFieldValue) => {
+  //   const newNFT = event.target.value;
+  //   setFieldValue("selectedNFT", newNFT);
+  // };
   const handleNFTChange = (event, setFieldValue) => {
-    const newNFT = event.target.value;
-    setFieldValue("selectedNFT", newNFT);
-  };
+    const selectedNFTId = parseInt(event.target.value);
+    const selectedNFT = userCollectionNFT.find(
+      (nft) => nft.id === selectedNFTId
+    );
 
+    if (selectedNFT) {
+      setFieldValue("selectedNFT", {
+        address: selectedNFT.mintAddress,
+        name: selectedNFT.name,
+        imageUrl: selectedNFT.image,
+        // collectionId: selectedNFT.id,
+      });
+    }
+  };
+  
   const handleDiscountChange = (event, setFieldValue) => {
     const value = Math.max(0, Math.min(100, event.target.value));
     setFieldValue("discount", value);
@@ -125,7 +140,11 @@ const Details = () => {
     price: details?.price || "",
     isNFTDiscountEnabled: details?.isNFTDiscountEnabled || true,
     isCustomNFTEnabled: details?.isCustomNFTEnabled || false,
-    selectedNFT: details?.selectedNFT || "",
+    selectedNFT: {
+      address: details?.selectedNF?.address || "",
+      name: details?.selectedNF?.name || "",
+      imageUrl: details?.selectedNF?.imageUrl || "",
+    },
     discount: details?.discount || "",
     customNFT: {
       address: details?.customNFT?.address || "",
@@ -268,7 +287,7 @@ const Details = () => {
                     </label>
                     <select
                       className="border outline-none bg-transparent font-normal text-[14px] rounded-lg w-full px-5 py-3 border-[#0D0E32]"
-                      value={values.selectedNFT}
+                      value={values.selectedNFT.collectionId}
                       onChange={(event) =>
                         handleNFTChange(event, setFieldValue)
                       }

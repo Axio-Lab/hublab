@@ -108,18 +108,31 @@ const Summary = () => {
   const discount = useSelector(
     (state) => state.generalStates?.details?.discount
   );
-  const NFTAddress = useSelector(
+  const customNFTAddress = useSelector(
     (state) => state.generalStates?.details?.customNFT?.address
   );
-  const NFTName = useSelector(
+  const customNFTName = useSelector(
     (state) => state.generalStates?.details?.customNFT?.name
   );
-  const NFTImageUrl = useSelector(
+  const customNFTImageUrl = useSelector(
     (state) => state.generalStates?.details?.customNFT?.imageUrl
+  );
+  const selectedNFTAddress = useSelector(
+    (state) => state.generalStates?.details?.selectedNFT?.address
+  );
+  const selectedNFTName = useSelector(
+    (state) => state.generalStates?.details?.selectedNFT?.name
+  );
+  const selectedNFTImageUrl = useSelector(
+    (state) => state.generalStates?.details?.selectedNFT?.imageUrl
   );
   const isNFTDiscountEnabled = useSelector(
     (state) => state.generalStates?.details?.isNFTDiscountEnabled
   );
+  const isCustomNFTEnabled = useSelector(
+    (state) => state.generalStates?.details?.isCustomeNFTEnabled
+  );
+
   const status = useSelector((state) => state.product.product.status);
 
   const initialValues = {
@@ -134,6 +147,18 @@ const Summary = () => {
     productCollectionFile: "",
   };
 
+  useEffect(() => {
+    if (campaignModalOpen) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [campaignModalOpen]);
+
+  useEffect(() => {
+    if (openModal) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [openModal]);
+  
   const createNewProduct = async (values) => {
     try {
       const productData = {
@@ -155,18 +180,26 @@ const Summary = () => {
         },
         purchaseXP: 50,
         product:
-          "https://res.cloudinary.com/drzpirtgn/image/upload/v1716291673/WhatsApp_Image_2024-05-21_at_12.40.33_e3034f5c_apdcwl.jpg",
+          "https://drive.google.com/drive/folders/12nFj2vPpC6tywS5MOP9CuoFq8s0yEB1B?usp=sharing",
       };
 
-      // Conditionally add nftSelection and discount amount if isNFTDiscountEnabled is true
+      // Conditionally add nftSelection, customNFT and discount amount if true
       if (isNFTDiscountEnabled) {
         productData.nftSelection = {
-          address: NFTAddress,
-          name: NFTName,
-          imageUrl: NFTImageUrl,
+          address: selectedNFTAddress,
+          name: selectedNFTName,
+          imageUrl: selectedNFTImageUrl,
         };
         productData.discountAmount = parseInt(discount);
-      } else {
+      } else if(isCustomNFTEnabled){
+          productData.nftSelection = {
+            address: customNFTAddress,
+            name: customNFTName,
+            imageUrl: customNFTImageUrl,
+          }
+          productData.discountAmount = parseInt(discount);
+      }
+      else {
         productData.discountAmount = 0;
       }
 

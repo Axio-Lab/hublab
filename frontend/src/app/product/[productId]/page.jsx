@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import  Button  from "../../../components/Button";
 import Image from "next/image";
-import { useSelector } from "react-redux";
+import { formatNumber } from "@/utils/bonkConverter";
 import { Formik, Form } from "formik";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import { fetchBonkPrice } from "@/components/fetchBonkPrice";
 
 const page = () => {
@@ -14,52 +15,66 @@ const page = () => {
   const pathParts = pathname.split('/');
   const productId = pathParts[pathParts.length - 1];
 
-  const selectedProductImage = useSelector(
-    (state) => state.generalStates.selectedProductImage
-  );
-  const details = useSelector((state) => state.generalStates.details);
-  const summary = useSelector((state) => state.generalStates.summary);
-  const userprofile = useSelector((state) => state.generalStates.userProfile);
-
-  const { quantity } = summary;
-  const { selectedImage } = selectedProductImage;
-  const { title, description, allowPayAnyPrice, price, discount } = details;
-
+  const [loading, setLoading] = useState(false);
   const [bonkPrice, setBonkPrice] = useState(null);
+  const [showUsd, setShowUsd] = useState(false);
+  const [productDetail, setProductDetail] = useState({});
+
+  const router = useRouter();
 
   useEffect(() => {
     const getBonkPrice = async () => {
       const price = await fetchBonkPrice();
-      setBonkPrice(price);
       if (price !== null) {
-        console.log(price, '1 $BONK - $1');
+        setBonkPrice(price);
       }
     };
     getBonkPrice();
   }, []);
 
+    useEffect(() => {
+      const fetchProductDetail = async () => {
+        try {
+          const url = `https://backend-verxio.vercel.app/api/v1/product/get/${productId}`;
+          const response = await axios.get(url);
+          setProductDetail(response.data.product);
+        } catch (error) {
+          console.log("error:", error);
+        }
+      };
+      fetchProductDetail();
+    }, [productId]); 
+
 
   const proceedToGeneratePaymentLink = async () => {
     try {
+      setLoading(true)
+      toast.info('Preparing checkout 🛒')
       const url = `https://backend-verxio.vercel.app/api/v1/payment/${productId}`;
-      console.log(productId, "id")
         const response = await axios.get(url);
-        console.log(response, "payment response!")
+        const paymentUrl = response.data.payment_url;
+        setLoading(false)
+        router.push(paymentUrl);
     }
      catch (error) {
+      setLoading(false)
       console.log("error:", error);
-      // toast.error(error);
+      toast.error(error);
+      
     }
   };
 
+  const handleCheckboxChange = (event) => {
+    setShowUsd(event.target.checked);
+  };
+
   const initialValues = {
-    productName: title ? title : "",
-    description: description ? description : "",
-    allowPayAnyPrice: allowPayAnyPrice ? allowPayAnyPrice : false,
-    price: price ? price : 0,
-    discount: discount ? discount : 0,
-    quantity: quantity ? quantity : 0,
-    selectedImage: selectedImage ? selectedImage : "", 
+    productName: "",
+    description: "",
+    allowPayAnyPrice: productDetail?.allowPayAnyPrice,
+    price: "",
+    discount: "",
+    quantity: ""
   };
   
 
@@ -81,28 +96,28 @@ const page = () => {
                 <section className="w-full flex items-start gap-4 flex-col md:flex-row">
                   <div className="w-full md:w-[35%]">
                     <div className=" rounded-lg border border-primary border-dashed bg-[#E7E7F9]">
-                      <Image
-                        src={selectedImage}
-                        alt="Product Banner"
-                        className="w-full h-full bg-cover"
-                        width={500}
-                        height={300}
-                      />
+                    <img
+                          src={productDetail?.image}
+                          alt="Product Banner"
+                          className="w-full h-full bg-cover"
+                          width={500}
+                          height={300}
+                        />
                     </div>
                   </div>
 
                   <section className="w-full md:w-[65%] flex items-start flex-col">
                     <div className="w-full flex flex-col mb-4">
                       <p className="font-semibold text-[24px] mb-2">
-                        {title ? title : "Product Title was not inputed"}
+                        {productDetail?. name}
                       </p>
                       <div className="my-[-10px] flex items-center gap-2">
                         Created by{" "}
                         <span className="font-semibold">
-                          {userprofile?.firstName}
+                          {productDetail.userId?.firstName}
                         </span>
                         <span className="font-semibold">
-                          {userprofile?.lastName}
+                          {productDetail.userId?.lastName}
                         </span>
                       </div>
                     </div>
@@ -111,29 +126,46 @@ const page = () => {
                         Description
                       </p>
                       <div
-                        dangerouslySetInnerHTML={{ __html: description }}
+                        dangerouslySetInnerHTML={{ __html: productDetail?.description }}
                         className="flex flex-col gap-2"
                       />
                     </section>
 
+                    <div className="flex items-center mr-2">
+                          <input
+                            type="checkbox"
+                            id="togglePrice"
+                            checked={showUsd}
+                            onChange={handleCheckboxChange}
+                            className="mr-2"
+                          />
+                          <label htmlFor="togglePrice" className="font-semibold text-[13px]">Show price in USD</label>
+                        </div>
+                        
                     <div className="flex items-center gap-3">
-                      <p className="font-semibold text-[26px] text-[#00ADEF]">
-                        {!allowPayAnyPrice
-                          ? `$${price}`
-                          : "Customers are alowed to pay any price"}
-                      </p>
-                      <p className="font-semibold text-[14px]">
-                        Holders of this NFT will receive {discount}% discount.
-                      </p>
-                    </div>
+                        <p className="font-semibold text-[26px] text-[#00ADEF]">
+                          {!productDetail?.allowPayAnyPrice ? (
+                            showUsd ? (
+                              `$${productDetail?.price}`
+                            ) : (
+                              `${formatNumber(productDetail?.price / bonkPrice)} $BONK`
+                            )
+                          ) : (
+                            "Customers are allowed to pay any price"
+                          )}
+                        </p>
+                      </div>
 
                     <div className="w-full flex flex-col mb-4">
+                    <p className="font-semibold text-[14px]">
+                        Holders of {productDetail.nftSelection?.name} will receive {productDetail?.discountAmount}% discount.
+                      </p>
                       <div className="flex items-center gap-2">
                         Quantity:
                         <span className="font-semibold">
-                          {quantity === 0 || quantity === undefined
-                            ? "Unlimited Product Quantity"
-                            : quantity}
+                          {productDetail?.quantity === 0
+                            ? "unlimited"
+                            : productDetail?.quantity}
                         </span>
                       </div>
                     </div>
@@ -146,6 +178,7 @@ const page = () => {
                       <Button
                         name={"Buy Now"}
                         className={"bg-green-500"}
+                        isLoading={loading}
                         onClick={() => {
                           proceedToGeneratePaymentLink();
                         }}
