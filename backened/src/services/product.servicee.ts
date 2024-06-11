@@ -11,8 +11,8 @@ export default class ProductService {
     }
 
     async getProduct(id: string) {
-        const product = await Product.findById(id);
-        if(!product) throw new Error("Invalid ProductId");
+        const product = await Product.findById(id).populate("userId", ["firstName", "lastName"]);
+        if (!product) throw new Error("Invalid ProductId");
         return product;
     }
 
