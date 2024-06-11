@@ -6,7 +6,7 @@ const productSchema = new Schema<IProduct>({
     userId: {
         type: String,
         required: true,
-        ref: "Profile"
+        ref: "profile"
     },
     type: {
         type: String,

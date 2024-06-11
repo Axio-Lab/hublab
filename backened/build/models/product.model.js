@@ -6,7 +6,7 @@ const productSchema = new mongoose_1.Schema({
     userId: {
         type: String,
         required: true,
-        ref: "Profile"
+        ref: "profile"
     },
     type: {
         type: String,
