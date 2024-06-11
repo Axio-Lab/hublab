@@ -7,7 +7,7 @@ export default class ProductService {
     }
 
     async getProductById(id: string) {
-        return await Product.findById(id);
+        return await Product.findById(id).populate("userId", ["firstName", "lastName"]);
     }
 
     async getProduct(id: string) {
