@@ -33,7 +33,10 @@ export const TableBody = ({ tableData }) => {
   return (
     <tbody>
       {tableData.length > 0 ? (
-        tableData.map((data, index) => (
+        tableData
+        .slice()
+        .reverse()
+        .map((data, index) => (
           <tr
             key={`table-data-${index}`}
             className="hover:bg-[#e1ecf6] transition-all duration-500"
