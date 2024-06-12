@@ -60,7 +60,7 @@ const LandingPageHero = () => {
             </div>
 
             <p className="font-normal text-lg text-[#DFDFF7]">
-              leverage verxio's on-chain commerce protocol to Create, Manage, and {" "}
+              leverage verxio's on-chain commerce protocol to create, manage, and {" "}
               <br className="hidden md:block" />distribute your digital product to your audience easily with.
             </p>
 

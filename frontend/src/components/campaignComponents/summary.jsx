@@ -244,7 +244,7 @@ const Summary = () => {
                   >
                     <option value="">Select product category</option>
                     <option value="business">Business</option>
-                    <option value="collectibles">Collectibless</option>
+                    <option value="collectibles">Collectibles</option>
                     <option value="Spirituality">Spirituality</option>
                     <option value="healthandfitness">Health and Fitness</option>
                     <option value="artsandentertainment">
