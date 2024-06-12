@@ -24,6 +24,13 @@ export default class PaymentController {
             // }
 
             const product = await getProduct(productId);
+            if(!product) {
+                return res.status(404)
+                    .send({
+                        success: false,
+                        message: "Invalid productId"
+                    })
+            }
             const { session_id, order_id, payment_url } = await createCandypaySession(product!);
             await create({ paymentInfo: { productId, session_id, order_id, payment_url } });
 
