@@ -13,15 +13,15 @@ export default class PaymentController {
     async createPayment(req: Request, res: Response) {
         try {
             const productId = req.params.productId;
-            const foundPayload = await findOne({ "paymentInfo.produtId": productId })
-            if (foundPayload) {
-                return res.status(200)
-                    .send({
-                        success: true,
-                        message: "Payment session url returned successfully1",
-                        payment_url: foundPayload.paymentInfo!.payment_url!
-                    })
-            }
+            // const foundPayload = await findOne({ "paymentInfo.produtId": productId })
+            // if (foundPayload) {
+            //     return res.status(200)
+            //         .send({
+            //             success: true,
+            //             message: "Payment session url returned successfully1",
+            //             payment_url: foundPayload.paymentInfo!.payment_url!
+            //         })
+            // }
 
             const product = await getProduct(productId);
             const { session_id, order_id, payment_url } = await createCandypaySession(product!);
