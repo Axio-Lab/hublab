@@ -48,7 +48,10 @@ class PaymentService {
                     productId: product._id,
                     productName: product.name,
                     product: product.product,
-                    pop: product.pop
+                    pop: product.pop,
+                    name: profile.email,
+                    image: profile.imageUrl,
+                    wallet_address: profile._id
                 }
             });
         });

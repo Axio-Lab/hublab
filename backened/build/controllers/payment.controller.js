@@ -84,7 +84,7 @@ class PaymentController {
                 
                         <p>We regret to inform you that your payment for the purchase of ${payload.metadata.productName} was unsuccessful.</p>
                 
-                        <p>We suggest you try again or use <a href="${foundPayload === null || foundPayload === void 0 ? void 0 : foundPayload.paymentInfo.session_id}">this</a> payment url to make payment: ${foundPayload === null || foundPayload === void 0 ? void 0 : foundPayload.paymentInfo.session_id}</p>
+                        <p>We suggest you try again or use <a href="${foundPayload === null || foundPayload === void 0 ? void 0 : foundPayload.paymentInfo.payment_url}">this</a> payment url to make payment: ${foundPayload === null || foundPayload === void 0 ? void 0 : foundPayload.paymentInfo.payment_url}</p>
                 
                         <p>If you continue to experience issues, please do not hesitate to contact us.</p>
                 
@@ -100,7 +100,7 @@ class PaymentController {
                         message: "Payment not successful"
                     });
                 }
-                const product = yield getProduct(payload.paymentInfo.productId);
+                const product = yield getProduct(payload.metadata.productId);
                 product.sales = product.sales + 1;
                 product.revenue = product.revenue + payload.payment_amount;
                 yield product.save();
@@ -108,11 +108,11 @@ class PaymentController {
                 //send mail to seller
                 yield (0, sendmail_util_1.default)({
                     from: `Verxio <${process.env.MAIL_USER}>`,
-                    to: payload.custom_data.name,
+                    to: payload.metadata.name,
                     sender: "Verxio",
                     subject: 'Congratulations on Your Sale!',
                     html: `
-                    <p>Congratulations ${payload.custom_data.name},</p>
+                    <p>Congratulations ${payload.metadata.name},</p>
             
                     <p>You made a sale!</p>
             
@@ -148,10 +148,10 @@ class PaymentController {
                 `
                 });
                 //create the nft for the user
-                const mintedNFT = yield underdog_config_1.default.post(`/v2/projects/n/${payload.metadata.pop.projectId}/nfts`, {
+                const mintedNFT = yield underdog_config_1.default.post(`/v2/projects/n/${payload.metadata.pop.collectionId}/nfts`, {
                     name: payload.metadata.pop.name,
                     image: payload.metadata.pop.imageUrl,
-                    receiverAddress: payload.metadata.buyerId
+                    receiverAddress: payload.customer
                 });
                 return res.status(200)
                     .send({
