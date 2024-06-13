@@ -116,7 +116,7 @@ class PaymentController {
             
                     <p>You made a sale!</p>
             
-                    <p>$${payload.payment_amount} has been deposited into your wallet (${payload.custom_data.wallet_address}) for the purchase of ${payload.metadata.productName} product.</p>
+                    <p>$${payload.payment_amount} has been deposited into your wallet (${payload.metadata.wallet_address}) for the purchase of ${payload.metadata.productName} product.</p>
             
                     <p>Keep up the great work and continue to provide excellent products and services.</p>
             
@@ -125,12 +125,13 @@ class PaymentController {
                 `
                 });
                 //send mail to buyer
-                yield (0, sendmail_util_1.default)({
-                    from: `Verxio <${process.env.MAIL_USER}>`,
-                    to: payload.customer_email,
-                    sender: "Verxio",
-                    subject: 'Your Purchase Confirmation and Reward Details',
-                    html: `
+                if (payload.token === "bonk") {
+                    yield (0, sendmail_util_1.default)({
+                        from: `Verxio <${process.env.MAIL_USER}>`,
+                        to: payload.customer_email,
+                        sender: "Verxio",
+                        subject: 'Your Purchase Confirmation and Reward Details',
+                        html: `
                     <p>Hello ${payload.customer_email},</p>
             
                     <p>Thank you for your purchase!</p>
@@ -146,7 +147,28 @@ class PaymentController {
                     <p>Best regards,<br>
                     Verxio</p>
                 `
-                });
+                    });
+                }
+                else {
+                    yield (0, sendmail_util_1.default)({
+                        from: `Verxio <${process.env.MAIL_USER}>`,
+                        to: payload.customer_email,
+                        sender: "Verxio",
+                        subject: 'Your Purchase Confirmation',
+                        html: `
+                    <p>Hello ${payload.customer_email},</p>
+            
+                    <p>Thank you for your purchase!</p>
+            
+                    <p>You've successfully purchased ${payload.metadata.productName}. You can find more details about your product <a href="${payload.metadata.product}">here</a>.</p>
+                        
+                    <p>We value your support and look forward to serving you again.</p>
+            
+                    <p>Best regards,<br>
+                    Verxio</p>
+                `
+                    });
+                }
                 //create the nft for the user
                 const mintedNFT = yield underdog_config_1.default.post(`/v2/projects/n/${payload.metadata.pop.collectionId}/nfts`, {
                     name: payload.metadata.pop.name,
