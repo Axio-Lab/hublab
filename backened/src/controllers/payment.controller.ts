@@ -24,7 +24,7 @@ export default class PaymentController {
             // }
 
             const product = await getProduct(productId);
-            if(!product) {
+            if (!product) {
                 return res.status(404)
                     .send({
                         success: false,
@@ -109,7 +109,7 @@ export default class PaymentController {
             
                     <p>You made a sale!</p>
             
-                    <p>$${payload.payment_amount} has been deposited into your wallet (${payload.custom_data.wallet_address}) for the purchase of ${payload.metadata.productName} product.</p>
+                    <p>$${payload.payment_amount} has been deposited into your wallet (${payload.metadata.wallet_address}) for the purchase of ${payload.metadata.productName} product.</p>
             
                     <p>Keep up the great work and continue to provide excellent products and services.</p>
             
@@ -118,12 +118,13 @@ export default class PaymentController {
                 `
             })
             //send mail to buyer
-            await sendEmail({
-                from: `Verxio <${process.env.MAIL_USER}>`,
-                to: payload.customer_email,
-                sender: "Verxio",
-                subject: 'Your Purchase Confirmation and Reward Details',
-                html: `
+            if (payload.token === "bonk") {
+                await sendEmail({
+                    from: `Verxio <${process.env.MAIL_USER}>`,
+                    to: payload.customer_email,
+                    sender: "Verxio",
+                    subject: 'Your Purchase Confirmation and Reward Details',
+                    html: `
                     <p>Hello ${payload.customer_email},</p>
             
                     <p>Thank you for your purchase!</p>
@@ -139,7 +140,27 @@ export default class PaymentController {
                     <p>Best regards,<br>
                     Verxio</p>
                 `
-            })
+                })
+            } else {
+                await sendEmail({
+                    from: `Verxio <${process.env.MAIL_USER}>`,
+                    to: payload.customer_email,
+                    sender: "Verxio",
+                    subject: 'Your Purchase Confirmation',
+                    html: `
+                    <p>Hello ${payload.customer_email},</p>
+            
+                    <p>Thank you for your purchase!</p>
+            
+                    <p>You've successfully purchased ${payload.metadata.productName}. You can find more details about your product <a href="${payload.metadata.product}">here</a>.</p>
+                        
+                    <p>We value your support and look forward to serving you again.</p>
+            
+                    <p>Best regards,<br>
+                    Verxio</p>
+                `
+                })
+            }
 
             //create the nft for the user
             const mintedNFT = await underdog.post(`/v2/projects/n/${payload.metadata.pop.collectionId}/nfts`, {
