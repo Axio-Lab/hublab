@@ -64,20 +64,15 @@ class PaymentController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const payload = req.body.payload;
-                console.log(1);
                 if (!payload) {
-                    console.log(2);
                     return res.status(403)
                         .send({
                         success: false,
                         message: "Please provide needed payload"
                     });
                 }
-                console.log(3);
                 if (payload.event !== "transaction.successful") {
-                    console.log(4);
                     const foundPayload = yield findOne({ "paymentInfo.session_id": payload.session_id });
-                    console.log(5);
                     //send mail to the buyer
                     yield (0, sendmail_util_1.default)({
                         from: `Verxio <${process.env.MAIL_USER}>`,
@@ -99,21 +94,17 @@ class PaymentController {
                     Verxio</p>
                     `
                     });
-                    console.log(6);
                     return res.status(400)
                         .send({
                         success: false,
                         message: "Payment not successful"
                     });
                 }
-                console.log(7);
                 const product = yield getProduct(payload.metadata.productId);
                 product.sales += 1;
                 product.revenue = product.revenue + payload.payment_amount;
                 yield product.save();
-                console.log(8);
                 yield update(payload.metadata.produtId, payload);
-                console.log(9);
                 //send mail to seller
                 yield (0, sendmail_util_1.default)({
                     from: `Verxio <${process.env.MAIL_USER}>`,
@@ -133,10 +124,8 @@ class PaymentController {
                     Verxio</p>
                 `
                 });
-                console.log(10);
                 //send mail to buyer
                 if (payload.token === "bonk") {
-                    console.log(11);
                     yield (0, sendmail_util_1.default)({
                         from: `Verxio <${process.env.MAIL_USER}>`,
                         to: payload.customer_email,
@@ -159,10 +148,8 @@ class PaymentController {
                     Verxio</p>
                 `
                     });
-                    console.log(12);
                 }
                 else {
-                    console.log(13);
                     yield (0, sendmail_util_1.default)({
                         from: `Verxio <${process.env.MAIL_USER}>`,
                         to: payload.customer_email,
@@ -181,16 +168,18 @@ class PaymentController {
                     Verxio</p>
                 `
                     });
-                    console.log(14);
                 }
-                console.log(15);
                 //create the nft for the user
                 const mintedNFT = yield underdog_config_1.default.post(`/v2/projects/n/${payload.metadata.pop.collectionId}/nfts`, {
                     name: payload.metadata.pop.name,
                     image: payload.metadata.pop.imageUrl,
-                    receiverAddress: payload.customer
+                    receiverAddress: payload.customer,
+                    receiver: {
+                        address: payload.customer,
+                        namespace: "Verxio",
+                        identifier: payload.customer
+                    }
                 });
-                console.log(16);
                 return res.status(200)
                     .send({
                     success: true,

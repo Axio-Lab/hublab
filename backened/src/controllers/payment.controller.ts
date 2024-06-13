@@ -52,22 +52,16 @@ export default class PaymentController {
     async sendPaymentMail(req: Request, res: Response) {
         try {
             const payload = req.body.payload;
-
-            console.log(1)
             if (!payload) {
-                console.log(2)
                 return res.status(403)
                     .send({
                         success: false,
                         message: "Please provide needed payload"
                     })
             }
-            console.log(3)
 
             if (payload.event !== "transaction.successful") {
-                console.log(4)
                 const foundPayload = await findOne({ "paymentInfo.session_id": payload.session_id })
-                console.log(5)
 
                 //send mail to the buyer
                 await sendEmail({
@@ -90,7 +84,6 @@ export default class PaymentController {
                     Verxio</p>
                     `
                 })
-                console.log(6)
 
                 return res.status(400)
                     .send({
@@ -98,16 +91,13 @@ export default class PaymentController {
                         message: "Payment not successful"
                     })
             }
-            console.log(7)
 
             const product = await getProduct(payload.metadata.productId);
             product.sales += 1;
             product.revenue = product.revenue + payload.payment_amount;
             await product.save();
-            console.log(8)
 
             await update(payload.metadata.produtId, payload);
-            console.log(9)
 
             //send mail to seller
             await sendEmail({
@@ -128,11 +118,9 @@ export default class PaymentController {
                     Verxio</p>
                 `
             })
-            console.log(10)
 
             //send mail to buyer
             if (payload.token === "bonk") {
-                console.log(11)
 
                 await sendEmail({
                     from: `Verxio <${process.env.MAIL_USER}>`,
@@ -156,10 +144,8 @@ export default class PaymentController {
                     Verxio</p>
                 `
                 })
-                console.log(12)
 
             } else {
-                console.log(13)
 
                 await sendEmail({
                     from: `Verxio <${process.env.MAIL_USER}>`,
@@ -179,18 +165,20 @@ export default class PaymentController {
                     Verxio</p>
                 `
                 })
-                console.log(14)
 
             }
-            console.log(15)
 
             //create the nft for the user
             const mintedNFT = await underdog.post(`/v2/projects/n/${payload.metadata.pop.collectionId}/nfts`, {
                 name: payload.metadata.pop.name,
                 image: payload.metadata.pop.imageUrl,
-                receiverAddress: payload.customer
+                receiverAddress: payload.customer,
+                receiver: {
+                    address: payload.customer,
+                    namespace: "Verxio",
+                    identifier: payload.customer
+                }
             });
-            console.log(16)
 
             return res.status(200)
                 .send({
