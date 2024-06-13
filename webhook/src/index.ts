@@ -5,10 +5,11 @@ import express, { Request, Response } from "express";
 import { cashback } from "./cashback";
 import axios from "axios";
 
-dotenv.config();
 const app = express();
+dotenv.config();
+const PORT = process.env.PORT || 4000;
 
-app.use(express.json());
+
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
@@ -19,8 +20,7 @@ app.use(
 app.post("/", async (req: Request, res: Response) => {
   const headers = req.headers;
   const payload = req.body;
-  
-  console.log("Payload data:", payload); // complete payment data
+  console.log("Payload data:", payload); 
 
   try {
     await verifyWebhookSignature({
@@ -33,7 +33,7 @@ app.post("/", async (req: Request, res: Response) => {
       message: "Invalid webhook signature",
     });
   }
-  
+
     // Handle the event if it's a successful transaction
     if (payload.event === 'transaction.successful') {
       try {
@@ -48,7 +48,7 @@ app.post("/", async (req: Request, res: Response) => {
       }
     }  
 
-   // store transaction to verxio database
+   // store txn to verxio database
    try {
     const url = `https://backend-verxio.vercel.app/api/v1/payment/mail`;
     
@@ -56,7 +56,7 @@ app.post("/", async (req: Request, res: Response) => {
 
     if (response.data.success === true) {
       console.log('Payload saved successfully:', response.data.message);
-      // You can handle additional success logic here if needed
+
     } else {
       console.error('Failed to save payload:', response.data.message);
     }
@@ -69,8 +69,6 @@ app.post("/", async (req: Request, res: Response) => {
   });
 });
 
-const port = process.env.PORT || 3000;
-
-app.listen(port, () => {
-  console.log(`The server is running on port ${port}`);
+app.listen(PORT, () => {
+    console.log(`Server is running on ${PORT}`);
 });
