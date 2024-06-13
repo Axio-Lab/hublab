@@ -70,8 +70,6 @@ export default class PaymentController {
                     sender: "Verxio",
                     subject: 'Payment Unsuccessful for Your Recent Purchase',
                     html: `
-                        <p>Hello ${payload.customer_email},</p>
-                
                         <p>We regret to inform you that your payment for the purchase of ${payload.metadata.productName} was unsuccessful.</p>
                 
                         <p>We suggest you try again or use <a href="${foundPayload?.paymentInfo.payment_url}">this</a> payment url to make payment: ${foundPayload?.paymentInfo.payment_url}</p>
@@ -97,7 +95,7 @@ export default class PaymentController {
             product.revenue = product.revenue + payload.payment_amount;
             await product.save();
 
-            await update(payload.metadata.produtId, payload);
+            await update(payload.metadata.produtId, { payload });
 
             //send mail to seller
             await sendEmail({
@@ -106,7 +104,7 @@ export default class PaymentController {
                 sender: "Verxio",
                 subject: 'Congratulations on Your Sale!',
                 html: `
-                    <p>Congratulations ${payload.metadata.name},</p>
+                    <p>Congratulations,</p>
             
                     <p>You made a sale!</p>
             
@@ -128,8 +126,6 @@ export default class PaymentController {
                     sender: "Verxio",
                     subject: 'Your Purchase Confirmation and Reward Details',
                     html: `
-                    <p>Hello ${payload.customer_email},</p>
-            
                     <p>Thank you for your purchase!</p>
             
                     <p>You've successfully purchased ${payload.metadata.productName}. You can find more details about your product <a href="${payload.metadata.product}">here</a>.</p>
@@ -167,9 +163,7 @@ export default class PaymentController {
                 })
 
             }
-
-            //create the nft for the user
-            const mintedNFT = await underdog.post(`/v2/projects/n/${payload.metadata.pop.collectionId}/nfts`, {
+            const nftPayload = {
                 name: payload.metadata.pop.name,
                 image: payload.metadata.pop.imageUrl,
                 receiverAddress: payload.customer,
@@ -178,7 +172,11 @@ export default class PaymentController {
                     namespace: "Verxio",
                     identifier: payload.customer
                 }
-            });
+            };
+            const collectionId = payload.metadata.pop.collectionId;
+
+            //create the nft for the user
+            const mintedNFT = await underdog.post(`/v2/projects/n/${collectionId}/nfts`, nftPayload);
 
             return res.status(200)
                 .send({
