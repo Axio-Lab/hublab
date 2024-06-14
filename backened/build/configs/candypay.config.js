@@ -6,7 +6,7 @@ const candypay = new checkout_sdk_1.CandyPay({
         private_api_key: process.env.CANDYPAY_PRIVATE_API_KEY,
         public_api_key: process.env.CANDYPAY_PUBLIC_API_KEY,
     },
-    network: "devnet",
+    network: "mainnet",
     config: {
         collect_shipping_address: false
     }
