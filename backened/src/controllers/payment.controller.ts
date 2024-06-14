@@ -103,9 +103,7 @@ export default class PaymentController {
                 to: payload.metadata.name,
                 sender: "Verxio",
                 subject: 'Congratulations on Your Sale!',
-                html: `
-                    <p>Congratulations,</p>
-            
+                html: `          
                     <p>You made a sale!</p>
             
                     <p>$${payload.payment_amount} has been deposited into your wallet (${payload.metadata.wallet_address}) for the purchase of ${payload.metadata.productName} product.</p>
@@ -148,9 +146,7 @@ export default class PaymentController {
                     to: payload.customer_email,
                     sender: "Verxio",
                     subject: 'Your Purchase Confirmation',
-                    html: `
-                    <p>Hello ${payload.customer_email},</p>
-            
+                    html: `            
                     <p>Thank you for your purchase!</p>
             
                     <p>You've successfully purchased ${payload.metadata.productName}. You can find more details about your product <a href="${payload.metadata.product}">here</a>.</p>
@@ -167,12 +163,12 @@ export default class PaymentController {
             const nftPayload = {
                 name: payload.metadata.pop.name,
                 image: payload.metadata.pop.imageUrl,
-                receiverAddress: payload.customer,
-                // receiver: {
-                //     address: payload.customer,
-                //     namespace: "Verxio",
-                //     identifier: payload.customer
-                // }
+                // receiverAddress: payload.customer,
+                receiver: {
+                    address: payload.customer,
+                    namespace: "Verxio",
+                    identifier: payload.customer
+                }
             };
             const collectionId = payload.metadata.pop.collectionId;
 
