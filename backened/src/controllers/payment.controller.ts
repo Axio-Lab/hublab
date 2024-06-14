@@ -96,6 +96,7 @@ export default class PaymentController {
             await product.save();
 
             await update({ "paymentInfo.productId": payload.metadata.produtId }, { payload: payload });
+            const rounded = parseFloat(payload.payment_amount.toFixed(2));
 
             //send mail to seller
             await sendEmail({
@@ -106,7 +107,7 @@ export default class PaymentController {
                 html: `          
                     <p>You made a sale!</p>
             
-                    <p>$${payload.payment_amount} has been deposited into your wallet (${payload.metadata.wallet_address}) for the purchase of ${payload.metadata.productName} product.</p>
+                    <p>$${rounded} has been deposited into your wallet (${payload.metadata.wallet_address}) for the purchase of ${payload.metadata.productName} product.</p>
             
                     <p>Keep up the great work and continue to provide excellent products and services.</p>
             
@@ -137,7 +138,7 @@ export default class PaymentController {
                     html: `
                     <p>Thank you for your purchase!</p>
             
-                    <p>You've successfully purchased ${payload.metadata.productName}. You can find more details about your product <a href="${payload.metadata.product}">here</a>.</p>
+                    <p>You've successfully purchased ${payload.metadata.productName}. You can access the product <a href="${payload.metadata.product}">here</a>.</p>
             
                     <p>Click <a href="${nftClaimLink.link}">here</a> to claim your proof of purchase NFT.</p>
                     
@@ -161,7 +162,7 @@ export default class PaymentController {
                     html: `            
                     <p>Thank you for your purchase!</p>
             
-                    <p>You've successfully purchased ${payload.metadata.productName}. You can find more details about your product <a href="${payload.metadata.product}">here</a>.</p>
+                    <p>You've successfully purchased ${payload.metadata.productName}. You can access the product <a href="${payload.metadata.product}">here</a>.</p>
                         
                     <p>Click <a href="${nftClaimLink.link}">here</a> to claim your proof of purchase NFT.</p>
 
