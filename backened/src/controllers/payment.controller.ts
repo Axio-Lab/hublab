@@ -4,6 +4,7 @@ import ProductService from "../services/product.servicee";
 import PayloadService from "../services/payload.service";
 import sendEmail from "../utils/sendmail.util";
 import underdog from "../configs/underdog.config";
+import { parse, stringify } from "flatted";
 const { getProduct } = new ProductService();
 const { createCandypaySession } = new PaymentService();
 const { create, findOne, update } = new PayloadService();
@@ -95,7 +96,7 @@ export default class PaymentController {
             product.revenue = product.revenue + payload.payment_amount;
             await product.save();
 
-            await update(payload.metadata.produtId, { payload });
+            await update({ "paymentInfo.productId": payload.metadata.produtId }, { payload: payload });
 
             //send mail to seller
             await sendEmail({
@@ -163,17 +164,20 @@ export default class PaymentController {
                 })
 
             }
+            
+            const safePayload = parse(stringify(payload));
+
             const nftPayload = {
-                name: payload.metadata.pop.name,
-                image: payload.metadata.pop.imageUrl,
-                receiverAddress: payload.customer,
+                name: safePayload.metadata.pop.name,
+                image: safePayload.metadata.pop.imageUrl,
+                receiverAddress: safePayload.customer,
                 receiver: {
-                    address: payload.customer,
+                    address: safePayload.customer,
                     namespace: "Verxio",
-                    identifier: payload.customer
+                    identifier: safePayload.customer
                 }
             };
-            const collectionId = payload.metadata.pop.collectionId;
+            const collectionId = safePayload.metadata.pop.collectionId;
 
             //create the nft for the user
             const mintedNFT = await underdog.post(`/v2/projects/n/${collectionId}/nfts`, nftPayload);
@@ -182,7 +186,7 @@ export default class PaymentController {
                 .send({
                     success: true,
                     message: "Emails sent and nft minted successfully",
-                    nft: mintedNFT
+                    // nft: mintedNFT
                 })
         } catch (error: any) {
             return res.status(500)
