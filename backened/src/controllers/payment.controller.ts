@@ -4,7 +4,6 @@ import ProductService from "../services/product.servicee";
 import PayloadService from "../services/payload.service";
 import sendEmail from "../utils/sendmail.util";
 import underdog from "../configs/underdog.config";
-import { parse, stringify } from "flatted";
 const { getProduct } = new ProductService();
 const { createCandypaySession } = new PaymentService();
 const { create, findOne, update } = new PayloadService();
@@ -164,29 +163,27 @@ export default class PaymentController {
                 })
 
             }
-            
-            const safePayload = parse(stringify(payload));
 
             const nftPayload = {
-                name: safePayload.metadata.pop.name,
-                image: safePayload.metadata.pop.imageUrl,
-                receiverAddress: safePayload.customer,
-                receiver: {
-                    address: safePayload.customer,
-                    namespace: "Verxio",
-                    identifier: safePayload.customer
-                }
+                name: payload.metadata.pop.name,
+                image: payload.metadata.pop.imageUrl,
+                receiverAddress: payload.customer,
+                // receiver: {
+                //     address: payload.customer,
+                //     namespace: "Verxio",
+                //     identifier: payload.customer
+                // }
             };
-            const collectionId = safePayload.metadata.pop.collectionId;
+            const collectionId = payload.metadata.pop.collectionId;
 
             //create the nft for the user
-            const mintedNFT = await underdog.post(`/v2/projects/n/${collectionId}/nfts`, nftPayload);
+            const { data: mintedNFT } = await underdog.post(`/v2/projects/n/${collectionId}/nfts`, nftPayload);
 
             return res.status(200)
                 .send({
                     success: true,
                     message: "Emails sent and nft minted successfully",
-                    // nft: mintedNFT
+                    mintedNFT
                 })
         } catch (error: any) {
             return res.status(500)
