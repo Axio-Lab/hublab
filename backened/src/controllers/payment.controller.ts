@@ -24,7 +24,7 @@ export default class PaymentController {
             // }
 
             const product = await getProduct(productId);
-            if(!product) {
+            if (!product) {
                 return res.status(404)
                     .send({
                         success: false,
@@ -52,7 +52,6 @@ export default class PaymentController {
     async sendPaymentMail(req: Request, res: Response) {
         try {
             const payload = req.body.payload;
-
             if (!payload) {
                 return res.status(403)
                     .send({
@@ -71,11 +70,9 @@ export default class PaymentController {
                     sender: "Verxio",
                     subject: 'Payment Unsuccessful for Your Recent Purchase',
                     html: `
-                        <p>Hello ${payload.customer_email},</p>
-                
                         <p>We regret to inform you that your payment for the purchase of ${payload.metadata.productName} was unsuccessful.</p>
                 
-                        <p>We suggest you try again or use <a href="${foundPayload?.paymentInfo.session_id}">this</a> payment url to make payment: ${foundPayload?.paymentInfo.session_id}</p>
+                        <p>We suggest you try again or use <a href="${foundPayload?.paymentInfo.payment_url}">this</a> payment url to make payment: ${foundPayload?.paymentInfo.payment_url}</p>
                 
                         <p>If you continue to experience issues, please do not hesitate to contact us.</p>
                 
@@ -85,6 +82,7 @@ export default class PaymentController {
                     Verxio</p>
                     `
                 })
+
                 return res.status(400)
                     .send({
                         success: false,
@@ -92,24 +90,23 @@ export default class PaymentController {
                     })
             }
 
-            const product = await getProduct(payload.paymentInfo.productId);
-            product.sales = product.sales + 1;
+            const product = await getProduct(payload.metadata.productId);
+            product.sales += 1;
             product.revenue = product.revenue + payload.payment_amount;
             await product.save();
 
-            await update(payload.metadata.produtId, payload);
+            await update({ "paymentInfo.productId": payload.metadata.produtId }, { payload: payload });
+
             //send mail to seller
             await sendEmail({
                 from: `Verxio <${process.env.MAIL_USER}>`,
-                to: payload.custom_data.name,
+                to: payload.metadata.name,
                 sender: "Verxio",
                 subject: 'Congratulations on Your Sale!',
-                html: `
-                    <p>Congratulations ${payload.custom_data.name},</p>
-            
+                html: `          
                     <p>You made a sale!</p>
             
-                    <p>$${payload.payment_amount} has been deposited into your wallet (${payload.custom_data.wallet_address}) for the purchase of ${payload.metadata.productName} product.</p>
+                    <p>$${payload.payment_amount} has been deposited into your wallet (${payload.metadata.wallet_address}) for the purchase of ${payload.metadata.productName} product.</p>
             
                     <p>Keep up the great work and continue to provide excellent products and services.</p>
             
@@ -117,15 +114,16 @@ export default class PaymentController {
                     Verxio</p>
                 `
             })
+
             //send mail to buyer
-            await sendEmail({
-                from: `Verxio <${process.env.MAIL_USER}>`,
-                to: payload.customer_email,
-                sender: "Verxio",
-                subject: 'Your Purchase Confirmation and Reward Details',
-                html: `
-                    <p>Hello ${payload.customer_email},</p>
-            
+            if (payload.token === "bonk") {
+
+                await sendEmail({
+                    from: `Verxio <${process.env.MAIL_USER}>`,
+                    to: payload.customer_email,
+                    sender: "Verxio",
+                    subject: 'Your Purchase Confirmation and Reward Details',
+                    html: `
                     <p>Thank you for your purchase!</p>
             
                     <p>You've successfully purchased ${payload.metadata.productName}. You can find more details about your product <a href="${payload.metadata.product}">here</a>.</p>
@@ -139,20 +137,49 @@ export default class PaymentController {
                     <p>Best regards,<br>
                     Verxio</p>
                 `
-            })
+                })
 
-            //create the nft for the user
-            const mintedNFT = await underdog.post(`/v2/projects/n/${payload.metadata.pop.projectId}/nfts`, {
+            } else {
+
+                await sendEmail({
+                    from: `Verxio <${process.env.MAIL_USER}>`,
+                    to: payload.customer_email,
+                    sender: "Verxio",
+                    subject: 'Your Purchase Confirmation',
+                    html: `            
+                    <p>Thank you for your purchase!</p>
+            
+                    <p>You've successfully purchased ${payload.metadata.productName}. You can find more details about your product <a href="${payload.metadata.product}">here</a>.</p>
+                        
+                    <p>We value your support and look forward to serving you again.</p>
+            
+                    <p>Best regards,<br>
+                    Verxio</p>
+                `
+                })
+
+            }
+
+            const nftPayload = {
                 name: payload.metadata.pop.name,
                 image: payload.metadata.pop.imageUrl,
-                receiverAddress: payload.metadata.buyerId
-            });
+                // receiverAddress: payload.customer,
+                receiver: {
+                    address: payload.customer,
+                    namespace: "Verxio",
+                    identifier: payload.customer
+                }
+            };
+            const collectionId = payload.metadata.pop.collectionId;
+
+            //create the nft for the user
+            const { data: mintedNFT } = await underdog.post(`/v2/projects/n/${collectionId}/nfts`, nftPayload);
 
             return res.status(200)
                 .send({
                     success: true,
                     message: "Emails sent and nft minted successfully",
-                    nft: mintedNFT
+                    mintedNFT
                 })
         } catch (error: any) {
             return res.status(500)

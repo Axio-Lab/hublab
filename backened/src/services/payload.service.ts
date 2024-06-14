@@ -9,7 +9,7 @@ export default class PayloadService {
         return await Payload.findOne(filter);
     }
 
-    async update(id: string, data: {}) {
-        return await Payload.findByIdAndUpdate(id, data);
+    async update(params: {}, data: {}) {
+        return await Payload.findOneAndUpdate(params, data, { new: true });
     }
 }
