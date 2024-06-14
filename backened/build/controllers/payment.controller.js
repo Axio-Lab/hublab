@@ -17,7 +17,6 @@ const product_servicee_1 = __importDefault(require("../services/product.servicee
 const payload_service_1 = __importDefault(require("../services/payload.service"));
 const sendmail_util_1 = __importDefault(require("../utils/sendmail.util"));
 const underdog_config_1 = __importDefault(require("../configs/underdog.config"));
-const flatted_1 = require("flatted");
 const { getProduct } = new product_servicee_1.default();
 const { createCandypaySession } = new payment_service_1.default();
 const { create, findOne, update } = new payload_service_1.default();
@@ -166,25 +165,24 @@ class PaymentController {
                 `
                     });
                 }
-                const safePayload = (0, flatted_1.parse)((0, flatted_1.stringify)(payload));
                 const nftPayload = {
-                    name: safePayload.metadata.pop.name,
-                    image: safePayload.metadata.pop.imageUrl,
-                    receiverAddress: safePayload.customer,
-                    receiver: {
-                        address: safePayload.customer,
-                        namespace: "Verxio",
-                        identifier: safePayload.customer
-                    }
+                    name: payload.metadata.pop.name,
+                    image: payload.metadata.pop.imageUrl,
+                    receiverAddress: payload.customer,
+                    // receiver: {
+                    //     address: payload.customer,
+                    //     namespace: "Verxio",
+                    //     identifier: payload.customer
+                    // }
                 };
-                const collectionId = safePayload.metadata.pop.collectionId;
+                const collectionId = payload.metadata.pop.collectionId;
                 //create the nft for the user
-                const mintedNFT = yield underdog_config_1.default.post(`/v2/projects/n/${collectionId}/nfts`, nftPayload);
+                const { data: mintedNFT } = yield underdog_config_1.default.post(`/v2/projects/n/${collectionId}/nfts`, nftPayload);
                 return res.status(200)
                     .send({
                     success: true,
                     message: "Emails sent and nft minted successfully",
-                    // nft: mintedNFT
+                    mintedNFT
                 });
             }
             catch (error) {
