@@ -52,7 +52,7 @@ export const TableBody = ({ tableData }) => {
               <CampaignParticipantsTemplate sales={data.sales.toLocaleString()} />
             </td>
             <td className="border border-[#F3F3FC] text-center py-2 px-4 w-1/5">
-              <CampaignReward revenue={`$ ${data.revenue.toLocaleString()}`} />
+              <CampaignReward revenue={`$ ${(data.revenue).toFixed().toLocaleString()}`} />
             </td>
             <td className="border border-[#F3F3FC] text-center py-2 px-4 w-1/5">
               <CampaignLinkId _id={`${data._id.toLocaleString()}`} />

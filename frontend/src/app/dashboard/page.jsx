@@ -107,13 +107,17 @@ const Page = () => {
       },
       {
         headerText: "Total Sales",
-        number: userDashboardInfo.totalSales,
+        number: userDashboardInfo.totalSales
+          ? parseFloat(userDashboardInfo.totalSales).toLocaleString()
+          : "0",
         src: "/images/allParticipants.svg",
         alt: "allParticipants",
       },
       {
         headerText: "Total Revenue",
-        number: userDashboardInfo.totalRevenue,
+        number: userDashboardInfo.totalRevenue
+          ? `$${parseFloat(userDashboardInfo.totalRevenue.toFixed(2)).toLocaleString()}`
+          : "$0.00",
         src: "/images/revenueCoin.svg",
         alt: "revenue",
       },
@@ -125,6 +129,7 @@ const Page = () => {
       },
     ];
   };
+  
 
   const transformedData = transformDashboardData(userDashboardInfo);
 
