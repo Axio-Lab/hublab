@@ -124,7 +124,7 @@ export default class PaymentController {
 
             //create the nft for the user
             const { data: mintedNFT } = await underdog.post(`/v2/projects/n/${collectionId}/nfts`, nftPayload);
-            const { data: nftClaimLink } = await underdog.get(`/v2/projects/n/${collectionId}/nfts/${mintedNFT.nftId}/claim`);
+            const { data: nftClaimLink } = await underdog.get(`/v2/projects/n/${collectionId}/nfts/${mintedNFT.id}/claim`);
 
             //send mail to buyer
             if (payload.token === "bonk") {
@@ -153,7 +153,6 @@ export default class PaymentController {
                 })
 
             } else {
-
                 await sendEmail({
                     from: `Verxio <${process.env.MAIL_USER}>`,
                     to: payload.customer_email,
@@ -172,7 +171,6 @@ export default class PaymentController {
                     Verxio</p>
                 `
                 })
-
             }
 
             return res.status(200)
