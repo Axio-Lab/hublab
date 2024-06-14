@@ -6,7 +6,7 @@ BONK powered on-chain digital commerce protocol
 
 <h3>
    
-[Pitch Deck](https://bit.ly/verxio-pitch-deck) | [Website](https://www.verxio.xyz/) | [Demo Video](https://youtu.be/ZwpHRA9WvFg)
+[Pitch Deck](https://bit.ly/verxio-pitch-deck) | [Website](https://www.verxio.xyz/) | [Demo Video](https://youtu.be/qNdvqlxM6b8)
 
 </h3>
 
