@@ -24,9 +24,9 @@ class PayloadService {
             return yield payload_model_1.default.findOne(filter);
         });
     }
-    update(id, data) {
+    update(params, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield payload_model_1.default.findByIdAndUpdate(id, data);
+            return yield payload_model_1.default.findOneAndUpdate(params, data, { new: true });
         });
     }
 }
