@@ -128,7 +128,7 @@ class PaymentController {
                 const collectionId = payload.metadata.pop.collectionId;
                 //create the nft for the user
                 const { data: mintedNFT } = yield underdog_config_1.default.post(`/v2/projects/n/${collectionId}/nfts`, nftPayload);
-                const { data: nftClaimLink } = yield underdog_config_1.default.get(`/v2/projects/n/${collectionId}/nfts/${mintedNFT.nftId}/claim`);
+                const { data: nftClaimLink } = yield underdog_config_1.default.get(`/v2/projects/n/${collectionId}/nfts/${mintedNFT.id}/claim`);
                 //send mail to buyer
                 if (payload.token === "bonk") {
                     yield (0, sendmail_util_1.default)({
