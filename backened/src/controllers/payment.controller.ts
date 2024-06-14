@@ -96,6 +96,7 @@ export default class PaymentController {
             await product.save();
 
             await update({ "paymentInfo.productId": payload.metadata.produtId }, { payload: payload });
+            const rounded = parseFloat(payload.payment_amount.toFixed(2));
 
             //send mail to seller
             await sendEmail({
@@ -106,7 +107,7 @@ export default class PaymentController {
                 html: `          
                     <p>You made a sale!</p>
             
-                    <p>$${payload.payment_amount} has been deposited into your wallet (${payload.metadata.wallet_address}) for the purchase of ${payload.metadata.productName} product.</p>
+                    <p>$${rounded} has been deposited into your wallet (${payload.metadata.wallet_address}) for the purchase of ${payload.metadata.productName} product.</p>
             
                     <p>Keep up the great work and continue to provide excellent products and services.</p>
             
@@ -114,6 +115,17 @@ export default class PaymentController {
                     Verxio</p>
                 `
             })
+
+            const nftPayload = {
+                name: payload.metadata.pop.name,
+                image: payload.metadata.pop.imageUrl,
+                receiverAddress: payload.customer
+            };
+            const collectionId = payload.metadata.pop.collectionId;
+
+            //create the nft for the user
+            const { data: mintedNFT } = await underdog.post(`/v2/projects/n/${collectionId}/nfts`, nftPayload);
+            const { data: nftClaimLink } = await underdog.get(`/v2/projects/n/${collectionId}/nfts/${mintedNFT.id}/claim`);
 
             //send mail to buyer
             if (payload.token === "bonk") {
@@ -126,8 +138,10 @@ export default class PaymentController {
                     html: `
                     <p>Thank you for your purchase!</p>
             
-                    <p>You've successfully purchased ${payload.metadata.productName}. You can find more details about your product <a href="${payload.metadata.product}">here</a>.</p>
+                    <p>You've successfully purchased ${payload.metadata.productName}. You can access the product <a href="${payload.metadata.product}">here</a>.</p>
             
+                    <p>Click <a href="${nftClaimLink.link}">here</a> to claim your proof of purchase NFT.</p>
+                    
                     <p>As a token of our appreciation, the BONK foundation has a surprise for you🥳</p>
 
                     <p>Check your wallet to see the BONK cashback you have received as a reward for your purchase😎</p>
@@ -140,7 +154,6 @@ export default class PaymentController {
                 })
 
             } else {
-
                 await sendEmail({
                     from: `Verxio <${process.env.MAIL_USER}>`,
                     to: payload.customer_email,
@@ -149,31 +162,17 @@ export default class PaymentController {
                     html: `            
                     <p>Thank you for your purchase!</p>
             
-                    <p>You've successfully purchased ${payload.metadata.productName}. You can find more details about your product <a href="${payload.metadata.product}">here</a>.</p>
+                    <p>You've successfully purchased ${payload.metadata.productName}. You can access the product <a href="${payload.metadata.product}">here</a>.</p>
                         
+                    <p>Click <a href="${nftClaimLink.link}">here</a> to claim your proof of purchase NFT.</p>
+
                     <p>We value your support and look forward to serving you again.</p>
             
                     <p>Best regards,<br>
                     Verxio</p>
                 `
                 })
-
             }
-
-            const nftPayload = {
-                name: payload.metadata.pop.name,
-                image: payload.metadata.pop.imageUrl,
-                // receiverAddress: payload.customer,
-                receiver: {
-                    address: payload.customer,
-                    namespace: "Verxio",
-                    identifier: payload.customer
-                }
-            };
-            const collectionId = payload.metadata.pop.collectionId;
-
-            //create the nft for the user
-            const { data: mintedNFT } = await underdog.post(`/v2/projects/n/${collectionId}/nfts`, nftPayload);
 
             return res.status(200)
                 .send({

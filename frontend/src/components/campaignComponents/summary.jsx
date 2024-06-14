@@ -165,7 +165,7 @@ const Summary = () => {
         type: type,
         name: title,
         image:
-          "https://res.cloudinary.com/drzpirtgn/image/upload/v1716291673/WhatsApp_Image_2024-05-21_at_12.40.33_e3034f5c_apdcwl.jpg",
+          "https://res.cloudinary.com/dvd1we5ja/image/upload/v1718386413/aexvf2bzbny0btpqwkai.png",
         description: description,
         payAnyPrice: allowPayAnyPrice,
         price: parseInt(price),
